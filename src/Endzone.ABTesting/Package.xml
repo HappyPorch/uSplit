@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+  <files>
+  </files>
+  <info>
+    <package>
+      <name>uCop</name>
+      <version>1.0.0</version>
+      <license url="http://www.endzone.io/">TBD</license>
+      <url>http://www.endzone.io/</url>
+      <requirements>
+        <major>7</major>
+        <minor>0</minor>
+        <patch>0</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Endzone</name>
+      <website>http://endzone.io</website>
+    </author>
+    <readme>
+      <![CDATA[]]></readme>
+  </info>
+  <DocumentTypes />
+  <Templates />
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes />
+  <Actions>
+    <Action runat="install" undo="true" alias="AddLanguageFileKey" language="en" position="end" area="sections" key="abtesting" value="A/B Testing" />
+    <Action runat="install" alias="addDashboardSection" dashboardAlias="abtesting">
+        <section>
+          <areas>
+            <area>abtesting</area>
+          </areas>
+          <tab caption="About uCop">
+            <control>/App_Plugins/ABTesting/backoffice/dashboard.html</control>
+          </tab>
+        </section>
+      </Action>
+  </Actions>
+</umbPackage>

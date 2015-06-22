@@ -1,0 +1,6 @@
+﻿{
+    "dlls": ["src/Endzone.ABTesting/bin/Debug/Endzone.ABTesting.dll", "lib/PackageActionsContrib.dll"],
+    "packageXmlTemplate": "src/Endzone.ABTesting/Package.xml",
+    "pluginFolder": "src/Endzone.ABTesting/App_Plugins/ABTesting"
+}
+
