@@ -1,6 +1,6 @@
 ﻿{
-    "dlls": ["src/Endzone.ABTesting/bin/Debug/Endzone.ABTesting.dll", "lib/PackageActionsContrib.dll"],
-    "packageXmlTemplate": "src/Endzone.ABTesting/Package.xml",
-    "pluginFolder": "src/Endzone.ABTesting/App_Plugins/ABTesting"
+    "dlls": ["src/Endzone.uSplit/bin/Debug/Endzone.uSplit.dll", "lib/PackageActionsContrib.dll"],
+    "packageXmlTemplate": "src/Endzone.uSplit/Package.xml",
+    "pluginFolder": "src/Endzone.uSplit/App_Plugins/uSplit"
 }
 

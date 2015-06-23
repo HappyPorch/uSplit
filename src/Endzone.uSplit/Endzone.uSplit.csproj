@@ -7,8 +7,8 @@
     <ProjectGuid>{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Endzone.ABTesting</RootNamespace>
-    <AssemblyName>Endzone.ABTesting</AssemblyName>
+    <RootNamespace>Endzone.uSplit</RootNamespace>
+    <AssemblyName>Endzone.uSplit</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

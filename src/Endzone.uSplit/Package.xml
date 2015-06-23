@@ -4,7 +4,7 @@
   </files>
   <info>
     <package>
-      <name>uCop</name>
+      <name>uSplit</name>
       <version>1.0.0</version>
       <license url="http://www.endzone.io/">TBD</license>
       <url>http://www.endzone.io/</url>
@@ -29,14 +29,14 @@
   <Languages />
   <DataTypes />
   <Actions>
-    <Action runat="install" undo="true" alias="AddLanguageFileKey" language="en" position="end" area="sections" key="abtesting" value="A/B Testing" />
-    <Action runat="install" alias="addDashboardSection" dashboardAlias="abtesting">
+    <Action runat="install" undo="true" alias="AddLanguageFileKey" language="en" position="end" area="sections" key="usplit" value="uSplit" />
+    <Action runat="install" alias="addDashboardSection" dashboardAlias="usplit">
         <section>
           <areas>
-            <area>abtesting</area>
+            <area>usplit</area>
           </areas>
-          <tab caption="About uCop">
-            <control>/App_Plugins/ABTesting/backoffice/dashboard.html</control>
+          <tab caption="About uSplit">
+            <control>/App_Plugins/uSplit/backoffice/dashboard.html</control>
           </tab>
         </section>
       </Action>
