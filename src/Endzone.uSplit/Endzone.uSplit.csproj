@@ -217,7 +217,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="uSplitApplication.cs" />
     <None Include="Views\MacroPartials\uSplit\_ab_redirect.cshtml" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
