@@ -38,14 +38,14 @@
       <refreshRate>0</refreshRate>
       <scriptingFile>~/Views/MacroPartials/uSplit/_ab_redirect.cshtml</scriptingFile>
       <properties>
-        <property name="Experiment code field alias" alias="experimentCodeField" propertyType="Umbraco.Textbox" />
+        <property name="Experiment key field alias" alias="experimentKeyField" propertyType="Umbraco.Textbox" />
       </properties>
     </macro>
   </Macros>
   <DictionaryItems />
   <Languages />
   <DataTypes>
-    <DataType Name="Google Experiment Code" Id="Umbraco.Textbox" Definition="c3ad6b6f-da90-413b-ba12-34949e3beddc" DatabaseType="Nvarchar">
+    <DataType Name="Google Experiment Key" Id="Umbraco.Textbox" Definition="c3ad6b6f-da90-413b-ba12-34949e3beddc" DatabaseType="Nvarchar">
       <PreValues />
     </DataType>
   </DataTypes>

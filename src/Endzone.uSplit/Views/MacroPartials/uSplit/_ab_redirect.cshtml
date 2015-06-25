@@ -1,7 +1,7 @@
 ﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 @{
-    var experimentCodeFieldAlias = Model.MacroParameters["experimentCodeField"].ToString();
+    var experimentCodeFieldAlias = Model.MacroParameters["experimentKeyField"].ToString();
     if (CurrentPage.HasProperty(experimentCodeFieldAlias) && CurrentPage.HasValue(experimentCodeFieldAlias))
     {
         var experimentCode = CurrentPage.GetPropertyValue(experimentCodeFieldAlias);

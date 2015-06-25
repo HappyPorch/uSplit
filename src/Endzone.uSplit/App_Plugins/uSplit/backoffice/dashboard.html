@@ -1,6 +1,61 @@
 <p>
-	uSplit - A/B Testing for Umbraco
+    uSplit - A/B Testing for Umbraco
 </p>
+
+<h3>Using uSplit</h3>
+
+<h4>Pre-requisites</h4>
+<p>
+    uSplit integrates with <a href="https://developers.google.com/analytics/solutions/experiments">Google Analytics Experiments<a /> to provide your site with A/B testing. Your site needs to have Google Analytics installed and a behavioural experiment needs to be created for uSplit to function.
+</p>
+
+<h4>Site setup</h4>
+<p>To enable uSplit you will need to include the macro provided by this plugin in your sites master template and create a property on your document types where the experiment code will be entered (and thus A/B testing enabled; no key = no test).</p>
+<ol>
+    <li>Add the "A/B Redirect Experiment" macro provided by this plugin into your master template. Place this macro as the first element in the &lt;head&gt; tag.</li>
+    <li>When prompted for a an "Experiment key field alias", write down the alias of the document type property you will create in the next step, that will contain the actual experiment code. This is custom but "experimentKey" will do the trick.</li>
+    <li>Edit your document type and add a new property of the "Google Experiment Key" data type. Give it the same alias as you provided as a parameter to the macro, e.g. "experimentKey".</li>
+</ol>
+<p>Your site is now ready to perform A/B tests. The macro will not execute if an experiment key is not found on the document, so it is safe to have it included in the master template, no coditional logic is required to disable the macro. To enable an A/B test for a particular page, you simply need to provide a valid experiment key to the property created in the last step.</p>
+
+<h4>Experiment setup</h4>
+<ol>
+    <li>
+        Umbraco
+        <ol style="list-style-type: lower-alpha;">
+            <li>Identify the page you want to A/B test and create a number of variants of this page by copying it and publishing the variants under unique URLs.</li>
+            <li>Take note of the original page URL and of the URLs of the variants. (e.g. www.mycoolsite.com/home, www.mycoolsite.com/home-v1, www.mycoolsite.com/home-v2)</li>
+        </ol>
+    </li>
+    <li>
+        Google Analytics
+        <ol style="list-style-type: lower-alpha;">
+            <li>Log into <a href="https://www.google.com/analytics/web/">Google Analytics</a> and navigate to your site.</li>
+            <li>Open the "Reporting" section of Google Analytics.</li>
+            <li>Under "Behaviour" select "Experiments" and create a new experiment.</li>
+            <li>Follow this <a href="https://developers.google.com/analytics/solutions/experiments">detailed guide<a /> on how to set up your experiment</a></li>
+            <li>On "Step 2" you will need to provide URLs for the original page and for the variants.</li>
+            <li>On "Step 3", take note of the Experiment Key provided. To display the key, you need to select the "Manually insert the code" installation option. The key is in the form of "123456789-0"</li>
+            <li>Go back to your Umbraco site to paste in the experiment key to the original page (see bellow).</li>
+        </ol>
+    </li>
+    <li>
+        Umbraco
+        <ol style="list-style-type: lower-alpha;">
+            <li>Edit the original page (and only this one, not the variants), and insert the Experiment Key into the property created during site setup.</li>
+            <li>Publish the page. The macro will start including the Google Analytics Experiment javascript as part of the page now.</li>
+            <li>Let's validate and start the experiment on Google Analytics.</li>
+        </ol>
+    </li>
+    <li>
+        Google Analytics
+        <ol style="list-style-type: lower-alpha;">
+            <li>Proceed to "Step 4", save the experiment review the status of the experiment. You should see ticks next to your original page (Google Analytics and experiment code detected) as well as the variants (Google Analytics detected).</li>
+            <li>Start the experiment.</li>
+            <li>Profit.</li>
+        </ol>
+    </li>
+</ol>
 
 <p>
     Stay in touch on <a href="http://www.endzone.io/">Endzone's website</a>!
