@@ -3,8 +3,12 @@ using umbraco.interfaces;
 
 namespace Endzone.uSplit
 {
-    [Application(Constants.ApplicationAlias, Constants.ApplicationName, "icon-split-alt", 11)]
+    /// <summary>
+    /// This creates a section in the Umbraco backoffice menu
+    /// </summary>
+    [Application(Constants.ApplicationAlias, Constants.ApplicationName, Constants.Icons.Split, 11)]
     public class uSplitApplication : IApplication
     {
+
     }
 }

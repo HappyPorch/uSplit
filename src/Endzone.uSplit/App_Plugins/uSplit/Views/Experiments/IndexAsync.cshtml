@@ -1,0 +1,27 @@
+﻿@using Google.Apis.Analytics.v3.Data
+@using System.Collections.Generic;
+@model object
+
+@{
+    Layout = null;
+    Experiments list = ViewBag.Experiments;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>title</title>
+    </head>
+    <body>
+        <div>
+            Hi, experiments:
+        </div>
+
+        @foreach (var item in list.Items)
+        {
+            <h2>@(item.Name)</h2>
+            @(item.Id) @(item.Created)<br/>
+        }
+    </body>
+</html>
