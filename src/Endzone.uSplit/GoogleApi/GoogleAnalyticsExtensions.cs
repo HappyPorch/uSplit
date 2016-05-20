@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using System.Web.Configuration;
+﻿using System.Web.Configuration;
 using Google.Apis.Analytics.v3;
 
-namespace Endzone.uSplit.Google
+namespace Endzone.uSplit.GoogleApi
 {
     public static class GoogleAnalyticsExtensions
     {

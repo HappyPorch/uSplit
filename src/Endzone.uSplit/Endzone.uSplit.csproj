@@ -291,11 +291,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMenuBuilder.cs" />
-    <Compile Include="Controllers\ExperimentsController.cs" />
-    <Compile Include="Google\GoogleAnalyticsExtensions.cs" />
+    <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
+    <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
+    <Compile Include="API\GoogleApiController.cs" />
+    <Compile Include="GoogleApi\GoogleAuthController.cs" />
+    <Compile Include="GoogleApi\USplitFlowMetadata.cs" />
     <Compile Include="USplitContentTreeController.cs" />
-    <Compile Include="Google\AppFlowMetadata.cs" />
-    <Compile Include="Google\GoogleAuthController.cs" />
+    <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
     <Compile Include="uSplitApplication.cs" />
     <Compile Include="RouteConfig.cs" />
@@ -314,8 +316,14 @@
   <ItemGroup>
     <Content Include="App_Plugins\uSplit\backoffice\dashboard.html" />
     <Content Include="App_Plugins\uSplit\backoffice\routes.js" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.html" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.js" />
+    <Content Include="App_Plugins\uSplit\backoffice\uSplit.css" />
+    <Content Include="App_Plugins\uSplit\backoffice\uSplitGoogleAuthResource.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy $(ProjectDir)..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.11.0 /y

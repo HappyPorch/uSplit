@@ -1,0 +1,57 @@
+﻿<div ng-controller="uSplit.abTesting.configurationController" class="usplit">
+
+    <umb-load-indicator ng-if="page.loading"></umb-load-indicator>
+
+    <form name="overviewForm" ng-submit="refresh()">
+        <umb-panel>
+            <umb-header tabs="tabs">
+
+                <div class="umb-headline-editor-wrapper span7">
+                    <h1>
+                        uSplit - A/B testing
+                    </h1>
+                </div>
+
+                <div class="span5">
+                    <div class="btn-toolbar pull-right umb-btn-toolbar">
+                        <button type="submit" data-hotkey="ctrl+r" class="btn btn-success">Refresh</button>
+                    </div>
+                </div>
+            </umb-header>
+
+            <umb-tab-view>
+                <umb-tab id="tabConfiguration" rel="configuration" class="active">
+                    <umb-pane>
+                        <div ng-hide="loaded" class="text-center">
+                            <p>
+                                <img src="assets/img/loader.gif"/>
+                            </p>
+                        </div>
+                        <div ng-show="loaded">
+                            <div class="row">
+                                <div class="alert" ng-show="!status">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Warning!</strong> This site is not authenticated with the Google API.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span4">
+                                    Connected to Google API
+                                </div>
+                                <div class="span4">
+                                    <span ng-show="status" class="label label-success">Yes</span>
+                                    <span ng-show="!status" class="label label-warning">No</span>
+                                </div>
+                                <div class="span4">
+                                    <button class="btn" type="button" ng-click="reauthorize()">Re-authorize</button>
+                                </div>
+                            </div>
+                        </div>
+                    </umb-pane>
+                </umb-tab>
+            </umb-tab-view>
+        </umb-panel>
+    </form>
+
+
+</div>

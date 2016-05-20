@@ -20,8 +20,8 @@ namespace Endzone.uSplit
         {
             var node = base.CreateRootNode(queryStrings);
 
-            node.RoutePath = $"content/{Constants.Trees.AbTesting}/Experiments/IndexAsync/mvc";
-            //node.RoutePath = "/backoffice/uSplit/Experiments/IndexAsync";
+            //node.RoutePath = $"content/{Constants.Trees.AbTesting}/Experiments/IndexAsync/mvc";
+            node.RoutePath = $"content/{Constants.Trees.AbTesting}/View/0";
             node.Icon = Constants.Icons.Split;
             node.HasChildren = false;
 

@@ -1,0 +1,24 @@
+﻿.usplit .label-important,.usplit .badge-important {
+    background-color:#b94a48
+}
+.usplit .label-important[href],.usplit .badge-important[href] {
+    background-color:#953b39
+}
+.usplit .label-warning,.usplit .badge-warning {
+    background-color:#f89406
+}                                                                                                                                
+.usplit .label-warning[href],.usplit .badge-warning[href] {
+    background-color:#c67605
+}                                                                                                                                                                                        
+.usplit .label-success,.usplit .badge-success {
+    background-color:#468847
+}
+.usplit .label-success[href],.usplit .badge-success[href] {
+    background-color:#356635
+}
+.usplit .label-info,.usplit .badge-info {
+    background-color:#3a87ad
+}
+.usplit .label-info[href],.usplit .badge-info[href] {
+    background-color:#2d6987
+}
