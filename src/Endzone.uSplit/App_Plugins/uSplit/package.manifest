@@ -1,0 +1,9 @@
+﻿{
+	javascript: [
+		'~/App_Plugins/uSplit/backoffice/abtesting/view.js',
+		'~/App_Plugins/uSplit/backoffice/uSplitGoogleAuthResource.js'
+		],
+	css: [
+		'~/App_Plugins/uSplit/backoffice/uSplit.css'
+	]
+}	
