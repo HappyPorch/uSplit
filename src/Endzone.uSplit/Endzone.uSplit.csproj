@@ -326,8 +326,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.11.0 /y
-xcopy $(ProjectDir)..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.13.0 /y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(ProjectDir)..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.11.0\* /y
+xcopy $(ProjectDir)..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.13.0\* /y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
