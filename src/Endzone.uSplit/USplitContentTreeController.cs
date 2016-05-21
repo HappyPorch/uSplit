@@ -3,6 +3,7 @@ using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
+using Google.Apis.Analytics.v3.Data;
 using Umbraco.Core;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Mvc;
@@ -49,24 +50,25 @@ namespace Endzone.uSplit
             var experimentsApi = new ExperimentsApi();
             if (!await experimentsApi.IsConnected(CancellationToken.None))
             {
-                nodes.Add(CreateTreeNode("error", queryStrings, "ERROR - Google API not connected", "icon-alert"));
+                nodes.Add(CreateTreeNode("error", $"{UmbracoConstants.System.Root}", queryStrings, "ERROR - Google API not connected", "icon-alert"));
             }
             else
             {
-                var experiments = await experimentsApi.GetExperiments();
+                //TODO: Handle the case if the user has over 1000 experiments.
+                var experiments = await experimentsApi.GetExperimentsAsync();
                 foreach (var experiment in experiments.Items)
                 {
-                    nodes.Add(CreateTreeNode(experiment.Id, queryStrings, experiment.Name, Constants.Icons.Split));
+                    nodes.Add(CreateExperimentNode(experiment, queryStrings));
                 }
             }
 
             return nodes;
         }
 
-        private TreeNode CreateTreeNode(string id, FormDataCollection queryStrings, string title, string icon)
+        private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings)
         {
-            var url = $"{Constants.ApplicationAlias}/{Constants.Trees.AbTesting}/{id}/view";
-            return CreateTreeNode(id, UmbracoConstants.System.Root.ToInvariantString(), queryStrings, title, icon, false, url);
+            var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.Id}";
+            return CreateTreeNode(experiment.Id, $"{UmbracoConstants.System.Root}", queryStrings, experiment.Name, Constants.Icons.Split, url);
         }
 
 

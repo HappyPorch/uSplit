@@ -11,15 +11,6 @@ namespace Endzone.uSplit.GoogleApi
 {
     public class ExperimentsApi
     {
-        private bool DoWeHaveUsefulToken(TokenResponse token)
-        {
-            if (uSplitAuthorizationCodeFlow.Instance.ShouldForceTokenRetrieval() || token == null)
-                return true;
-            if (token.RefreshToken == null)
-                return token.IsExpired(SystemClock.Default);
-            return false;
-        }
-
         /// <summary>
         /// Indicates whether a valid token exists for the Google API.
         /// </summary>
@@ -30,12 +21,20 @@ namespace Endzone.uSplit.GoogleApi
             return !DoWeHaveUsefulToken(token);
         }
 
-        public async Task<Experiments> GetExperiments()
+        public async Task<Experiments> GetExperimentsAsync()
         {
             var service = await GetAnalyticsService();
             var list = service.Management.Experiments.List();
             var experiments = await list.ExecuteAsync();
             return experiments;
+        }
+
+        public async Task<Experiment> GetExperimentAsync(string id)
+        {
+            var service = await GetAnalyticsService();
+            var request = service.Management.Experiments.Get(id);
+            var experiment = await request.ExecuteAsync();
+            return experiment;
         }
 
         private async Task<ICredential> GetCredential()
@@ -52,6 +51,15 @@ namespace Endzone.uSplit.GoogleApi
                 HttpClientInitializer = await GetCredential(),
                 ApplicationName = Constants.ApplicationName
             });
+        }
+
+        private bool DoWeHaveUsefulToken(TokenResponse token)
+        {
+            if (uSplitAuthorizationCodeFlow.Instance.ShouldForceTokenRetrieval() || token == null)
+                return true;
+            if (token.RefreshToken == null)
+                return token.IsExpired(SystemClock.Default);
+            return false;
         }
     }
 }

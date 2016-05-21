@@ -2,19 +2,26 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Endzone.uSplit.GoogleApi;
+using Google.Apis.Analytics.v3.Data;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 
 namespace Endzone.uSplit.API
 {
-
-    //TODO: implement a JSON API as opposed to MVC
     /// <summary>
     /// uSplit JS API
     /// </summary>
     [PluginController(Constants.PluginName)]
     public class ManageController : UmbracoAuthorizedApiController
     {
+        [HttpGet]
+        public async Task<Experiment> GetExperimentAsync(string id)
+        {
+            var experimentsApi = new ExperimentsApi();
+            return await experimentsApi.GetExperimentAsync(id);
+        }
+
         [HttpGet]
         public object CreateVariation()
         {

@@ -1,7 +1,9 @@
 ﻿{
 	javascript: [
 		'~/App_Plugins/uSplit/backoffice/abtesting/view.js',
-		'~/App_Plugins/uSplit/backoffice/uSplitGoogleAuthResource.js'
+		'~/App_Plugins/uSplit/backoffice/abtesting/experiment.js',
+		'~/App_Plugins/uSplit/backoffice/uSplitGoogleAuthResource.js',
+		'~/App_Plugins/uSplit/backoffice/uSplitManageResource.js'
 		],
 	css: [
 		'~/App_Plugins/uSplit/backoffice/uSplit.css'

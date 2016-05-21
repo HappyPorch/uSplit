@@ -1,6 +1,6 @@
 ﻿<div ng-controller="uSplit.abTesting.configurationController" class="usplit">
 
-    <umb-load-indicator ng-if="page.loading"></umb-load-indicator>
+    <umb-load-indicator ng-if="!loaded"></umb-load-indicator>
 
     <form name="overviewForm" ng-submit="refresh()">
         <umb-panel>

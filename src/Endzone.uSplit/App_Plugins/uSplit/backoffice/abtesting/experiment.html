@@ -1,0 +1,82 @@
+﻿<div ng-controller="uSplit.abTesting.experimentController" class="usplit">
+
+    <umb-load-indicator ng-if="!loaded"></umb-load-indicator>
+
+    <form name="overviewForm" ng-submit="refresh()">
+        <umb-panel>
+            <umb-header tabs="tabs">
+
+                <div class="umb-headline-editor-wrapper span7">
+                    <h1>
+                        uSplit Experiment - {{loaded?experiment.name:id}} 
+                    </h1>
+                </div>
+
+                <div class="span5">
+                    <div class="btn-toolbar pull-right umb-btn-toolbar">
+                        <button type="submit" data-hotkey="ctrl+r" class="btn btn-success">Refresh</button>
+                    </div>
+                </div>
+            </umb-header>
+
+            <umb-tab-view>
+                <umb-tab id="tabvariations" rel="variations" class="active">
+                    <umb-pane>
+                        <div ng-hide="loaded" class="text-center">
+                            <p>
+                                <img src="assets/img/loader.gif"/>
+                            </p>
+                        </div>
+                        <div ng-show="loaded">
+                            <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/noapi.html'"></div>
+                        </div>
+
+                        <div ng-show="loaded && apiReady">
+                            <div class="row">
+                                <div class="span4">
+                                    Page under test
+                                </div>
+                                <div class="span4">
+                                    {{experiment.originalPage.url}}
+                                </div>
+                                <div class="span4">
+                                    {{experiment.originalPage.url}}
+                                </div>
+                            </div>
+
+                            <div class="row" ng-repeat="variation in experiment.variations">
+                                <div class="span4">
+                                    {{variation.name}}
+                                </div>
+                                <div class="span4">
+                                    {{variation.url}}
+                                </div>
+                                <div class="span4">
+                                    {{variation.url}}
+                                </div>
+                            </div>
+                        </div>
+                    </umb-pane>
+                </umb-tab>
+
+                <umb-tab id="tabdebug" rel="debug">
+                    <umb-pane>
+                        <div ng-hide="loaded" class="text-center">
+                            <p>
+                                <img src="assets/img/loader.gif" />
+                            </p>
+                        </div>
+                        <div ng-show="loaded">
+                            <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/noapi.html'"></div>
+                            <div class="row" ng-show="apiReady">
+<pre>
+{{experimentData | json}}
+</pre>   
+                            </div>
+                        </div>
+                    </umb-pane>
+                </umb-tab>
+            </umb-tab-view>
+        </umb-panel>
+    </form>
+</div>

@@ -12,6 +12,7 @@ using Umbraco.Web.WebApi;
 
 namespace Endzone.uSplit.API
 {
+    //TODO: Rename to configuration controller
     [PluginController(Constants.PluginName)]
     public class GoogleApiController : UmbracoAuthorizedApiController
     {
