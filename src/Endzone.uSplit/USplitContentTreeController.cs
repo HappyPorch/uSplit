@@ -1,5 +1,8 @@
 using System;
 using System.Net.Http.Formatting;
+using System.Threading;
+using System.Threading.Tasks;
+using Endzone.uSplit.GoogleApi;
 using Umbraco.Core;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Mvc;
@@ -23,29 +26,48 @@ namespace Endzone.uSplit
             //node.RoutePath = $"content/{Constants.Trees.AbTesting}/Experiments/IndexAsync/mvc";
             node.RoutePath = $"content/{Constants.Trees.AbTesting}/View/0";
             node.Icon = Constants.Icons.Split;
-            node.HasChildren = false;
+            node.HasChildren = true;
 
             return node;
         }
 
         protected override TreeNodeCollection GetTreeNodes(string id, FormDataCollection queryStrings)
         {
-            //if (id == UmbracoConstants.System.Root.ToInvariantString())
-            //{
-            //    var nodes = new TreeNodeCollection();
-            //    //nodes.Add(CreateTreeNode("structure", queryStrings, "Site structure", "icon-truck"));
-            //    //nodes.Add(CreateTreeNode("visual", queryStrings, "Visual content", "icon-truck"));
-            //    return nodes;
-            //}
+            if (id == UmbracoConstants.System.Root.ToInvariantString())
+            {
+                var nodes = AsyncHelpers.RunSync(() => GetTreeNodesAsync(queryStrings));
+                return nodes;
+            }
 
             throw new NotSupportedException("We do not have any children at the moment");
         }
 
-        //private TreeNode CreateTreeNode(string id, FormDataCollection queryStrings, string title, string icon)
-        //{
-        //    var url = $"{Constants.ApplicationAlias}/{Constants.Tree.Explore.Alias}/{id}/view";
-        //    return CreateTreeNode(id, uConstants.System.Root.ToInvariantString(), queryStrings, title, icon, false, url);
-        //}
+        private async Task<TreeNodeCollection> GetTreeNodesAsync(FormDataCollection queryStrings)
+        {
+            var nodes = new TreeNodeCollection();
+
+            var experimentsApi = new ExperimentsApi();
+            if (!await experimentsApi.IsConnected(CancellationToken.None))
+            {
+                nodes.Add(CreateTreeNode("error", queryStrings, "ERROR - Google API not connected", "icon-alert"));
+            }
+            else
+            {
+                var experiments = await experimentsApi.GetExperiments();
+                foreach (var experiment in experiments.Items)
+                {
+                    nodes.Add(CreateTreeNode(experiment.Id, queryStrings, experiment.Name, Constants.Icons.Split));
+                }
+            }
+
+            return nodes;
+        }
+
+        private TreeNode CreateTreeNode(string id, FormDataCollection queryStrings, string title, string icon)
+        {
+            var url = $"{Constants.ApplicationAlias}/{Constants.Trees.AbTesting}/{id}/view";
+            return CreateTreeNode(id, UmbracoConstants.System.Root.ToInvariantString(), queryStrings, title, icon, false, url);
+        }
 
 
         protected override MenuItemCollection GetMenuForNode(string id, FormDataCollection queryStrings)

@@ -1,11 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Google.Apis.Analytics.v3;
-using Google.Apis.Analytics.v3.Data;
 using Google.Apis.Auth.OAuth2.Mvc;
-using Google.Apis.Services;
-using Google.Apis.Util;
 using Umbraco.Web.Mvc;
 
 namespace Endzone.uSplit.GoogleApi
@@ -14,11 +10,10 @@ namespace Endzone.uSplit.GoogleApi
     {
         public async Task<ActionResult> ReauthorizeAsync(string originalUrl, CancellationToken cancellationToken)
         {
-            var uSplitGoogleApiAuth = uSplitAuthorizationCodeFlow.Instance;
-            var token = await uSplitGoogleApiAuth.LoadTokenAsync(Constants.Google.SystemUserId, cancellationToken);
-            var tokenValid = token != null && !token.IsExpired(SystemClock.Default);
-            if (tokenValid)
+            var experiments = new ExperimentsApi();
+            if (await experiments.IsConnected(cancellationToken))
             {
+                var uSplitGoogleApiAuth = uSplitAuthorizationCodeFlow.Instance;
                 await uSplitGoogleApiAuth.DeleteTokenAsync(Constants.Google.SystemUserId, cancellationToken);
             }
 

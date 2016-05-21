@@ -290,19 +290,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncHelpers.cs" />
     <Compile Include="ContextMenuBuilder.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
+    <Compile Include="GoogleApi\Experiments.cs" />
     <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
     <Compile Include="API\GoogleApiController.cs" />
     <Compile Include="GoogleApi\GoogleAuthController.cs" />
-    <Compile Include="GoogleApi\USplitFlowMetadata.cs" />
-    <Compile Include="USplitContentTreeController.cs" />
+    <Compile Include="GoogleApi\uSplitFlowMetadata.cs" />
+    <Compile Include="uSplitContentTreeController.cs" />
     <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
     <Compile Include="uSplitApplication.cs" />
     <Compile Include="RouteConfig.cs" />
-    <None Include="App_Plugins\uSplit\Views\Experiments\IndexAsync.cshtml" />
-    <None Include="App_Plugins\uSplit\Views\web.config" />
+    <Content Include="App_Plugins\uSplit\package.manifest" />
     <None Include="Views\MacroPartials\uSplit\_ab_redirect.cshtml" />
     <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -315,7 +316,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Plugins\uSplit\backoffice\dashboard.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\routes.js" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.js" />
     <Content Include="App_Plugins\uSplit\backoffice\uSplit.css" />
