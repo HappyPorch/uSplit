@@ -27,10 +27,6 @@
                 });
         };
 
-        $scope.addVariation = function() {
-            alert("NOT IMPLEMENTED");
-        };
-
         $scope.editContent = function (nodeId) {
             $location.search("");
             $location.path("/content/content/edit/" + nodeId);
