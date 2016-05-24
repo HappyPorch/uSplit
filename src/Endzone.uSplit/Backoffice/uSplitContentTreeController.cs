@@ -2,15 +2,17 @@ using System;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
+using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
-using Google.Apis.Analytics.v3.Data;
+using Endzone.uSplit.Models;
+using umbraco.BusinessLogic.Actions;
 using Umbraco.Core;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.Trees;
 using UmbracoConstants = Umbraco.Core.Constants;
 
-namespace Endzone.uSplit
+namespace Endzone.uSplit.Backoffice
 {
 
     /// <summary>
@@ -18,14 +20,13 @@ namespace Endzone.uSplit
     /// </summary>
     [PluginController(Constants.PluginName)]
     [Tree(UmbracoConstants.Applications.Content, Constants.Trees.AbTesting, "A/B testing")]
-    public class USplitContentTreeController : TreeController
+    public class USplitContentTreeController : uSplitTreeController
     {
         protected override TreeNode CreateRootNode(FormDataCollection queryStrings)
         {
             var node = base.CreateRootNode(queryStrings);
 
-            //node.RoutePath = $"content/{Constants.Trees.AbTesting}/Experiments/IndexAsync/mvc";
-            node.RoutePath = $"content/{Constants.Trees.AbTesting}/View/0";
+            node.RoutePath = $"content/{Constants.Trees.AbTesting}/dashboard/hello";
             node.Icon = Constants.Icons.Split;
             node.HasChildren = true;
 
@@ -34,7 +35,7 @@ namespace Endzone.uSplit
 
         protected override TreeNodeCollection GetTreeNodes(string id, FormDataCollection queryStrings)
         {
-            if (id == UmbracoConstants.System.Root.ToInvariantString())
+            if (IsRootNode(id))
             {
                 var nodes = AsyncHelpers.RunSync(() => GetTreeNodesAsync(queryStrings));
                 return nodes;
@@ -43,22 +44,26 @@ namespace Endzone.uSplit
             throw new NotSupportedException("We do not have any children at the moment");
         }
 
+        private static bool IsRootNode(string id)
+        {
+            return id == UmbracoConstants.System.Root.ToInvariantString();
+        }
+
         private async Task<TreeNodeCollection> GetTreeNodesAsync(FormDataCollection queryStrings)
         {
             var nodes = new TreeNodeCollection();
 
-            var experimentsApi = new ExperimentsApi();
-            if (!await experimentsApi.IsConnected(CancellationToken.None))
+            if (!await uSplitAuthorizationCodeFlow.Instance.IsConnected(CancellationToken.None))
             {
                 nodes.Add(CreateTreeNode("error", $"{UmbracoConstants.System.Root}", queryStrings, "ERROR - Google API not connected", "icon-alert"));
             }
             else
             {
-                //TODO: Handle the case if the user has over 1000 experiments.
-                var experiments = await experimentsApi.GetExperimentsAsync();
+                var experiments = await ExecuteAsync(new GetExperiments());
                 foreach (var experiment in experiments.Items)
                 {
-                    nodes.Add(CreateExperimentNode(experiment, queryStrings));
+                    var e = new Experiment(experiment);
+                    nodes.Add(CreateExperimentNode(e, queryStrings));
                 }
             }
 
@@ -67,17 +72,26 @@ namespace Endzone.uSplit
 
         private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings)
         {
-            var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.Id}";
-            return CreateTreeNode(experiment.Id, $"{UmbracoConstants.System.Root}", queryStrings, experiment.Name, Constants.Icons.Split, url);
+            var name = experiment.GoogleExperiment.Name;
+            var id = Experiment.ExtractNodeIdFromExperimentName(name);
+            if (id.HasValue)
+                name = Services.ContentService.GetById(id.Value).Name;
+            var icon = experiment.GoogleExperiment.Status == "RUNNING" ? Constants.Icons.Check + " color-green" : Constants.Icons.Block + " color-red";
+            var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.GoogleExperiment.Id}";
+            return CreateTreeNode(experiment.GoogleExperiment.Id, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
         }
 
 
         protected override MenuItemCollection GetMenuForNode(string id, FormDataCollection queryStrings)
         {
-            var menu = new MenuItemCollection();
-            //menu.DefaultMenuAlias = ActionAudit.Instance.Alias;
-            //menu.Items.Add<ActionNew>("Create");
-            return menu;
+            if (IsRootNode(id))
+            {
+                var menu = new MenuItemCollection();
+                menu.Items.Add<ActionNew>("Create a new experiment");
+                return menu;
+            }
+
+            return null;
         }
 
     }

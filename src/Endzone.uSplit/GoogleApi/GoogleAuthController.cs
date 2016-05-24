@@ -10,11 +10,10 @@ namespace Endzone.uSplit.GoogleApi
     {
         public async Task<ActionResult> ReauthorizeAsync(string originalUrl, CancellationToken cancellationToken)
         {
-            var experiments = new ExperimentsApi();
-            if (await experiments.IsConnected(cancellationToken))
+            var flow = uSplitAuthorizationCodeFlow.Instance;
+            if (await flow.IsConnected(cancellationToken))
             {
-                var uSplitGoogleApiAuth = uSplitAuthorizationCodeFlow.Instance;
-                await uSplitGoogleApiAuth.DeleteTokenAsync(Constants.Google.SystemUserId, cancellationToken);
+                await flow.DeleteTokenAsync(Constants.Google.SystemUserId, cancellationToken);
             }
 
             return RedirectToAction(nameof(AuthorizeAsync), new
@@ -27,14 +26,12 @@ namespace Endzone.uSplit.GoogleApi
         {
             var result = await new AuthorizationCodeMvcApp(this, new uSplitFlowMetadata()).AuthorizeAsync(cancellationToken);
 
-            if (result.Credential != null)
-            {
-                return new RedirectResult(originalUrl);
-            }
-            else
-            {
+            if (result.Credential == null)
+                //no token, lets go to Google
                 return new RedirectResult(result.RedirectUri);
-            }
+
+            //got a token, we can return back
+            return new RedirectResult(originalUrl);  
         }
     }
 }

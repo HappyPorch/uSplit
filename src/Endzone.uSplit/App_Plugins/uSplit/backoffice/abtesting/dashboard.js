@@ -4,7 +4,10 @@
         $scope.loaded = false;
         $scope.status = false;
 
-        $scope.tabs = [{ id: "configuration", label: "Configuration" }];
+        $scope.tabs = [
+            { id: "configuration", label: "Configuration" },
+            { id: "instructions", label: "Instructions" }
+        ];
 
         $scope.reauthorize = function () {
             window.location = 'backoffice/usplit/GoogleAuth/ReauthorizeAsync?originalUrl=' + encodeURIComponent(window.location);

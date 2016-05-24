@@ -290,21 +290,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\AddVariation.cs" />
+    <Compile Include="API\BackofficeController.cs" />
+    <Compile Include="Backoffice\uSplitTreeController.cs" />
     <Compile Include="AsyncHelpers.cs" />
-    <Compile Include="ContextMenuBuilder.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CreateExperiment.cs" />
+    <Compile Include="Commands\GetExperiment.cs" />
+    <Compile Include="Commands\GetExperimentDetails.cs" />
+    <Compile Include="Commands\GetExperiments.cs" />
+    <Compile Include="Commands\GoogleApiCommand.cs" />
+    <Compile Include="Backoffice\ContextMenuBuilder.cs" />
+    <Compile Include="Models\Experiment.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
-    <Compile Include="GoogleApi\ExperimentsApi.cs" />
     <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
     <Compile Include="API\GoogleApiController.cs" />
     <Compile Include="GoogleApi\GoogleAuthController.cs" />
     <Compile Include="GoogleApi\uSplitFlowMetadata.cs" />
-    <Compile Include="uSplitContentTreeController.cs" />
+    <Compile Include="Backoffice\uSplitContentTreeController.cs" />
     <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
-    <Compile Include="uSplitApplication.cs" />
+    <Compile Include="Models\ExperimentDetails.cs" />
     <Compile Include="RouteConfig.cs" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\create.html" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\create.js" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\experiment.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\experiment.js" />
+    <Content Include="App_Plugins\uSplit\backoffice\shared\loader.html" />
     <Content Include="App_Plugins\uSplit\backoffice\shared\noapi.html" />
     <Content Include="App_Plugins\uSplit\backoffice\uSplitGoogleAuthResource.js" />
     <Content Include="App_Plugins\uSplit\package.manifest" />
@@ -319,9 +331,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\uSplit\backoffice\dashboard.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\view.js" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\instructions.html" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\dashboard.html" />
+    <Content Include="App_Plugins\uSplit\backoffice\abtesting\dashboard.js" />
     <Content Include="App_Plugins\uSplit\backoffice\uSplit.css" />
     <Content Include="App_Plugins\uSplit\backoffice\uSplitManageResource.js" />
   </ItemGroup>

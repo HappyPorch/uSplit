@@ -11,6 +11,8 @@ namespace Endzone.uSplit
         public static class Icons
         {
             public const string Split = "icon-split-alt";
+            public const string Block = "icon-block";
+            public const string Check = "icon-check";
         }
 
         public static class Trees
@@ -33,6 +35,7 @@ namespace Endzone.uSplit
             public static readonly string CallbackUrl = $"{UmbracoPath}/backoffice/{ApplicationAlias}/GoogleCallback/IndexAsync";
             public static readonly string AuthUrl = $"{UmbracoPath}/backoffice/{ApplicationAlias}/GoogleAuth/ReauthorizeAsync";
             public const string SystemUserId = "googleApiAuth";
+            public static string OriginalVariationName = "ORIGINAL";
         }
 
         public static string UmbracoPath => GlobalSettings.Path.TrimStart('/');

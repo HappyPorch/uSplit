@@ -1,14 +1,11 @@
 ﻿<div ng-controller="uSplit.abTesting.experimentController" class="usplit">
-
-    <umb-load-indicator ng-if="!loaded"></umb-load-indicator>
-
     <form name="overviewForm" ng-submit="refresh()">
         <umb-panel>
             <umb-header tabs="tabs">
 
                 <div class="umb-headline-editor-wrapper span7">
                     <h1>
-                        uSplit Experiment - {{loaded?experiment.name:id}} 
+                        uSplit Experiment - {{loaded?experiment.name:experimentId}} 
                     </h1>
                 </div>
 
@@ -22,11 +19,7 @@
             <umb-tab-view>
                 <umb-tab id="tabvariations" rel="variations" class="active">
                     <umb-pane>
-                        <div ng-hide="loaded" class="text-center">
-                            <p>
-                                <img src="assets/img/loader.gif"/>
-                            </p>
-                        </div>
+                        <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/loader.html'"></div>
                         <div ng-show="loaded">
                             <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/noapi.html'"></div>
                         </div>
@@ -34,25 +27,90 @@
                         <div ng-show="loaded && apiReady">
                             <div class="row">
                                 <div class="span4">
+                                    Experiment status
+                                </div>
+                                <div class="span4">
+                                    {{experiment.status}}
+                                </div>
+                                <div class="span4">
+                                    <button ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1" class="btn" type="button" ng-click="start()">Start</button>
+                                    <button ng-show="['RUNNING'].indexOf(experiment.status) > -1" class="btn" type="button" ng-click="stop()">Stop</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
+                                    Created
+                                </div>
+                                <div class="span4">
+                                    {{experiment.created | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
+                                    Updated
+                                </div>
+                                <div class="span4">
+                                    {{experiment.updated | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
+                                    Started
+                                </div>
+                                <div class="span4">
+                                    {{experiment.startTime | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="experiment.endTime">
+                                <div class="span4">
+                                    Ended
+                                </div>
+                                <div class="span4">
+                                    {{experiment.endTime | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
+                                    <h3>Variations</h3>
+                                </div>
+                                <div class="span8">
+                                    <h3 class="text-right">
+                                        <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="duplicateAsVariation()">
+                                            <i class="icon-add"></i> Duplicate main page
+                                        </button>
+                                        <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addExistingAsVariation()">
+                                            <i class="icon-add"></i> Add existing page
+                                        </button>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
                                     Page under test
                                 </div>
                                 <div class="span4">
-                                    {{experiment.originalPage.url}}
+                                    {{experiment.name}} {{experiment.url}}
                                 </div>
                                 <div class="span4">
-                                    {{experiment.originalPage.url}}
+                                    <a ng-href="" ng-click="editContent(experiment.nodeId)">Edit</a> 
                                 </div>
                             </div>
 
                             <div class="row" ng-repeat="variation in experiment.variations">
                                 <div class="span4">
-                                    {{variation.name}}
+                                    Variation {{$index}}
                                 </div>
                                 <div class="span4">
-                                    {{variation.url}}
+                                    {{variation.name}} {{variation.url}}
                                 </div>
                                 <div class="span4">
-                                    {{variation.url}}
+                                    <a ng-href="" ng-click="editContent(variation.nodeId)">Edit</a> 
                                 </div>
                             </div>
                         </div>
@@ -61,16 +119,13 @@
 
                 <umb-tab id="tabdebug" rel="debug">
                     <umb-pane>
-                        <div ng-hide="loaded" class="text-center">
-                            <p>
-                                <img src="assets/img/loader.gif" />
-                            </p>
-                        </div>
+                        <umb-load-indicator ng-if="!loaded"></umb-load-indicator>
+                        <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/loader.html'"></div>
                         <div ng-show="loaded">
                             <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/noapi.html'"></div>
                             <div class="row" ng-show="apiReady">
-<pre>
-{{experimentData | json}}
+                                <pre>
+{{experiment.debug | json}}
 </pre>   
                             </div>
                         </div>

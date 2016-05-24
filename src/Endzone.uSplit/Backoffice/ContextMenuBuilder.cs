@@ -1,8 +1,9 @@
+using System.Web.Http;
+using Newtonsoft.Json;
 using Umbraco.Core;
-using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Trees;
 
-namespace Endzone.uSplit
+namespace Endzone.uSplit.Backoffice
 {
     public class ContextMenuBuilder : ApplicationEventHandler
     {

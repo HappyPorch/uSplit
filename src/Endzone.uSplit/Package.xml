@@ -49,17 +49,4 @@
       <PreValues />
     </DataType>
   </DataTypes>
-  <Actions>
-    <Action runat="install" undo="true" alias="AddLanguageFileKey" language="en" position="end" area="sections" key="usplit" value="uSplit" />
-    <Action runat="install" alias="addDashboardSection" dashboardAlias="usplit">
-        <section>
-          <areas>
-            <area>usplit</area>
-          </areas>
-          <tab caption="About uSplit">
-            <control>/App_Plugins/uSplit/backoffice/dashboard.html</control>
-          </tab>
-        </section>
-      </Action>
-  </Actions>
 </umbPackage>

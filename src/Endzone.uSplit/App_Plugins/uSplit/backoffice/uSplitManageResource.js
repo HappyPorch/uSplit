@@ -3,6 +3,16 @@
         return {
             getExperiment: function (id) {
                 return $http.get("backoffice/uSplit/Manage/GetExperimentAsync/"+id);
+            },
+            createExperiment: function(id) {
+                return $http.get("backoffice/uSplit/Manage/CreateExperimentAsync/" + id);
+            },
+            addVariation: function(experimentId, nodeId) {
+                return $http.post("backoffice/uSplit/Manage/AddVariationAsync/",
+                {
+                    experimentId,
+                    nodeId
+                });
             }
         }
     }
