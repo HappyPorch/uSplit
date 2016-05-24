@@ -6,6 +6,7 @@
             navigationService,
             appState,
             treeService,
+            $location,
             localizationService,
             notificationsService,
             uSplitManageResource) {
@@ -94,17 +95,26 @@
                 $scope.searchInfo.showSearch = true;
             };
 
+            $scope.editExperiment = function () {
+                $scope.nav.hideDialog();
+                $location.search("");
+                $location.path("content/abtesting/experiment/" + $scope.experiment.id);
+            }
+
             $scope.create = function() {
 
                 $scope.busy = true;
                 $scope.error = false;
 
                 uSplitManageResource.createExperiment($scope.target.id)
-                    .then(function (experiment) {
+                    .then(function (createResponse) {   
                         $scope.error = false;
                         $scope.success = true;
                         $scope.busy = false;
-                        navigationService.syncTree({ tree: "abtesting", path: [-1, experiment.id], forceReload: true, activate: true });
+
+                        var experiment = $scope.experiment = createResponse.data;
+
+                        navigationService.syncTree({ tree: "abtesting", path: [-1, experiment.id], forceReload: true, activate: false });
                     }, function (err) {
                         $scope.success = false;
                         $scope.error = err;

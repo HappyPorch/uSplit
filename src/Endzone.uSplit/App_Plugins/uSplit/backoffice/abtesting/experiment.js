@@ -1,10 +1,11 @@
 ﻿angular.module("umbraco").controller("uSplit.abTesting.experimentController",
-    function ($scope, $routeParams, $q, dialogService, contentResource, $location, uSplitGoogleAuthResource, uSplitManageResource) {
+    function ($scope, $routeParams, $q, dialogService, contentResource, navigationService, $location, uSplitGoogleAuthResource, uSplitManageResource) {
         $scope.loaded = false;
         //refactor this to a parent controller?
         $scope.apiReady = false;
 
         var experimentId = $scope.experimentId = $routeParams.id;
+        navigationService.syncTree({ tree: "abtesting", path: [-1, experimentId], forceReload: false, activate: true });
 
         $scope.tabs = [{ id: "variations", label: "Variations" }, { id: "debug", label: "Debug" }];
 
@@ -37,6 +38,7 @@
             $scope.experiment.variations.push(variation);
         }
 
+        //TODO: handle errors
         $scope.duplicateAsVariation = function () {
             dialogService.contentPicker({
                 callback: function (data) {
@@ -49,6 +51,7 @@
             });
         }
 
+        //TODO: handle errors
         $scope.addExistingAsVariation = function () {
             dialogService.contentPicker({
                 callback: function (data) {
