@@ -290,8 +290,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\AddVariation.cs" />
+    <Compile Include="Commands\AddVariation.cs" />
     <Compile Include="API\BackofficeController.cs" />
+    <Compile Include="Commands\DeleteVariation.cs" />
     <Compile Include="Commands\DeleteExperiment.cs" />
     <Compile Include="Backoffice\uSplitTreeController.cs" />
     <Compile Include="AsyncHelpers.cs" />
@@ -302,6 +303,8 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
+    <Compile Include="Models\AddVariationRequest.cs" />
+    <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
     <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
@@ -312,6 +315,7 @@
     <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
     <Compile Include="Models\ExperimentDetails.cs" />
+    <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="RouteConfig.cs" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />

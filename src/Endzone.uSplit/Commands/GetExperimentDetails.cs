@@ -19,6 +19,7 @@ namespace Endzone.uSplit.Commands
                 variationsDetails.Add(new VariationDetails()
                 {
                     Name = Experiment.IsUSplitExperiment ? variation.VariedContent.Name : variation.GoogleVariation.Name,
+                    GoogleName = variation.GoogleVariation.Name,
                     NodeId = variation.VariedContent?.Id
                 });
             }

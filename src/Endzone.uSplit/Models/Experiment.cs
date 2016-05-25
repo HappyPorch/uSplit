@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -7,12 +8,6 @@ using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 
 namespace Endzone.uSplit.Models
 {
-    public class Variation
-    {
-        public IContent VariedContent { get; set; }
-        public GoogleExperiment.VariationsData GoogleVariation { get; set; }
-    }
-
     public class Experiment
     {
         public bool IsUSplitExperiment { get; set; }
@@ -33,12 +28,8 @@ namespace Endzone.uSplit.Models
             if (!id.HasValue) return;
 
             var variations = new List<Variation>();
-            foreach (var variation in experiment.Variations)
+            foreach (var variation in experiment.Variations.Skip(1)) //the first is the page under test
             {
-                //skip the original variation (the main page)
-                if (variation.Name == Constants.Google.OriginalVariationName)
-                    continue;
-
                 int variationNodeId;
                 if (!int.TryParse(variation.Url, out variationNodeId))
                     return;

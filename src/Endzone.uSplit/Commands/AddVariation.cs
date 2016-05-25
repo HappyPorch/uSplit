@@ -1,12 +1,10 @@
-using System.Linq;
+using System;
 using System.Threading.Tasks;
-using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
-using umbraco.NodeFactory;
 using Experiment = Google.Apis.Analytics.v3.Data.Experiment;
 
-namespace Endzone.uSplit.API
+namespace Endzone.uSplit.Commands
 {
     public class AddVariation : GoogleApiCommand<VariationDetails>
     {
@@ -18,19 +16,20 @@ namespace Endzone.uSplit.API
 
             var node = UmbracoContext.Application.Services.ContentService.GetById(NodeId);
             var urlId = $"{NodeId}";
+            var id = $"{node.Name} - {Guid.NewGuid()}";
 
             googleExperiment.Variations.Add(new Experiment.VariationsData()
             {
-                Name = node.Name,
+                Name = id,
                 Url = urlId
             });
 
             var request = service.Management.Experiments.Patch(googleExperiment);
-            var response = await request.ExecuteAsync();
-            var variation = response.Variations.First(v => v.Url == urlId);
+            await request.ExecuteAsync();
             return new VariationDetails()
             {
-                Name = variation.Name,
+                Name = node.Name,
+                GoogleName = id,
                 NodeId = NodeId
             };
         }

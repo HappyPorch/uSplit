@@ -16,6 +16,13 @@
             },
             deleteExperiment: function(id) {
                 return $http.delete("backoffice/uSplit/Manage/DeleteExperimentAsync/" + id);
+            },
+            deleteVariation: function (experimentId, variationName) {
+                return $http.post("backoffice/uSplit/Manage/DeleteVariationAsync/",
+                {
+                    experimentId,
+                    variationName
+                });
             }
         }
     }

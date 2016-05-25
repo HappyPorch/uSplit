@@ -72,5 +72,14 @@
             });
         }
 
+        //TODO: handle errors
+        $scope.deleteVariation = function (variationName) {
+            uSplitManageResource.deleteVariation(experimentId, variationName).then(function () {
+                $scope.experiment.variations = $scope.experiment.variations.filter(function(v) {
+                    return v.googleName !== variationName;
+                });
+            });
+        };
+
         $scope.refresh();
     });

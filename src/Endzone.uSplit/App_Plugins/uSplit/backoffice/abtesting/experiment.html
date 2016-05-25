@@ -107,7 +107,9 @@
                                     {{experiment.name}} {{experiment.url}}
                                 </div>
                                 <div class="span4">
-                                    <a ng-href="" ng-click="editContent(experiment.nodeId)">Edit</a>
+                                    <button class="btn btn-small" type="button" ng-click="editContent(experiment.nodeId)">
+                                        <i class="icon-edit"></i> Edit
+                                    </button>
                                 </div>
                             </div>
 
@@ -119,7 +121,13 @@
                                     {{variation.name}} {{variation.url}}
                                 </div>
                                 <div class="span4">
-                                    <a ng-href="" ng-click="editContent(variation.nodeId)">Edit</a>
+                                    <button class="btn btn-small" type="button" ng-click="editContent(variation.nodeId)">
+                                        <i class="icon-edit"></i> Edit
+                                    </button>
+
+                                    <button class="btn btn-small" type="button" ng-click="deleteVariation(variation.name)">
+                                        <i class="icon-delete"></i> Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>

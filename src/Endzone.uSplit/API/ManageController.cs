@@ -1,7 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.Models;
 using Umbraco.Web.Mvc;
@@ -38,12 +37,6 @@ namespace Endzone.uSplit.API
             });
         }
 
-        public class AddVariationRequest
-        {
-            public string ExperimentId { get; set; }
-            public int NodeId { get; set; }
-        }
-
         [HttpPost]
         public async Task<HttpResponseMessage> AddVariationAsync([FromBody]AddVariationRequest request)
         {
@@ -65,5 +58,15 @@ namespace Endzone.uSplit.API
             });
         }
 
+        [HttpPost]
+        public async Task DeleteVariationAsync([FromBody]DeleteVariationRequest request)
+        {
+            //TODO: add an option to delete variations
+            await ExecuteAsync(new DeleteVariation()
+            {
+                GoogleExperimentId = request.ExperimentId,
+                VariationName = request.VariationName
+            });
+        }
     }
 }
