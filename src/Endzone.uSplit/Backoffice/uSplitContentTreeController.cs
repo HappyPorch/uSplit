@@ -84,14 +84,22 @@ namespace Endzone.uSplit.Backoffice
 
         protected override MenuItemCollection GetMenuForNode(string id, FormDataCollection queryStrings)
         {
+            var menu = new MenuItemCollection();
+
             if (IsRootNode(id))
             {
-                var menu = new MenuItemCollection();
+                
                 menu.Items.Add<ActionNew>("Create a new experiment");
-                return menu;
+            }
+            else //experiment node
+            {
+                //TODO: Nice-to-haves
+                //menu.Items.Add<ActionPublish>("Start this experiment");
+                //menu.Items.Add<ActionDisable>("Stop this experiment");
+                menu.Items.Add<ActionDelete>("Delete this experiment");
             }
 
-            return null;
+            return menu;
         }
 
     }

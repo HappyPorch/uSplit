@@ -2,7 +2,7 @@
     function ($http) {
         return {
             getExperiment: function (id) {
-                return $http.get("backoffice/uSplit/Manage/GetExperimentAsync/"+id);
+                return $http.get("backoffice/uSplit/Manage/GetExperimentAsync/" + id);
             },
             createExperiment: function(id) {
                 return $http.get("backoffice/uSplit/Manage/CreateExperimentAsync/" + id);
@@ -13,6 +13,9 @@
                     experimentId,
                     nodeId
                 });
+            },
+            deleteExperiment: function(id) {
+                return $http.delete("backoffice/uSplit/Manage/DeleteExperimentAsync/" + id);
             }
         }
     }

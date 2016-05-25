@@ -39,5 +39,13 @@ namespace Endzone.uSplit.GoogleApi
             var profileId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleProfileId];
             return experiments.Patch(experiment, accountId, webPropertyId, profileId, experiment.Id);
         }
+
+        public static ManagementResource.ExperimentsResource.DeleteRequest Delete(this ManagementResource.ExperimentsResource experiments, string experimentId)
+        {
+            var accountId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleAccountId];
+            var webPropertyId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleWebPropertyId];
+            var profileId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleProfileId];
+            return experiments.Delete(accountId, webPropertyId, profileId, experimentId);
+        }
     }
 }

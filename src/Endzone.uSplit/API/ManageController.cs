@@ -55,5 +55,15 @@ namespace Endzone.uSplit.API
             return CreateResponse(variationDetails);
         }
 
+        [HttpDelete]
+        public async Task DeleteExperimentAsync(string id)
+        {
+            //TODO: add an option to delete variations
+            await ExecuteAsync(new DeleteExperiment()
+            {
+                GoogleExperimentId = id
+            });
+        }
+
     }
 }

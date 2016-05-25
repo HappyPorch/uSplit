@@ -1,5 +1,14 @@
 ﻿angular.module("umbraco").controller("uSplit.abTesting.experimentController",
-    function ($scope, $routeParams, $q, dialogService, contentResource, navigationService, $location, uSplitGoogleAuthResource, uSplitManageResource) {
+    function ($scope,
+        $routeParams,
+        $q,
+        editorState,
+        dialogService,
+        contentResource,
+        navigationService,
+        $location,
+        uSplitGoogleAuthResource,
+        uSplitManageResource) {
         $scope.loaded = false;
         //refactor this to a parent controller?
         $scope.apiReady = false;
@@ -20,6 +29,7 @@
             var experimentLoad = uSplitManageResource.getExperiment(experimentId)
                 .then(function(response) {
                     $scope.experiment = response.data;
+                    editorState.set($scope.experiment);
                 });
 
             $q.all([statusUpdate, experimentLoad])

@@ -26,6 +26,7 @@ namespace Endzone.uSplit.Commands
             return new ExperimentDetails()
             {
                 Name = Experiment.IsUSplitExperiment ? Experiment.PageUnderTest.Name : Experiment.GoogleExperiment.Name,
+                GoogleName = Experiment.GoogleExperiment.Name,
                 NodeId = Experiment.PageUnderTest?.Id,
                 GoogleId = Experiment.GoogleExperiment.Id,
                 Status = Experiment.GoogleExperiment.Status,
