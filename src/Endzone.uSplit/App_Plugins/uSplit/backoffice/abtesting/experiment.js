@@ -18,19 +18,32 @@
 
         $scope.tabs = [{ id: "variations", label: "Variations" }, { id: "debug", label: "Debug" }];
 
+        function addToVariations(addVariationResponse) {
+            var variation = addVariationResponse.data;
+            $scope.experiment.variations.push(variation);
+        }
+
+        function handleDotNetError(error) {
+            if (error.status && error.status >= 500) {
+                dialogService.ysodDialog(error);
+            }
+        }
+
+        function handleExperiment(response) {
+            $scope.experiment = response.data;
+            editorState.set($scope.experiment);
+        }
+
         $scope.refresh = function () {
             $scope.loaded = false;
 
             var statusUpdate = uSplitGoogleAuthResource.getStatus()
                 .then(function (response) {
                     $scope.apiReady = response.data === "true";
-                });
+                }, handleDotNetError);
 
             var experimentLoad = uSplitManageResource.getExperiment(experimentId)
-                .then(function(response) {
-                    $scope.experiment = response.data;
-                    editorState.set($scope.experiment);
-                });
+                .then(handleExperiment, handleDotNetError);
 
             $q.all([statusUpdate, experimentLoad])
                 .then(function() {
@@ -43,12 +56,7 @@
             $location.path("/content/content/edit/" + nodeId);
         }
 
-        function addToVariations(addVariationResponse) {
-            var variation = addVariationResponse.data;
-            $scope.experiment.variations.push(variation);
-        }
-
-        //TODO: handle errors
+        //TODO: add an indicator and possibly disable input?
         $scope.duplicateAsVariation = function () {
             dialogService.contentPicker({
                 callback: function (data) {
@@ -61,7 +69,7 @@
             });
         }
 
-        //TODO: handle errors
+        //TODO: add an indicator and possibly disable input?
         $scope.addExistingAsVariation = function () {
             dialogService.contentPicker({
                 callback: function (data) {
@@ -72,13 +80,27 @@
             });
         }
 
-        //TODO: handle errors
+        //TODO: add an indicator and possibly disable input?
         $scope.deleteVariation = function (variationName) {
             uSplitManageResource.deleteVariation(experimentId, variationName).then(function () {
-                $scope.experiment.variations = $scope.experiment.variations.filter(function(v) {
+                $scope.experiment.variations = $scope.experiment.variations.filter(function (v) {
                     return v.googleName !== variationName;
                 });
             });
+        };
+
+        //TODO: add an indicator and possibly disable input?
+        $scope.start = function () {
+            uSplitManageResource.start(experimentId).then(function (response) {
+                handleExperiment(response);
+            }, handleDotNetError);
+        };
+
+        //TODO: add an indicator and possibly disable input?
+        $scope.stop = function () {
+            uSplitManageResource.stop(experimentId).then(function (response) {
+                handleExperiment(response);
+            }, handleDotNetError);
         };
 
         $scope.refresh();

@@ -33,8 +33,8 @@
                                     {{experiment.status}}
                                 </div>
                                 <div class="span4">
-                                    <button ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1" class="btn" type="button" ng-click="start()">Start</button>
-                                    <button ng-show="['RUNNING'].indexOf(experiment.status) > -1" class="btn" type="button" ng-click="stop()">Stop</button>
+                                    <button ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1" class="btn btn-primary" type="button" ng-click="start()">Commance experiment</button>
+                                    <button ng-show="['RUNNING'].indexOf(experiment.status) > -1" class="btn btn-danger" type="button" ng-click="stop()">End experiment</button>
                                 </div>
                             </div>
 
@@ -90,7 +90,7 @@
                                 <div class="span8">
                                     <h3 class="text-right">
                                         <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="duplicateAsVariation()">
-                                            <i class="icon-add"></i> Duplicate main page
+                                            <i class="icon-add"></i> Clone original
                                         </button>
                                         <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addExistingAsVariation()">
                                             <i class="icon-add"></i> Add existing page

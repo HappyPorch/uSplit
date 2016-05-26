@@ -23,6 +23,12 @@
                     experimentId,
                     variationName
                 });
+            },
+            start: function (experimentId) {
+                return $http.post("backoffice/uSplit/Manage/StartExperimentAsync/" + experimentId);
+            },
+            stop: function (experimentId) {
+                return $http.post("backoffice/uSplit/Manage/StopExperimentAsync/" + experimentId);
             }
         }
     }

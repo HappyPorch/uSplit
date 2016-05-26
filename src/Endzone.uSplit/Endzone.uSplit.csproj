@@ -290,6 +290,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\StopExperiment.cs" />
+    <Compile Include="Commands\StartExperiment.cs" />
     <Compile Include="Commands\AddVariation.cs" />
     <Compile Include="API\BackofficeController.cs" />
     <Compile Include="Commands\DeleteVariation.cs" />

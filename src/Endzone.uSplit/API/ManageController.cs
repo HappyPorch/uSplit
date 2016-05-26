@@ -51,7 +51,7 @@ namespace Endzone.uSplit.API
         [HttpDelete]
         public async Task DeleteExperimentAsync(string id)
         {
-            //TODO: add an option to delete variations
+            //TODO: add an option to delete variations (e.g. Umbraco content linked to it)
             await ExecuteAsync(new DeleteExperiment()
             {
                 GoogleExperimentId = id
@@ -61,12 +61,39 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task DeleteVariationAsync([FromBody]DeleteVariationRequest request)
         {
-            //TODO: add an option to delete variations
             await ExecuteAsync(new DeleteVariation()
             {
                 GoogleExperimentId = request.ExperimentId,
                 VariationName = request.VariationName
             });
+        }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> StartExperimentAsync(string id)
+        {
+            var experiment = await ExecuteAsync(new StartExperiment()
+            {
+                GoogleExperimentId = id
+            });
+            var details = await ExecuteAsync(new GetExperimentDetails()
+            {
+                Experiment = experiment
+            });
+            return CreateResponse(details);
+        }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> StopExperimentAsync(string id)
+        {
+            var experiment = await ExecuteAsync(new StopExperiment()
+            {
+                GoogleExperimentId = id
+            });
+            var details = await ExecuteAsync(new GetExperimentDetails()
+            {
+                Experiment = experiment
+            });
+            return CreateResponse(details);
         }
     }
 }
