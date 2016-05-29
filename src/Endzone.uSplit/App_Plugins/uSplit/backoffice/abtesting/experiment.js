@@ -2,6 +2,7 @@
     function ($scope,
         $routeParams,
         $q,
+        notificationsService,
         editorState,
         dialogService,
         contentResource,
@@ -64,7 +65,15 @@
                     contentResource.copy({ id: $scope.experiment.nodeId, parentId: data.id }).then(function (path) {
                         var id = path.split(',').pop();
                         uSplitManageResource.addVariation(experimentId, id).then(addToVariations);
-                    });
+                    },
+                        function(response) {
+                            if (angular.isArray(response.data.notifications)) {
+                                for (var i = 0; i < response.data.notifications.length; i++) {
+                                    notificationsService.showNotification(response.data.notifications[i]);
+                                }
+                            }
+                        }
+                    );
                 }
             });
         }
