@@ -10,13 +10,15 @@ namespace Endzone.uSplit.Models
     {
         private readonly IPublishedContent original;
         private readonly IPublishedContent variation;
+        private readonly Experiment experiment;
         private readonly int variationId;
         private readonly Dictionary<string, IPublishedProperty> properties;
 
-        public VariedContent(IPublishedContent original, IPublishedContent variation, int variationId)
+        public VariedContent(IPublishedContent original, IPublishedContent variation, Experiment experiment, int variationId)
         {
             this.original = original;
             this.variation = variation;
+            this.experiment = experiment;
             this.variationId = variationId;
 
             properties = original.Properties.ToDictionary(p => p.PropertyTypeAlias, p => p);
@@ -29,10 +31,9 @@ namespace Endzone.uSplit.Models
             }
         }
 
-        public int VariationId
-        {
-            get { return variationId; }
-        }
+        public int VariationId => variationId;
+
+        public Experiment Experiment => experiment;
 
         #region IPublishedContent
 
@@ -49,7 +50,7 @@ namespace Endzone.uSplit.Models
         public IPublishedProperty GetProperty(string alias, bool recurse)
         {
             var property = variation.GetProperty(alias, recurse);
-            if (property.HasValue)
+            if (property?.HasValue == true)
                 return property;
             return original.GetProperty(alias, recurse);
         }

@@ -10,6 +10,8 @@ namespace Endzone.uSplit.Models
     {
         public bool IsUSplitExperiment { get; set; }
 
+        public string Id => GoogleExperiment.Id;
+
         public IContent PageUnderTest => Variations?[0].VariedContent;
 
         public GoogleExperiment GoogleExperiment { get; set; }
