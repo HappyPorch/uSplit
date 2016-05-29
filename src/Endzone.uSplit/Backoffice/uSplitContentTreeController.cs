@@ -85,7 +85,23 @@ namespace Endzone.uSplit.Backoffice
             var id = Experiment.ExtractNodeIdFromExperimentName(name);
             if (id.HasValue)
                 name = Services.ContentService.GetById(id.Value).Name;
-            var icon = experiment.GoogleExperiment.Status == "RUNNING" ? Constants.Icons.Check + " color-green" : Constants.Icons.Block + " color-red";
+            string icon;
+            switch (experiment.GoogleExperiment.Status)
+            {
+                case "DRAFT":
+                case "READY_TO_RUN":
+                    icon = Constants.Icons.Autofill + " color-yellow";
+                    break;
+                case "RUNNING":
+                    icon = Constants.Icons.Play + " color-green";
+                    break;
+                case "ENDED":
+                    icon = Constants.Icons.FlagAlt + " color-red";
+                    break;
+                default:
+                    icon = Constants.Icons.Block + " color-red";
+                    break;
+            }
             var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.GoogleExperiment.Id}";
             return CreateTreeNode(experiment.GoogleExperiment.Id, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
         }

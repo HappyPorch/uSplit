@@ -1,5 +1,3 @@
-using System.Web.Http;
-using Newtonsoft.Json;
 using Umbraco.Core;
 using Umbraco.Web.Trees;
 

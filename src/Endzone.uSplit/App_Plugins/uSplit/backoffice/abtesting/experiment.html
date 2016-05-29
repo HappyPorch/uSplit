@@ -5,7 +5,7 @@
 
                 <div class="umb-headline-editor-wrapper span7">
                     <h1>
-                        uSplit Experiment - {{loaded?experiment.name:experimentId}} 
+                        uSplit Experiment - {{loaded?experiment.name:experimentId}}
                     </h1>
                 </div>
 
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </umb-header>
-
+            
             <umb-tab-view>
                 <umb-tab id="tabvariations" rel="variations" class="active">
                     <umb-pane>
@@ -90,7 +90,7 @@
                                 <div class="span8">
                                     <h3 class="text-right">
                                         <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="duplicateAsVariation()">
-                                            <i class="icon-add"></i> Clone original
+                                            <i class="icon-documents"></i> Clone original
                                         </button>
                                         <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addExistingAsVariation()">
                                             <i class="icon-add"></i> Add existing page
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" ng-repeat="variation in experiment.variations">
+                            <div class="row" ng-repeat="variation in experiment.variations" ng-show="$index > 0">
                                 <div class="span4">
                                     Variation {{$index}}
                                 </div>
