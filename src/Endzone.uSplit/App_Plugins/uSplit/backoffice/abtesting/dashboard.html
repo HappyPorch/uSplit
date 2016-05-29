@@ -23,9 +23,13 @@
                         <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/loader.html'"></div>
                         <div ng-show="loaded">
                             <div class="row">
-                                <div class="alert" ng-show="!status">
+                                <div class="alert" ng-show="!connected">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                     <strong>Warning!</strong> This site is not authenticated with the Google API.
+                                </div>
+                                <div class="alert" ng-show="!hasAccess">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Warning!</strong> {{message}}.
                                 </div>
                             </div>
                             <div class="row">
@@ -33,8 +37,20 @@
                                     Connected to Google API
                                 </div>
                                 <div class="span4">
-                                    <span ng-show="status" class="label label-success">Yes</span>
-                                    <span ng-show="!status" class="label label-warning">No</span>
+                                    <span ng-show="connected" class="label label-success">Yes</span>
+                                    <span ng-show="!connected" class="label label-warning">No</span>
+                                </div>
+                                <div class="span4">
+                                    <button class="btn" type="button" ng-click="reauthorize()">Re-authorize</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span4">
+                                    Connected to Google Analytics Account
+                                </div>
+                                <div class="span4">
+                                    <span ng-show="hasAccess" class="label label-success">Yes</span>
+                                    <span ng-show="!hasAccess" class="label label-warning">No</span>
                                 </div>
                                 <div class="span4">
                                     <button class="btn" type="button" ng-click="reauthorize()">Re-authorize</button>

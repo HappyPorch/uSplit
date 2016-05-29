@@ -291,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\FindExperiment.cs" />
+    <Compile Include="Commands\CheckAccess.cs" />
     <Compile Include="Commands\StopExperiment.cs" />
     <Compile Include="Commands\StartExperiment.cs" />
     <Compile Include="Commands\AddVariation.cs" />

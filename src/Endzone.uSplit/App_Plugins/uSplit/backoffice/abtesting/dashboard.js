@@ -1,8 +1,9 @@
 ﻿angular.module("umbraco").controller("uSplit.abTesting.configurationController",
-    function ($scope, uSplitGoogleAuthResource) {
+    function ($scope, uSplitGoogleAuthResource, dialogService) {
 
         $scope.loaded = false;
-        $scope.status = false;
+        $scope.connected = false;
+        $scope.hasAccess = false;
 
         $scope.tabs = [
             { id: "configuration", label: "Configuration" },
@@ -17,8 +18,13 @@
             $scope.loaded = false;
 
             uSplitGoogleAuthResource.getStatus().then(function (response) {
-                $scope.status = response.data === "true";
+                $scope.connected = response.data === "true";
                 $scope.loaded = true;
+            });
+
+            uSplitGoogleAuthResource.checkAccess().then(function (response) {
+                $scope.hasAccess = response.data.hasAccess;
+                $scope.message = response.data.error;
             });
         };
 
