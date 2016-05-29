@@ -59,11 +59,20 @@ namespace Endzone.uSplit.Backoffice
             }
             else
             {
-                var experiments = await ExecuteAsync(new GetExperiments());
-                foreach (var experiment in experiments.Items)
+                try
                 {
-                    var e = new Experiment(experiment);
-                    nodes.Add(CreateExperimentNode(e, queryStrings));
+                    var experiments = await ExecuteAsync(new GetExperiments());
+                    foreach (var experiment in experiments.Items)
+                    {
+                        var e = new Experiment(experiment);
+                        nodes.Add(CreateExperimentNode(e, queryStrings));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var messages = ex.Message.Split('\n');
+                    var message = messages.Length > 1 ? messages[1] : ex.Message;
+                    nodes.Add(CreateTreeNode("error", $"{UmbracoConstants.System.Root}", queryStrings, message));
                 }
             }
 
@@ -88,7 +97,7 @@ namespace Endzone.uSplit.Backoffice
 
             if (IsRootNode(id))
             {
-                
+
                 menu.Items.Add<ActionNew>("Create a new experiment");
             }
             else //experiment node
