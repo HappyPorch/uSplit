@@ -290,6 +290,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\FindExperiment.cs" />
     <Compile Include="Commands\StopExperiment.cs" />
     <Compile Include="Commands\StartExperiment.cs" />
     <Compile Include="Commands\AddVariation.cs" />
@@ -300,7 +301,7 @@
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CreateExperiment.cs" />
-    <Compile Include="Commands\GetExperiment.cs" />
+    <Compile Include="Commands\GetGoogleExperiment.cs" />
     <Compile Include="Commands\GetExperimentDetails.cs" />
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
@@ -319,6 +320,8 @@
     <Compile Include="Models\ExperimentDetails.cs" />
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
+    <Compile Include="Models\VariedContent.cs" />
+    <Compile Include="Pipeline\ExperimentsPipeline.cs" />
     <Compile Include="RouteConfig.cs" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.js" />

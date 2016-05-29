@@ -17,7 +17,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<HttpResponseMessage> GetExperimentAsync(string id)
         {
-            var experiment = await ExecuteAsync(new GetExperiment()
+            var experiment = await ExecuteAsync(new GetGoogleExperiment()
             {
                 GoogleExperimentId = id
             });

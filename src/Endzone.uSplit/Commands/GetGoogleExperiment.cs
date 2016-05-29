@@ -4,7 +4,7 @@ using Endzone.uSplit.Models;
 
 namespace Endzone.uSplit.Commands
 {
-    public class GetExperiment : GoogleApiCommand<Experiment>
+    public class GetGoogleExperiment : GoogleApiCommand<Experiment>
     {
         public string GoogleExperimentId { get; set; }
 

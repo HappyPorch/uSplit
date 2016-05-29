@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -11,7 +9,9 @@ namespace Endzone.uSplit.Models
     public class Experiment
     {
         public bool IsUSplitExperiment { get; set; }
-        public IContent PageUnderTest { get; set; }
+
+        public IContent PageUnderTest => Variations?[0].VariedContent;
+
         public GoogleExperiment GoogleExperiment { get; set; }
         public List<Variation> Variations { get; set; }
 
@@ -28,7 +28,7 @@ namespace Endzone.uSplit.Models
             if (!id.HasValue) return;
 
             var variations = new List<Variation>();
-            foreach (var variation in experiment.Variations.Skip(1)) //the first is the page under test
+            foreach (var variation in experiment.Variations) 
             {
                 int variationNodeId;
                 if (!int.TryParse(variation.Url, out variationNodeId))
@@ -40,8 +40,7 @@ namespace Endzone.uSplit.Models
                     GoogleVariation = variation
                 });
             }
-
-            PageUnderTest = contentService.GetById(id.Value);
+            
             Variations = variations;
             IsUSplitExperiment = true;
         }
