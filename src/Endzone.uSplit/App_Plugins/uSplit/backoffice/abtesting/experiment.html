@@ -101,32 +101,38 @@
                             </div>
 
                             <div class="row">
-                                <div class="span4">
-                                    Page under test
+                                <div class="span3">
+                                    <strong>Variation</strong>
                                 </div>
-                                <div class="span4">
-                                    {{experiment.name}} {{experiment.url}}
+                                <div class="span3">
+                                    <strong>Content</strong>
                                 </div>
-                                <div class="span4">
-                                    <button class="btn btn-small" type="button" ng-click="editContent(experiment.nodeId)">
-                                        <i class="icon-edit"></i> Edit
-                                    </button>
+                                <div class="span3" ng-hide="experiment.status == 'ENDED'">
+                                    <strong>Weight</strong>
+                                </div>
+                                <div class="span3">
+                                    
                                 </div>
                             </div>
 
-                            <div class="row" ng-repeat="variation in experiment.variations" ng-show="$index > 0">
-                                <div class="span4">
-                                    Variation {{$index}}
+                            <div class="row" ng-repeat="variation in experiment.variations">
+                                <div class="span3">
+                                    <span ng-show="$index == 0">Page under test</span>
+                                    <span ng-show="$index > 0">Variation {{$index}}</span> 
+                                    &nbsp;<span ng-show="variation.won==1">WON!</span>
                                 </div>
-                                <div class="span4">
-                                    {{variation.name}} {{variation.url}}
+                                <div class="span3">
+                                    {{variation.name}} {{variation.url}} 
                                 </div>
-                                <div class="span4">
+                                <div class="span3">
+                                    {{variation.weight}}
+                                </div>
+                                <div class="span3">
                                     <button class="btn btn-small" type="button" ng-click="editContent(variation.nodeId)">
                                         <i class="icon-edit"></i> Edit
                                     </button>
 
-                                    <button class="btn btn-small" type="button" ng-click="deleteVariation(variation.name)">
+                                    <button class="btn btn-small" type="button" ng-click="deleteVariation(variation.name)" ng-show="$index > 0">
                                         <i class="icon-delete"></i> Delete
                                     </button>
                                 </div>

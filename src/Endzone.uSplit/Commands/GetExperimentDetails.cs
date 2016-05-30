@@ -20,7 +20,9 @@ namespace Endzone.uSplit.Commands
                 {
                     Name = Experiment.IsUSplitExperiment ? variation.VariedContent.Name : variation.GoogleVariation.Name,
                     GoogleName = variation.GoogleVariation.Name,
-                    NodeId = variation.VariedContent?.Id
+                    NodeId = variation.VariedContent?.Id,
+                    Weight = variation.GoogleVariation.Weight,
+                    Won = variation.GoogleVariation.Won
                 });
             }
 

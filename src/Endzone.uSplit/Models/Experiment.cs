@@ -39,7 +39,7 @@ namespace Endzone.uSplit.Models
                 variations.Add(new Variation
                 {
                     VariedContent = contentService.GetById(variationNodeId),
-                    GoogleVariation = variation
+                    GoogleVariation = variation,
                 });
             }
             

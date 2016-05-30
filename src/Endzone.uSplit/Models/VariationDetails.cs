@@ -11,5 +11,9 @@ namespace Endzone.uSplit.Models
         /// The name of the variation in Google Experiments - should be unique!
         /// </summary>
         public string GoogleName { get; set; }
+
+        public double? Weight { get; set; }
+
+        public bool? Won { get; set; }
     }
 }
