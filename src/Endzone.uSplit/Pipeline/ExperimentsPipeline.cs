@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.Models;
@@ -16,6 +14,7 @@ namespace Endzone.uSplit.Pipeline
     public class ExperimentsPipeline : ApplicationEventHandler
     {
         private Random random;
+        private string cookieName = "uSplitExperiment";
 
         public ExperimentsPipeline()
         {
@@ -59,7 +58,7 @@ namespace Endzone.uSplit.Pipeline
                 return;
 
             //Has the user been previously exposed to this experiment?
-            var variationId = GetAssignedVariation(experiment.Id);
+            var variationId = GetAssignedVariation(request, experiment.Id);
             if (variationId != null)
             {
                 ShowVariation(request, experiment, variationId.Value);
@@ -75,7 +74,6 @@ namespace Endzone.uSplit.Pipeline
             variationId = SelectVariation(experiment);
             ShowVariation(request, experiment, variationId.Value);
 
-            //TODO:Send Experiment Data
         }
 
         private int SelectVariation(Experiment experiment)
@@ -104,7 +102,7 @@ namespace Endzone.uSplit.Pipeline
 
         private void ShowVariation(PublishedContentRequest request, Experiment experiment, int variationId)
         {
-            AssignVariationToUser(experiment.Id, variationId);
+            AssignVariationToUser(request,experiment.Id, variationId);
 
             if (variationId == -1) 
                 return; //user is excluded 
@@ -126,63 +124,30 @@ namespace Endzone.uSplit.Pipeline
             return experiment.IsUSplitExperiment && experiment.GoogleExperiment.Status == "RUNNING";
         }
 
-        private int? GetAssignedVariation(string experimentId)
+        private int? GetAssignedVariation(PublishedContentRequest request, string experimentId)
         {
-            //TODO: check the cookie
+            //get a cookie
+            var cookie = request.RoutingContext.UmbracoContext.HttpContext.Request.Cookies.Get(cookieName + experimentId);
+            if (cookie != null)
+            {
+                int variationId = 0;
+                if (int.TryParse(cookie.Value, out variationId))
+                {
+                    return variationId;
+                }
+            }
             return null;
         }
 
-        private void AssignVariationToUser(string experimentId, int variationId)
+        private void AssignVariationToUser(PublishedContentRequest request, string experimentId, int variationId)
         {
-            //TODO: set a cookie
-        }
-    }
-
-    public class VariationReportingFilter : ActionFilterAttribute
-    {
-        public override void OnActionExecuted(ActionExecutedContext filterContext)
-        {
-            var request = filterContext.RequestContext.HttpContext.GetUmbracoContext().PublishedContentRequest;
-            var response = filterContext.HttpContext.Response;
-            var variedContent = request?.PublishedContent as VariedContent;
-            if (response.ContentType == "text/html" && variedContent != null)
+            //set a cookie
+            var cookie = new HttpCookie(cookieName + experimentId)
             {
-                response.Filter = new InjectVariationReport(response.Filter, variedContent);
-            }
-        }
-    }
-
-    public class InjectVariationReport : MemoryStream
-    {
-        private readonly Stream outputStream;
-        private readonly Func<string, string> filter;
-        public InjectVariationReport(Stream outputStream, VariedContent content)
-        {
-            this.outputStream = outputStream;
-            var js = "<script src=\"//www.google-analytics.com/cx/api.js\"></script>\n" +
-                     "<script>\n" +
-                     $"cxApi.setChosenVariation({content.VariationId},'{content.Experiment.Id}');\n" +
-                     "</script>\n";
-            filter = s => Regex.Replace(s, @"<head>", $"<head>\n{js}", RegexOptions.IgnoreCase);
-        }
-
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            // capture the data and convert to string 
-            var s = Encoding.UTF8.GetString(buffer);
-
-            // filter the string
-            s = filter(s);
-
-            // write the data to stream 
-            var outdata = Encoding.UTF8.GetBytes(s);
-            outputStream.Write(outdata, 0, outdata.GetLength(0));
-        }
-
-        public override void Close()
-        {
-            outputStream.Close();
-            base.Close();
+                Expires = DateTime.Now.AddDays(30),
+                Value = variationId.ToString()
+            };
+            request.RoutingContext.UmbracoContext.HttpContext.Response.Cookies.Set(cookie);
         }
     }
 }

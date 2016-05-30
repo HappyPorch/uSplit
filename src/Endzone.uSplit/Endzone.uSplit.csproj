@@ -323,6 +323,8 @@
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
+    <Compile Include="Pipeline\InjectVariationReport.cs" />
+    <Compile Include="Pipeline\VariationReportingFilter.cs" />
     <Compile Include="RouteConfig.cs" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.js" />
