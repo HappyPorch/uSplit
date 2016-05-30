@@ -39,6 +39,16 @@ namespace Endzone.uSplit
             public static string OriginalVariationName = "ORIGINAL";
         }
 
+        public static class Cache
+        {
+            public static string ExperimentsList = "uSplitExperiments";
+        }
+
+        public static class Cookies
+        {
+            public static string CookieVariationName = "uSplitExperiment";
+        }
+
         public static string UmbracoPath => GlobalSettings.Path.TrimStart('/');
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -8,13 +9,16 @@ using Umbraco.Core;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 using Task = System.Threading.Tasks.Task;
+using System.Runtime.Caching;
+using ClientDependency.Core.FileRegistration.Providers;
+using Google.Apis.Analytics.v3.Data;
+using Experiment = Endzone.uSplit.Models.Experiment;
 
 namespace Endzone.uSplit.Pipeline
 {
     public class ExperimentsPipeline : ApplicationEventHandler
     {
         private Random random;
-        private string cookieName = "uSplitExperiment";
 
         public ExperimentsPipeline()
         {
@@ -45,11 +49,12 @@ namespace Endzone.uSplit.Pipeline
                 return;
 
             //Is there an experiment running?
-            var findExperimentCommand = new FindExperiment()
-            {
-                PublishedContentId = request.PublishedContent.Id
-            };
-            var googleExperiment = Task.Run(async () => await ExecuteAsync(findExperimentCommand)).Result;
+            var experiments = new GetCachedExperiments().ExecuteAsync().Result;
+
+            var googleExperiment =
+                experiments?.Items
+                    .FirstOrDefault(e => Experiment.ExtractNodeIdFromExperimentName(e.Name) == request.PublishedContent.Id);
+
             if (googleExperiment == null)
                 return;
 
@@ -62,12 +67,14 @@ namespace Endzone.uSplit.Pipeline
             if (variationId != null)
             {
                 ShowVariation(request, experiment, variationId.Value);
+                return;
             }
 
             //Should the user be included in the experiment?
             if (!ShouldVisitorParticipate(experiment))
             {
                 ShowVariation(request, experiment, -1);
+                return;
             }
 
             //Choose a variation for the user
@@ -127,7 +134,7 @@ namespace Endzone.uSplit.Pipeline
         private int? GetAssignedVariation(PublishedContentRequest request, string experimentId)
         {
             //get a cookie
-            var cookie = request.RoutingContext.UmbracoContext.HttpContext.Request.Cookies.Get(cookieName + experimentId);
+            var cookie = request.RoutingContext.UmbracoContext.HttpContext.Request.Cookies.Get(Constants.Cookies.CookieVariationName + experimentId);
             if (cookie != null)
             {
                 int variationId = 0;
@@ -142,7 +149,7 @@ namespace Endzone.uSplit.Pipeline
         private void AssignVariationToUser(PublishedContentRequest request, string experimentId, int variationId)
         {
             //set a cookie
-            var cookie = new HttpCookie(cookieName + experimentId)
+            var cookie = new HttpCookie(Constants.Cookies.CookieVariationName + experimentId)
             {
                 Expires = DateTime.Now.AddDays(30),
                 Value = variationId.ToString()

@@ -1,3 +1,4 @@
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
@@ -20,6 +21,10 @@ namespace Endzone.uSplit.Commands
 
             var request = service.Management.Experiments.Patch(googleExperiment);
             var experiment = await request.ExecuteAsync();
+            var cache = MemoryCache.Default;
+            var experiments = await new GetCachedExperiments().ExecuteAsync();
+            experiments.Items.Add(experiment);
+
             return new Experiment(experiment);
         }
 
