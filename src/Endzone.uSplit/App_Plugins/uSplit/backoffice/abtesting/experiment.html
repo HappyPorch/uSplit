@@ -35,6 +35,7 @@
                                 <div class="span4">
                                     <button ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1" class="btn btn-primary" type="button" ng-click="start()">Commence experiment</button>
                                     <button ng-show="['RUNNING'].indexOf(experiment.status) > -1" class="btn btn-danger" type="button" ng-click="stop()">End experiment</button>
+                                    <span ng-show="['ENDED'].indexOf(experiment.status) > -1">Experience ended and can no longer be recovered.</span>
                                 </div>
                             </div>
 
