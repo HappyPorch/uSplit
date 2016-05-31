@@ -24,6 +24,6 @@ namespace Endzone.uSplit.Models
         /// </summary>
         public object Debug { get; set; }
         public List<VariationDetails> Variations { get; set; }
-
+        public string Metric { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Endzone.uSplit.Models
 
         public double? Weight { get; set; }
 
+        public string Status { get; set; }
+
         public bool? Won { get; set; }
     }
 }

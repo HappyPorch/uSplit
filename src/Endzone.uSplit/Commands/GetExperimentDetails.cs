@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Endzone.uSplit.Models;
+using Umbraco.Core;
 
 namespace Endzone.uSplit.Commands
 {
@@ -22,6 +24,7 @@ namespace Endzone.uSplit.Commands
                     GoogleName = variation.GoogleVariation.Name,
                     NodeId = variation.VariedContent?.Id,
                     Weight = variation.GoogleVariation.Weight,
+                    Status = variation.GoogleVariation.Status,
                     Won = variation.GoogleVariation.Won
                 });
             }
@@ -33,6 +36,7 @@ namespace Endzone.uSplit.Commands
                 NodeId = Experiment.PageUnderTest?.Id,
                 GoogleId = Experiment.GoogleExperiment.Id,
                 Status = Experiment.GoogleExperiment.Status,
+                Metric = ExtractMetricName(Experiment.GoogleExperiment.ObjectiveMetric),
                 Created = Experiment.GoogleExperiment.Created,
                 Updated = Experiment.GoogleExperiment.Updated,
                 StartTime = Experiment.GoogleExperiment.StartTime,
@@ -40,6 +44,24 @@ namespace Endzone.uSplit.Commands
                 Variations = variationsDetails,
                 Debug = Experiment.GoogleExperiment
             };
+        }
+
+        private static string ExtractMetricName(string googleMetric)
+        {
+            if (string.IsNullOrEmpty(googleMetric))
+                return googleMetric;
+
+            var metric = googleMetric;
+            if (metric.StartsWith("ga:"))
+                metric = metric.Remove(0, 3);
+
+            if (metric[0].IsLowerCase())
+                metric = char.ToUpperInvariant(metric[0]) + metric.Substring(1);
+
+            //separate words
+            metric = Regex.Replace(metric, @"([^A-Z\s])([A-Z])", "$1 $2");
+
+            return metric;
         }
     }
 }
