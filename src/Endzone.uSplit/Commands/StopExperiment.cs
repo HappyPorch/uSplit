@@ -21,12 +21,12 @@ namespace Endzone.uSplit.Commands
             var request = service.Management.Experiments.Patch(googleExperiment);
             var experiment = await request.ExecuteAsync();
 
-            var cache = MemoryCache.Default;
+            //update cache
             var experiments = await new GetCachedExperiments().ExecuteAsync();
-            var index = experiments.Items.FindIndex(e => e.Id == experiment.Id);
+            var index = experiments.FindIndex(e => e.Id == experiment.Id);
             if (index >= 0)
             {
-                experiments.Items[index] = experiment;
+                experiments[index] = experiment;
             }
             
             return new Experiment(experiment);

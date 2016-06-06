@@ -25,5 +25,10 @@ namespace Endzone.uSplit.Models
         public object Debug { get; set; }
         public List<VariationDetails> Variations { get; set; }
         public string Metric { get; set; }
+
+        /// <summary>
+        /// Indicates whether a license is required to continue running the experiment
+        /// </summary>
+        public bool MissingLicense { get; set; }
     }
 }

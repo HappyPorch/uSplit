@@ -7,6 +7,7 @@ namespace Endzone.uSplit
         public const string PluginName = "uSplit";
         public const string ApplicationName = "uSplit";
         public const string ApplicationAlias = "usplit";
+        public const string HttpContextExperimentKey = "uSplit.CurrentExperiment";
 
         public static class Icons
         {
@@ -33,7 +34,7 @@ namespace Endzone.uSplit
 
         public static class Google
         {
-            public static string BaseUrl = $"{UmbracoPath}/backoffice/{ApplicationAlias}/{{controller}}/{{action}}";
+            public static readonly string BaseUrl = $"{UmbracoPath}/backoffice/{ApplicationAlias}/{{controller}}/{{action}}";
             public static readonly string CallbackUrl = $"{UmbracoPath}/backoffice/{ApplicationAlias}/GoogleCallback/IndexAsync";
             public const string SystemUserId = "googleApiAuth";
             public static string OriginalVariationName = "ORIGINAL";

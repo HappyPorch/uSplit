@@ -309,12 +309,13 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
+    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
     <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
-    <Compile Include="API\GoogleApiController.cs" />
+    <Compile Include="API\ConfigurationController.cs" />
     <Compile Include="GoogleApi\GoogleAuthController.cs" />
     <Compile Include="GoogleApi\uSplitFlowMetadata.cs" />
     <Compile Include="Backoffice\uSplitContentTreeController.cs" />
@@ -326,8 +327,9 @@
     <Compile Include="Models\VariedContent.cs" />
     <Compile Include="Pipeline\ExperimentsCache.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
+    <Compile Include="Pipeline\InjectExpiredLicenseWarning.cs" />
     <Compile Include="Pipeline\InjectVariationReport.cs" />
-    <Compile Include="Pipeline\VariationReportingFilter.cs" />
+    <Compile Include="Pipeline\VariationReportingFilterAttribute.cs" />
     <Compile Include="RouteConfig.cs" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.js" />
@@ -337,7 +339,7 @@
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\experiment.js" />
     <Content Include="App_Plugins\uSplit\backoffice\shared\loader.html" />
     <Content Include="App_Plugins\uSplit\backoffice\shared\noapi.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\uSplitGoogleAuthResource.js" />
+    <Content Include="App_Plugins\uSplit\backoffice\uSplitConfigurationResource.js" />
     <Content Include="App_Plugins\uSplit\package.manifest" />
     <None Include="Views\MacroPartials\uSplit\_ab_redirect.cshtml" />
     <Compile Include="Constants.cs" />

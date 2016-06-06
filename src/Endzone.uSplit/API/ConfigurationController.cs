@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
-using Google.Apis.Analytics.v3.Data;
 using Umbraco.Web.Mvc;
-using Umbraco.Web.WebApi;
 
 namespace Endzone.uSplit.API
 {
-    //TODO: Rename to configuration controller
     [PluginController(Constants.PluginName)]
-    public class GoogleApiController : BackofficeController
+    public class ConfigurationController : BackofficeController
     {
         [HttpGet]
         public async Task<bool> Status(CancellationToken cancellationToken)
@@ -36,6 +33,16 @@ namespace Endzone.uSplit.API
                 error = ex.Message;
             }
             return CreateResponse(new { hasAccess = hasAccess, Error = error });
+        }
+
+        [HttpGet]
+        public HttpResponseMessage License()
+        {
+            return CreateResponse(new
+            {
+                HasLicense = LicenseHelper.HasValidLicense(),
+                LicenseHelper.FreeTrialExperimentDurationInDays
+            });
         }
     }
 }

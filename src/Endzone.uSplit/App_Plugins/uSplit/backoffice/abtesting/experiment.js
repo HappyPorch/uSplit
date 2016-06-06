@@ -8,7 +8,7 @@
         contentResource,
         navigationService,
         $location,
-        uSplitGoogleAuthResource,
+        uSplitConfigurationResource,
         uSplitManageResource) {
         $scope.loaded = false;
         //refactor this to a parent controller?
@@ -38,7 +38,7 @@
         $scope.refresh = function () {
             $scope.loaded = false;
 
-            var statusUpdate = uSplitGoogleAuthResource.getStatus()
+            var statusUpdate = uSplitConfigurationResource.getStatus()
                 .then(function (response) {
                     $scope.apiReady = response.data === "true";
                 }, handleDotNetError);

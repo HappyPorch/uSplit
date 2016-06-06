@@ -8,17 +8,13 @@ using Endzone.uSplit.Models;
 using Umbraco.Core;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
-using Task = System.Threading.Tasks.Task;
-using System.Runtime.Caching;
-using ClientDependency.Core.FileRegistration.Providers;
-using Google.Apis.Analytics.v3.Data;
 using Experiment = Endzone.uSplit.Models.Experiment;
 
 namespace Endzone.uSplit.Pipeline
 {
     public class ExperimentsPipeline : ApplicationEventHandler
     {
-        private Random random;
+        private readonly Random random;
 
         public ExperimentsPipeline()
         {
@@ -33,7 +29,7 @@ namespace Endzone.uSplit.Pipeline
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             PublishedContentRequest.Prepared += PublishedContentRequestOnPrepared;
-            GlobalFilters.Filters.Add(new VariationReportingFilter());
+            GlobalFilters.Filters.Add(new VariationReportingFilterAttribute());
         }
 
         private void PublishedContentRequestOnPrepared(object sender, EventArgs eventArgs)
@@ -52,7 +48,7 @@ namespace Endzone.uSplit.Pipeline
             var experiments = new GetCachedExperiments().ExecuteAsync().Result;
 
             var googleExperiment =
-                experiments?.Items
+                experiments?
                     .FirstOrDefault(e => Experiment.ExtractNodeIdFromExperimentName(e.Name) == request.PublishedContent.Id);
 
             if (googleExperiment == null)
@@ -60,6 +56,13 @@ namespace Endzone.uSplit.Pipeline
 
             var experiment = new Experiment(googleExperiment);
             if (!IsValidExperiment(experiment))
+                return;
+
+            //set the experiment we are running
+            HttpContext.Current.Items[Constants.HttpContextExperimentKey] = experiment;
+
+            //check for a license
+            if (!LicenseHelper.HasValidLicense() && !LicenseHelper.IsCoveredInFreeTrial(googleExperiment))
                 return;
 
             //Has the user been previously exposed to this experiment?

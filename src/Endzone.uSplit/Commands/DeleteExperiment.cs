@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
+using Umbraco.Core;
 
 namespace Endzone.uSplit.Commands
 {
@@ -11,6 +12,15 @@ namespace Endzone.uSplit.Commands
             var service = await GetAnalyticsService();
             var request = service.Management.Experiments.Delete(GoogleExperimentId);
             var response = await request.ExecuteAsync();
+
+            //update cache
+            var experiments = await new GetCachedExperiments().ExecuteAsync();
+            var index = experiments.FindIndex(e => e.Id == GoogleExperimentId);
+            if (index >= 0)
+            {
+                experiments.RemoveAt(index);
+            }
+
             return response;
         }
     }

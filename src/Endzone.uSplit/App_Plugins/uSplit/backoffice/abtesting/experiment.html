@@ -26,6 +26,13 @@
 
                         <div ng-show="loaded && apiReady">
                             <div class="row">
+                                <div class="alert" ng-show="experiment.status == 'RUNNING' && experiment.missingLicense">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Warning!</strong> This experiment is not currently being serverd to the site visitors. Check the licensing details on uSplit dashboard.
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="span4">
                                     Experiment status
                                 </div>
@@ -125,7 +132,7 @@
                                     </span> 
                                 </div>
                                 <div class="span3">
-                                    
+
                                 </div>
                             </div>
 
@@ -135,7 +142,7 @@
                                     <span ng-show="$index > 0">Variation {{$index}}</span>
                                 </div>
                                 <div class="span3">
-                                    {{variation.name}} {{variation.url}} 
+                                    {{variation.name}} {{variation.url}}
                                 </div>
                                 <div class="span3">
                                     <span ng-show="experiment.status == 'RUNNING'">
@@ -152,7 +159,7 @@
                                     </button>
 
                                     <button class="btn btn-small" type="button"
-                                            ng-click="deleteVariation(variation.name)" 
+                                            ng-click="deleteVariation(variation.name)"
                                             ng-hide="$index == 0 || ['RUNNING','ENDED'].indexOf(experiment.status) > -1">
                                         <i class="icon-delete"></i> Delete
                                     </button>

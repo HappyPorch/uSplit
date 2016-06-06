@@ -42,7 +42,8 @@ namespace Endzone.uSplit.Commands
                 StartTime = Experiment.GoogleExperiment.StartTime,
                 EndTime = Experiment.GoogleExperiment.EndTime,
                 Variations = variationsDetails,
-                Debug = Experiment.GoogleExperiment
+                Debug = Experiment.GoogleExperiment,
+                MissingLicense = !LicenseHelper.HasValidLicense() && !LicenseHelper.IsCoveredInFreeTrial(Experiment.GoogleExperiment)
             };
         }
 
