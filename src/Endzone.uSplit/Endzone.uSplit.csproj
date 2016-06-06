@@ -341,7 +341,6 @@
     <Content Include="App_Plugins\uSplit\backoffice\shared\noapi.html" />
     <Content Include="App_Plugins\uSplit\backoffice\uSplitConfigurationResource.js" />
     <Content Include="App_Plugins\uSplit\package.manifest" />
-    <None Include="Views\MacroPartials\uSplit\_ab_redirect.cshtml" />
     <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
