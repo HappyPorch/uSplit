@@ -6,6 +6,21 @@ A/B Testing plugin for Umbraco
 
 ## Site
 
+1. Install the plugin
+  - Ignore binary errors
+1. Update Newtonsoft.Json.dll to version 7
+  - via NuGet or just by adding the following assemlby redirect (dll is in Package)
+```
+<dependentAssembly>
+  <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+  <bindingRedirect oldVersion="0.0.0.0-7.0.0.0" newVersion="7.0.0.0" />
+</dependentAssembly>
+```
+1. Copy both versions of log4net to bin
+  - see instructions bellow
+1. Add the app settings to web.config
+  - provide the values you obtain from Google
+
 ### App settings
 
 - uSplit:googleClientId

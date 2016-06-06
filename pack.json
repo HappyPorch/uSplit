@@ -1,5 +1,16 @@
 ﻿{
-    "dlls": ["src/Endzone.uSplit/bin/Endzone.uSplit.dll", "lib/PackageActionsContrib.dll"],
+    "dlls": [
+		"src/Endzone.uSplit/bin/Endzone.uSplit.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.Analytics.v3.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.Auth.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.Auth.Mvc4.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.Core.dll",
+		"src/Endzone.uSplit/bin/Google.Apis.PlatformServices.dll",	
+		"src/Endzone.uSplit/bin/Zlib.Portable.dll",	
+		"src/Endzone.uSplit/bin/Newtonsoft.Json.dll",	
+		"lib/PackageActionsContrib.dll"
+	],
     "packageXmlTemplate": "src/Endzone.uSplit/Package.xml",
     "includeFolders": ["src/Endzone.uSplit/App_Plugins", "src/Endzone.uSplit/Views"]
 }

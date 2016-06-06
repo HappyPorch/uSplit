@@ -5,7 +5,7 @@ namespace Endzone.uSplit
 {
     public static class LicenseHelper
     {
-        internal const int FreeTrialExperimentDurationInDays = 5;
+        internal const int FreeTrialExperimentDurationInDays = 3;
 
         public static bool HasValidLicense()
         {
