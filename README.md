@@ -52,12 +52,13 @@ A [Google API](https://console.developers.google.com/apis) [project](https://con
 
 1. [Register a project](https://console.developers.google.com/project)
 1. [Enable the Analytics API for the project](https://console.developers.google.com/apis/enabled)
-1. [Generate client credentials](https://console.developers.google.com/apis/credentials/oauthclient)
+1. Customize the [OAuth consent screen](https://console.developers.google.com/apis/credentials/consent) 
+1. [Generate OAuth Client ID credentials](https://console.developers.google.com/apis/credentials/oauthclient)
   - Application type is "Web application"
-  - Set `Authorized redirect URIs`
+  - Set `Authorized JavaScript origins`
     - don't forget to list all your live, staging, and dev domains
     - for local testing it is recommended to create a fake domain with a hosts file entry
-    - the controller path is 
+  - For the `Authorized redirect URIs` field you will need to set absolute URLs with the following path: `/umbraco/backoffice/usplit/GoogleCallback/IndexAsync`
 
 
 ### Obtaining Google Analytics Experiments client credentials
