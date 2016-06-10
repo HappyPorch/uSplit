@@ -2,6 +2,7 @@ using System.Web;
 using System.Web.Mvc;
 using Endzone.uSplit.Models;
 using Umbraco.Web;
+using Umbraco.Web.Routing;
 
 namespace Endzone.uSplit.Pipeline
 {
@@ -9,11 +10,16 @@ namespace Endzone.uSplit.Pipeline
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            //ignore child actions, cannot use filter with them
+            if (filterContext.IsChildAction)
+                return;
+
             //are we running an experiment?
             if (!HttpContext.Current.Items.Contains(Constants.HttpContextExperimentKey))
                 return;
 
-            var request = filterContext.RequestContext.HttpContext.GetUmbracoContext().PublishedContentRequest;
+            var umbracoContext = filterContext.HttpContext.GetUmbracoContext();
+            var request = umbracoContext.PublishedContentRequest;
             var response = filterContext.HttpContext.Response;
 
             //check the license
