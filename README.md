@@ -1,8 +1,20 @@
-# uSplit
+# uSplit - A/B Testing package for Umbraco
 
-A/B Testing plugin for Umbraco
+This repository contains the source code of uSplit, an Umbraco package removes all the technical barriers to A/B testing.
 
-# Setup
+The information in this readme is inteded for developers wishing to discuss and contribute to the project.
+
+For supplementary information visit the [uSplit product page](http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/), were you can also learn about various support packages that are available. We have also made an [installation guide](http://www.happyporch.com/installing-usplit/) available, and a tutorial on how to [run your first experiment](http://www.happyporch.com/running-ab-experiments-like-pro-usplit/).
+
+# Contributions
+
+Feel free to use the issue tracker to report any problems you encounter. Unless you have a support contract with us, we do not provide any SLAs.
+
+Pull requests are more than welcome! Fixed a bug or improved the editorial experience? Share your code with the rest of the community! We do not have official coding standards, just try to keep the code consistent.   
+
+# Installation uSplit on a target site
+
+This section briefly describes the requirements of the target site to run uSplit. If these things mean nothing to you try the [installation guide](http://www.happyporch.com/installing-usplit/).
 
 ## Site
 
@@ -16,7 +28,7 @@ A/B Testing plugin for Umbraco
   <bindingRedirect oldVersion="0.0.0.0-7.0.0.0" newVersion="7.0.0.0" />
 </dependentAssembly>
 ```
-1. Copy both versions of log4net to bin
+1. Copy two versions of log4net to bin
   - see instructions bellow
 1. Add the app settings to web.config
   - provide the values you obtain from Google
@@ -44,7 +56,7 @@ The [Google Analytics Expriments C# Libraries](https://github.com/google/google-
 </dependentAssembly>     
 ```
 
-Both dlls need to be copied to the paths indicated in the above.
+Both dlls need to be copied to the paths as indicated above. For convenience the dlls are in source control, under the lib folder.
 
 ## Google Analytics
 
