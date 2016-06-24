@@ -22,14 +22,6 @@ namespace Endzone.uSplit.Pipeline
             var request = umbracoContext.PublishedContentRequest;
             var response = filterContext.HttpContext.Response;
 
-            //check the license
-            var experiment = (Experiment)HttpContext.Current.Items[Constants.HttpContextExperimentKey];
-            if (!LicenseHelper.HasValidLicense() && !LicenseHelper.IsCoveredInFreeTrial(experiment.GoogleExperiment))
-            {
-                response.Filter = new InjectExpiredLicenseWarning(response.Filter);
-                return;
-            }
-
             //report the variation to google
             var variedContent = request?.PublishedContent as VariedContent;
             if (response.ContentType == "text/html" && variedContent != null)

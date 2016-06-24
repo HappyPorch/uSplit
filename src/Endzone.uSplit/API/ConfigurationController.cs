@@ -34,15 +34,5 @@ namespace Endzone.uSplit.API
             }
             return CreateResponse(new { hasAccess = hasAccess, Error = error });
         }
-
-        [HttpGet]
-        public HttpResponseMessage License()
-        {
-            return CreateResponse(new
-            {
-                HasLicense = LicenseHelper.HasValidLicense(),
-                LicenseHelper.FreeTrialExperimentDurationInDays
-            });
-        }
     }
 }

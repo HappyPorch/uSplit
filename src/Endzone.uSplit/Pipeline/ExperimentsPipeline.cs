@@ -58,13 +58,6 @@ namespace Endzone.uSplit.Pipeline
             if (!IsValidExperiment(experiment))
                 return;
 
-            //set the experiment we are running
-            HttpContext.Current.Items[Constants.HttpContextExperimentKey] = experiment;
-
-            //check for a license
-            if (!LicenseHelper.HasValidLicense() && !LicenseHelper.IsCoveredInFreeTrial(googleExperiment))
-                return;
-
             //Has the user been previously exposed to this experiment?
             var variationId = GetAssignedVariation(request, experiment.Id);
             if (variationId != null)

@@ -309,7 +309,6 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
-    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
@@ -327,7 +326,6 @@
     <Compile Include="Models\VariedContent.cs" />
     <Compile Include="Pipeline\ExperimentsCache.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
-    <Compile Include="Pipeline\InjectExpiredLicenseWarning.cs" />
     <Compile Include="Pipeline\InjectVariationReport.cs" />
     <Compile Include="Pipeline\VariationReportingFilterAttribute.cs" />
     <Compile Include="RouteConfig.cs" />

@@ -26,11 +26,7 @@
                 $scope.message = response.data.error;
             });
 
-            var licenseInfoUpdate = uSplitConfigurationResource.getLicenseInfo().then(function (response) {
-                $scope.licenseInfo = response.data;
-            });
-
-            $q.all(statusUpdate, accessUpdate, licenseInfoUpdate)
+            $q.all(statusUpdate, accessUpdate)
                 .then(function() {
                     $scope.loaded = true;
                 });

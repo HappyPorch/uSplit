@@ -6,9 +6,6 @@
             },
             checkAccess: function () {
                 return $http.get("backoffice/uSplit/Configuration/CheckAccess");
-            },
-            getLicenseInfo: function () {
-                return $http.get("backoffice/uSplit/Configuration/License");
             }
         }
     }

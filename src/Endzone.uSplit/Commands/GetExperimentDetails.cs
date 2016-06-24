@@ -43,7 +43,6 @@ namespace Endzone.uSplit.Commands
                 EndTime = Experiment.GoogleExperiment.EndTime,
                 Variations = variationsDetails,
                 Debug = Experiment.GoogleExperiment,
-                MissingLicense = !LicenseHelper.HasValidLicense() && !LicenseHelper.IsCoveredInFreeTrial(Experiment.GoogleExperiment)
             };
         }
 
