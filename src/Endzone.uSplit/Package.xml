@@ -6,7 +6,7 @@
     <package>
       <name>uSplit</name>
       <version>1.0.0</version>
-      <license url="http://www.endzone.io/">TBD</license>
+      <license url="http://unlicense.org/">UNLICENSE</license>
       <url>http://www.endzone.io/</url>
       <requirements>
         <major>7</major>

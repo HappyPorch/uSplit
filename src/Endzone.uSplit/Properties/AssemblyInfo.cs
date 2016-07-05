@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Endzone.uSplit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Endzone")]
 [assembly: AssemblyProduct("Endzone.uSplit")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("N/A")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
