@@ -8,10 +8,10 @@
     <owners>$author$</owners>
     <licenseUrl>http://unlicense.org/</licenseUrl>
     <projectUrl>https://github.com/EndzoneSoftware/uSplit</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <iconUrl>https://cdn.rawgit.com/EndzoneSoftware/uSplit/master/meta/split%20-%20nuget%20package%20icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A/B testing for Umbraco</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>INITIAL RELEASE</releaseNotes>
     <copyright>N/A</copyright> 
     <tags>umbraco abtesting</tags>
   </metadata>
