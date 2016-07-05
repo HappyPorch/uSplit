@@ -1,6 +1,6 @@
 # uSplit - A/B Testing package for Umbraco
 
-This repository contains the source code of uSplit, an Umbraco package removes all the technical barriers to A/B testing.
+This repository contains the source code of uSplit, an Umbraco package that removes all technical barriers to A/B testing.
 
 The information in this readme is inteded for developers wishing to discuss and contribute to the project.
 
