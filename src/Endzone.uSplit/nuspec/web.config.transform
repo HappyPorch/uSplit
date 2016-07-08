@@ -1,0 +1,9 @@
+<configuration>
+  <appSettings>
+    <add key="uSplit:googleClientId" value="" />
+    <add key="uSplit:googleClientSecret" value="" />
+    <add key="uSplit:accountId" value="" />
+    <add key="uSplit:webPropertyId" value="" />
+    <add key="uSplit:profileId" value="" />
+  </appSettings>
+</configuration>

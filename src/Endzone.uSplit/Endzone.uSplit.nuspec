@@ -14,5 +14,17 @@
     <releaseNotes>INITIAL RELEASE</releaseNotes>
     <copyright>N/A</copyright> 
     <tags>umbraco abtesting</tags>
+    <dependencies>
+      <dependency id="Google.Apis.Analytics.v3" version="1.13.0.456" />
+      <dependency id="Google.Apis.Auth.Mvc" version="1.13.0" />
+      <dependency id="Microsoft.Net.Http" version="2.0.20710" />
+      <dependency id="UmbracoCms.Core" version="7.2.0" />
+    </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\lib\log4net\**" target="log4net" />
+    <file src="nuspec\**\*.transform" target="content" />
+    <file src="nuspec\**\*.ps1" target="tools" />
+    <file src="nuspec\readme.txt" target="" />
+  </files>
 </package>
