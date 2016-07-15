@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 using System.Timers;
 using Endzone.uSplit.Commands;
 using Umbraco.Core;
@@ -11,12 +12,15 @@ namespace Endzone.uSplit.Pipeline
 {
     public class ExperimentsCache : ApplicationEventHandler
     {
+        public static ExperimentsCache Instance;
+
         private readonly Logger logger;
 
         public ExperimentsCache()
         {
+            Instance = this;
             logger = Logger.CreateWithDefaultLog4NetConfiguration();
-            CacheTimer_Elapsed(null, null); //get the latest data
+            UpdateExperimentsCacheAsync(); //get the latest data
         }
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
@@ -29,6 +33,11 @@ namespace Endzone.uSplit.Pipeline
         }
 
         private async void CacheTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            await UpdateExperimentsCacheAsync();
+        }
+
+        public async Task UpdateExperimentsCacheAsync()
         {
             try
             {

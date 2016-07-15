@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Endzone.uSplit.Pipeline;
 using Google.Apis.Auth.OAuth2.Mvc;
 using Umbraco.Web.Mvc;
 
@@ -29,6 +30,9 @@ namespace Endzone.uSplit.GoogleApi
             if (result.Credential == null)
                 //no token, lets go to Google
                 return new RedirectResult(result.RedirectUri);
+
+            //refresh the experiments cache
+            await ExperimentsCache.Instance.UpdateExperimentsCacheAsync();
 
             //got a token, we can return back
             return new RedirectResult(originalUrl);  

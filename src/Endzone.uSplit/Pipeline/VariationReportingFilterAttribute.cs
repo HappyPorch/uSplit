@@ -14,10 +14,6 @@ namespace Endzone.uSplit.Pipeline
             if (filterContext.IsChildAction)
                 return;
 
-            //are we running an experiment?
-            if (!HttpContext.Current.Items.Contains(Constants.HttpContextExperimentKey))
-                return;
-
             var umbracoContext = filterContext.HttpContext.GetUmbracoContext();
             var request = umbracoContext.PublishedContentRequest;
             var response = filterContext.HttpContext.Response;
