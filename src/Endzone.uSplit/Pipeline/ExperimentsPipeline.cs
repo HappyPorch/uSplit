@@ -47,15 +47,12 @@ namespace Endzone.uSplit.Pipeline
             //Is there an experiment running?
             var experiments = new GetCachedExperiments().ExecuteAsync().Result;
 
-            var googleExperiment =
+            var experiment =
                 experiments?
-                    .FirstOrDefault(e => Experiment.ExtractNodeIdFromExperimentName(e.Name) == request.PublishedContent.Id);
+                    .Where(IsValidExperiment)
+                    .FirstOrDefault(e => e.PageUnderTest.Id == request.PublishedContent.Id);
 
-            if (googleExperiment == null)
-                return;
-
-            var experiment = new Experiment(googleExperiment);
-            if (!IsValidExperiment(experiment))
+            if (experiment == null)
                 return;
 
             //Has the user been previously exposed to this experiment?

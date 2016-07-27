@@ -22,11 +22,13 @@ namespace Endzone.uSplit.Commands
             var request = service.Management.Experiments.Patch(googleExperiment);
             var experiment = await request.ExecuteAsync();
 
+            var parsedExperiment = new Experiment(experiment);
+
             //update cache
             var experiments = await new GetCachedExperiments().ExecuteAsync();
-            experiments.Add(experiment);
+            experiments.Add(parsedExperiment);
 
-            return new Experiment(experiment);
+            return parsedExperiment;
         }
 
         public string GoogleExperimentId { get; set; }

@@ -8,8 +8,14 @@ namespace Endzone.uSplit.Models
 {
     public class Experiment
     {
+        /// <summary>
+        /// Indicates whether this experiment was created by uSplit
+        /// </summary>
         public bool IsUSplitExperiment { get; set; }
 
+        /// <summary>
+        /// The Google Experiment ID
+        /// </summary>
         public string Id => GoogleExperiment.Id;
 
         public IContent PageUnderTest => Variations?[0].VariedContent;
