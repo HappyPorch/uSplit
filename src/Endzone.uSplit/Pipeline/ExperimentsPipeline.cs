@@ -47,14 +47,13 @@ namespace Endzone.uSplit.Pipeline
             //Is there an experiment running?
             var experiments = new GetCachedExperiments().ExecuteAsync().Result;
 
-            var googleExperiment =
+            var experiment =
                 experiments?
-                    .FirstOrDefault(e => Experiment.ExtractNodeIdFromExperimentName(e.Name) == request.PublishedContent.Id && e.Status == "RUNNING");
+                    .Where(IsValidExperiment)
+                    .FirstOrDefault(e => e.PageUnderTest.Id == request.PublishedContent.Id);
 
-            if (googleExperiment == null)
+            if (experiment == null)
                 return;
-
-            var experiment = new Experiment(googleExperiment);
 
             //Has the user been previously exposed to this experiment?
             var variationId = GetAssignedVariation(request, experiment.Id);
@@ -118,6 +117,11 @@ namespace Endzone.uSplit.Pipeline
 
             request.PublishedContent = new VariedContent(request.PublishedContent, variationPage, experiment, variationId);
             request.TrySetTemplate(request.PublishedContent.GetTemplateAlias());
+        }
+
+        private bool IsValidExperiment(Experiment experiment)
+        {
+            return experiment.IsUSplitExperiment && experiment.GoogleExperiment.Status == "RUNNING";
         }
 
         private int? GetAssignedVariation(PublishedContentRequest request, string experimentId)

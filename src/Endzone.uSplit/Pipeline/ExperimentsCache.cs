@@ -3,9 +3,9 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Timers;
 using Endzone.uSplit.Commands;
+using Endzone.uSplit.Models;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
-using Umbraco.Web;
 
 namespace Endzone.uSplit.Pipeline
 {
@@ -35,7 +35,7 @@ namespace Endzone.uSplit.Pipeline
                 //TODO: check if we are configured, otherwise this will generate errors every now and then
                 var cache = MemoryCache.Default;
                 var experiments = await new GetExperiments().ExecuteAsync();
-                cache[Constants.Cache.ExperimentsList] = experiments.Items.ToList();
+                cache[Constants.Cache.ExperimentsList] = experiments.Items.Select(i => new Experiment(i)).ToList();
             }
             catch (Exception ex)
             {

@@ -1,10 +1,6 @@
-using System.Linq;
-using System.Runtime.Caching;
 using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
-using Google.Apis.Analytics.v3.Data;
-using Umbraco.Core;
-using Experiment = Endzone.uSplit.Models.Experiment;
+using Endzone.uSplit.Models;
 
 namespace Endzone.uSplit.Commands
 {
@@ -21,15 +17,17 @@ namespace Endzone.uSplit.Commands
             var request = service.Management.Experiments.Patch(googleExperiment);
             var experiment = await request.ExecuteAsync();
 
+            var parsedExperiment = new Experiment(experiment);
+
             //update cache
             var experiments = await new GetCachedExperiments().ExecuteAsync();
             var index = experiments.FindIndex(e => e.Id == experiment.Id);
             if (index >= 0)
             {
-                experiments[index] = experiment;
+                experiments[index] = parsedExperiment;
             }
             
-            return new Experiment(experiment);
+            return parsedExperiment;
         }
 
         public string GoogleExperimentId { get; set; }

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
-using Endzone.uSplit.GoogleApi;
-using Google.Apis.Analytics.v3.Data;
+using Endzone.uSplit.Models;
 
 namespace Endzone.uSplit.Commands
 {
