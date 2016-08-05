@@ -82,9 +82,10 @@ namespace Endzone.uSplit.Backoffice
         private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings)
         {
             var name = experiment.GoogleExperiment.Name;
-            var id = Experiment.ExtractNodeIdFromExperimentName(name);
-            if (id.HasValue)
-                name = Services.ContentService.GetById(id.Value).Name;
+
+            if (experiment.PageUnderTest != null)
+                name = experiment.PageUnderTest.Name;
+
             string icon;
             switch (experiment.GoogleExperiment.Status)
             {
