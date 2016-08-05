@@ -309,6 +309,7 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
+    <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
