@@ -14,9 +14,10 @@ the A/B testing plugin for Umbraco.
 Installation - ACTION REQUIRED!
 -------------------------------
 
-Some manual changes to Web.config are required before the site can be accessed. 
+Installting this package likely broke your site! Some manual changes
+to Web.config are required before the site can be accessed. 
 
-Please add the following lines to your We.config, to the runtime.assemblyBinding section:
+Please add the following lines to the runtime.assemblyBinding section:
 
   <dependentAssembly>
 	<assemblyIdentity name="log4net" publicKeyToken="null" />
@@ -24,6 +25,7 @@ Please add the following lines to your We.config, to the runtime.assemblyBinding
   </dependentAssembly>
 
 Once these are in place the site should start.
+
 For details visit: http://www.happyporch.com/installing-usplit/
 
 
@@ -39,8 +41,8 @@ been added automatically as part of this NuGet package installation:
 <add key="uSplit:webPropertyId" value="" />
 <add key="uSplit:profileId" value="" />
 
-To find out how to obtain these, and for further help with the installation please visit:
-http://www.happyporch.com/installing-usplit/
+To find out how to obtain these, and for further help with the installation
+please visit: http://www.happyporch.com/installing-usplit/
 
 
 Notes
