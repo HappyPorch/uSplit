@@ -1,80 +1,63 @@
 # uSplit - A/B Testing package for Umbraco
 
-This repository contains the source code of uSplit, an Umbraco package that removes all technical barriers to A/B testing.
+This repository contains the source code of uSplit, an Umbraco plugin that removes all technical barriers to A/B testing.
 
 The information in this readme is inteded for developers wishing to discuss and contribute to the project.
 
-For supplementary information visit the [uSplit product page](http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/), were you can also learn about various support packages that are available. We have also made an [installation guide](http://www.happyporch.com/installing-usplit/) available, and a tutorial on how to [run your first experiment](http://www.happyporch.com/running-ab-experiments-like-pro-usplit/).
+#### uSpit user documentation
 
-# Contributions
+For supplementary information visit the [uSplit product page](http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/), were you can also learn about various support packages that are available. We have also made an [installation guide](http://www.happyporch.com/installing-usplit/) available, and a tutorial on how to [run your first experiment](http://www.happyporch.com/running-ab-experiments-like-pro-usplit/). These topics were also covered and demoed on a recent [uHangout episode](https://www.youtube.com/watch?v=WQysVNLyQM8).  
 
-Feel free to use the issue tracker to report any problems you encounter. Unless you have a support contract with us, we do not provide any SLAs.
+## Distribution
 
-Pull requests are more than welcome! Fixed a bug or improved the editorial experience? Share your code with the rest of the community! We do not have official coding standards, just try to keep the code consistent.   
+uSplit is available via [NuGet](https://www.nuget.org/packages/Endzone.uSplit) (the preffered way of installation) and is also listed on the [Umbraco package repository](https://our.umbraco.org/projects/website-utilities/usplit/).
 
-# Installation uSplit on a target site
+### NuGet
 
-This section briefly describes the requirements of the target site to run uSplit. If these things mean nothing to you try the [installation guide](http://www.happyporch.com/installing-usplit/).
-
-## Site
-
-1. Install the plugin
-  - Ignore binary errors
-1. Update Newtonsoft.Json.dll to version 7
-  - via NuGet or just by adding the following assemlby redirect (dll is in Package)
-```
-<dependentAssembly>
-  <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
-  <bindingRedirect oldVersion="0.0.0.0-7.0.0.0" newVersion="7.0.0.0" />
-</dependentAssembly>
-```
-1. Copy two versions of log4net to bin
-  - see instructions bellow
-1. Add the app settings to web.config
-  - provide the values you obtain from Google
-
-### App settings
-
-- uSplit:googleClientId
-- uSplit:googleClientSecret
-- uSplit:accountId
-- uSplit:webPropertyId
-- uSplit:profileId
-
-### Two versions of log4net
-
-The [Google Analytics Expriments C# Libraries](https://github.com/google/google-api-dotnet-client) have a dependcy on log4net version 1.2.13 while Umbraco still depends on 1.2.11.0. [Both versions need to be provided to the application](http://i386.com/2015/02/umbraco-and-log4net-using-two-different-versions-of-a-dll-in-asp-net/). To do so, add this to Web.config (under `//configuration/runtime/assemblyBinding`):
+Our CI server builds every commit and all successful builds on the `master` branch are automatically packaged and published on [NuGet](https://www.nuget.org/packages/Endzone.uSplit).
 
 ```
-<dependentAssembly>
-  <assemblyIdentity name="log4net" publicKeyToken="669e0ddf0bb1aa2a" />
-  <codeBase version="1.2.13.0" href="bin/log4net/1.2.13.0/log4net.dll" />
-</dependentAssembly>
+PM> Install-Package Endzone.uSplit
+```
+
+#### NuGet gotchas
+
+The [Google Analytics Expriments C# Libraries](https://github.com/google/google-api-dotnet-client) have a dependcy on a strongly-signed log4net library version 1.2.13. Umbraco however distributes an older unsigned library, version 1.2.11, together with its own DLLs, and has a dependency on that. Due to the signing mismatch [both versions need to be provided to the application](http://i386.com/2015/02/umbraco-and-log4net-using-two-different-versions-of-a-dll-in-asp-net/).
+
+To do so, uSplit places the library Umbraco looks for into `bin/log4net/1.2.11.0/log4net.dll`. The following has to be added to Web.config (under `//configuration/runtime/assemblyBinding`) to make the library discoverable:
+
+```
 <dependentAssembly>
   <assemblyIdentity name="log4net" publicKeyToken="null" />
   <codeBase version="1.2.11.0" href="bin/log4net/1.2.11.0/log4net.dll" />
 </dependentAssembly>     
 ```
 
-Both dlls need to be copied to the paths as indicated above. For convenience the dlls are in source control, under the lib folder.
+### Umbraco package repository
 
-## Google Analytics
+We also manually release new versions on the [Umbraco package repository](https://our.umbraco.org/projects/website-utilities/usplit/). Since this is a manual process these updates are available later than via NuGet, and not all versions might be released here.
 
-A [Google API](https://console.developers.google.com/apis) [project](https://console.developers.google.com/project) client credentials [are required](https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth#web-applications-aspnet-mvc). They are used to [authenticate calls to Google](https://developers.google.com/identity/protocols/OAuth2WebServer) when calling it's API (which go against a quota for each project). These should be managed and provided by the owner of the site. 
+#### Umbraco package repository gotchas
 
-1. [Register a project](https://console.developers.google.com/project)
-1. [Enable the Analytics API for the project](https://console.developers.google.com/apis/enabled)
-1. Customize the [OAuth consent screen](https://console.developers.google.com/apis/credentials/consent) 
-1. [Generate OAuth Client ID credentials](https://console.developers.google.com/apis/credentials/oauthclient)
-  - Application type is "Web application"
-  - Set `Authorized JavaScript origins`
-    - don't forget to list all your live, staging, and dev domains
-    - for local testing it is recommended to create a fake domain with a hosts file entry
-  - For the `Authorized redirect URIs` field you will need to set absolute URLs with the following path: `/umbraco/backoffice/usplit/GoogleCallback/IndexAsync`
+This method of installation does not update any NuGet packages. uSplit however requires `Newtonsoft.Json` version 7 or above.
 
+Version 7 of this library is packaged with uSplit and will get copied over into the target bin folder when you install the pacakge. If you by any chance used a newer version than the one we distribute make sure to place it back!
 
-### Obtaining Google Analytics Experiments client credentials
+Target site needs to update the assembly binding redirect to point to version 7 (unless it is using a newer version):
 
-#Resources
+```
+<dependentAssembly>
+  <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+  <bindingRedirect oldVersion="0.0.0.0-7.0.0.0" newVersion="7.0.0.0" />
+</dependentAssembly>
+```
+
+## Contributions
+
+Feel free to use the issue tracker to report any problems you encounter. Unless you have a support contract with us, we do not provide any SLAs.
+
+Pull requests are more than welcome! Fixed a bug or improved the editorial experience? Share your code with the rest of the community! We do not have official coding standards, just try to keep the code consistent.   
+
+### Dev Resources
 
 - An example [Google API ASP.NET MVC integration with OAuth 2.0](https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth#web-applications-aspnet-mvc)
