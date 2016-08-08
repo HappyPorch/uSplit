@@ -1,27 +1,37 @@
-Hello!
+          ____        _ _ _   
+    _   _/ ___| _ __ | (_) |_ 
+   | | | \___ \| '_ \| | | __|
+   | |_| |___) | |_) | | | |_ 
+    \__,_|____/| .__/|_|_|\__|
+               |_|           
 
-Thank you for installing uSplit, the A/B testing plugin for Umbraco.
+             Hello!
 
-Some manual changes to Web.config are required before the site can be accessed. Please add the following lines to the runtime.assemblyBinding section.
+  Thank you for installing uSplit,
+the A/B testing plugin for Umbraco.
 
-<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+
+Installation - ACTION REQUIRED!
+-------------------------------
+
+Some manual changes to Web.config are required before the site can be accessed. 
+
+Please add the following lines to your We.config, to the runtime.assemblyBinding section:
+
   <dependentAssembly>
 	<assemblyIdentity name="log4net" publicKeyToken="null" />
 	<codeBase version="1.2.11.0" href="bin/log4net/1.2.11.0/log4net.dll" />
   </dependentAssembly>
-</assemblyBinding>
 
-Depending on the Newtonsoft.Json package you had installed, you might need to manually update the assemblyBinding information for this library as well.
-Check the binding and if it points to version 6, change it as follows:
+Once these are in place the site should start.
+For details visit: http://www.happyporch.com/installing-usplit/
 
-<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-  <dependentAssembly>
-    <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
-    <bindingRedirect oldVersion="0.0.0.0-7.0.0.0" newVersion="7.0.0.0" />
-  </dependentAssembly>
-</assemblyBinding>
 
-Once these are in place the site should start. To finish uSplit installation you still need to set the 5 new appSettings values (added automatically as part of this NuGet package):
+Configuration
+-------------
+
+To start using uSplit you need to set 5 new appSettings values which have
+been added automatically as part of this NuGet package installation:
 
 <add key="uSplit:googleClientId" value="" />
 <add key="uSplit:googleClientSecret" value="" />
@@ -29,5 +39,13 @@ Once these are in place the site should start. To finish uSplit installation you
 <add key="uSplit:webPropertyId" value="" />
 <add key="uSplit:profileId" value="" />
 
-To find out where to obtain these, and for further help with the installation please visit: http://www.happyporch.com/installing-usplit/
+To find out how to obtain these, and for further help with the installation please visit:
+http://www.happyporch.com/installing-usplit/
 
+
+Notes
+-----
+
+uSplit product page: http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/
+uSplit uHangout talk and demo: https://www.youtube.com/watch?v=WQysVNLyQM8
+uSplit source code: https://github.com/EndzoneSoftware/uSplit
