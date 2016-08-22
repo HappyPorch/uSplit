@@ -7,6 +7,7 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Util;
 using Google.Apis.Util.Store;
+using System.Web.Hosting;
 
 namespace Endzone.uSplit.GoogleApi
 {
@@ -22,8 +23,15 @@ namespace Endzone.uSplit.GoogleApi
                 ClientSecret = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientSecret]
             },
             Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
-            DataStore = new FileDataStore($"/TEMP/{Constants.ApplicationAlias}/Analytics.Api.Auth.Store")
+            DataStore = new FileDataStore(GetStoragePath(), true)
         };
+
+        private static string GetStoragePath()
+        {
+            var appName = Constants.ApplicationName;
+            var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth");
+            return storagePath;
+        }
 
         static uSplitAuthorizationCodeFlow()
         {
