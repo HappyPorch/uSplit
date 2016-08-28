@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endzone.uSplit", "src\Endzone.uSplit\Endzone.uSplit.csproj", "{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endzone.uSplit.Tests", "src\Endzone.uSplit.Tests\Endzone.uSplit.Tests.csproj", "{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
