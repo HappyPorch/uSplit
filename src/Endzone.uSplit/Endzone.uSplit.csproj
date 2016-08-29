@@ -309,6 +309,8 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
+    <Compile Include="GoogleApi\VariationReportingJsFragmentGenerator.cs" />
+    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
@@ -322,6 +324,7 @@
     <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
     <Compile Include="Models\ExperimentDetails.cs" />
+    <Compile Include="Models\IExperiment.cs" />
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />

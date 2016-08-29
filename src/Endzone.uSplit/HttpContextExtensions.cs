@@ -7,7 +7,7 @@ namespace Endzone.uSplit
     [Obsolete("Remove this class one support for Umbraco versions prior to 7.4 is needed.")]
     public static class HttpContextExtensions
     {
-        private const string HttpContextItemName = "Umbraco.Web.UmbracoContext";
+        public const string HttpContextItemName = "Umbraco.Web.UmbracoContext";
         
         /// <remarks>
         /// This method masks the same extension method that was introduced

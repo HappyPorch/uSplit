@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
 
 namespace Endzone.uSplit.Pipeline
@@ -13,11 +14,8 @@ namespace Endzone.uSplit.Pipeline
         public InjectVariationReport(Stream outputStream, VariedContent content)
         {
             this.outputStream = outputStream;
-            var js = "<script src=\"//www.google-analytics.com/cx/api.js\"></script>\n" +
-                     "<script>\n" +
-                     $"cxApi.setChosenVariation({content.VariationId},'{content.Experiment.Id}');\n" +
-                     "</script>\n";
-            filter = s => Regex.Replace(s, @"<head>", $"<head>\n{js}", RegexOptions.IgnoreCase);
+            var fragment = VariationReportingJsFragmentGenerator.GetHtml(content.Experiment.Id, content.VariationId);
+            filter = s => Regex.Replace(s, @"<head>", $"<head>\n{fragment}", RegexOptions.IgnoreCase);
         }
 
         public override void Write(byte[] buffer, int offset, int count)

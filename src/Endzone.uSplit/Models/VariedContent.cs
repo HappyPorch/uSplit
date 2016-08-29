@@ -10,16 +10,14 @@ namespace Endzone.uSplit.Models
     {
         private readonly IPublishedContent original;
         private readonly IPublishedContent variation;
-        private readonly Experiment experiment;
-        private readonly int variationId;
         private readonly Dictionary<string, IPublishedProperty> properties;
 
-        public VariedContent(IPublishedContent original, IPublishedContent variation, Experiment experiment, int variationId)
+        public VariedContent(IPublishedContent original, IPublishedContent variation, IExperiment experiment, int variationId)
         {
             this.original = original;
             this.variation = variation;
-            this.experiment = experiment;
-            this.variationId = variationId;
+            Experiment = experiment;
+            VariationId = variationId;
 
             properties = original.Properties.ToDictionary(p => p.PropertyTypeAlias, p => p);
             foreach (var variationProperty in variation.Properties)
@@ -31,9 +29,9 @@ namespace Endzone.uSplit.Models
             }
         }
 
-        public int VariationId => variationId;
+        public int VariationId { get; }
 
-        public Experiment Experiment => experiment;
+        public IExperiment Experiment { get; }
 
         #region IPublishedContent
 

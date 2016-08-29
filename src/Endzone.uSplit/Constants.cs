@@ -7,7 +7,6 @@ namespace Endzone.uSplit
         public const string PluginName = "uSplit";
         public const string ApplicationName = "uSplit";
         public const string ApplicationAlias = "usplit";
-        public const string HttpContextExperimentKey = "uSplit.CurrentExperiment";
 
         public static class Icons
         {
@@ -51,5 +50,6 @@ namespace Endzone.uSplit
         }
 
         public static string UmbracoPath => GlobalSettings.Path.TrimStart('/');
+        public const string VariationReportedHttpContextItemsKey = "uSplit:VariationReported";
     }
 }

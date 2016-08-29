@@ -6,7 +6,7 @@ using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 
 namespace Endzone.uSplit.Models
 {
-    public class Experiment
+    public class Experiment : IExperiment
     {
         /// <summary>
         /// Indicates whether this experiment was created by uSplit
