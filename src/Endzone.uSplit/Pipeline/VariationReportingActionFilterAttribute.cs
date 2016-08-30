@@ -5,7 +5,7 @@ using Endzone.uSplit.Models;
 
 namespace Endzone.uSplit.Pipeline
 {
-    public class VariationReportingFilterAttribute : ActionFilterAttribute
+    public class VariationReportingActionFilterAttribute : ActionFilterAttribute
     {
         private const string FilteringDoesntWork =
             "uSplit cannot insert a required JS fragment (to report chosen A/B testing variation) to your page " +
@@ -18,9 +18,10 @@ namespace Endzone.uSplit.Pipeline
             if (filterContext.IsChildAction)
                 return;
 
-            var umbracoContext = filterContext.HttpContext.GetUmbracoContext();
+            var httpContext = filterContext.HttpContext;
+            var umbracoContext = httpContext.GetUmbracoContext();
             var request = umbracoContext.PublishedContentRequest;
-            var response = filterContext.HttpContext.Response;
+            var response = httpContext.Response;
 
             if (response.ContentType != "text/html")
                 return; //we only know how to report from JavaScript, so we need to be serving an HTML page
@@ -29,9 +30,12 @@ namespace Endzone.uSplit.Pipeline
             if (variedContent == null)
                 return; //this is not a variation, not part of an experiment
 
+            Func<bool> scriptsNeeded =
+                () => Equals(filterContext.HttpContext.Items[Constants.VariationReportedHttpContextItemsKey], true);
+
             try
             {
-                response.Filter = new InjectVariationReport(response.Filter, variedContent);
+                response.Filter = new VariationReportingHttpResponseFilter(response.Filter, variedContent, scriptsNeeded);
             }
             catch (HttpException)
             {

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -27,6 +29,7 @@ namespace Endzone.uSplit.Tests
         private VariedContent variedContent;
         private Mock<IExperiment> experimentMock;
         private Mock<HttpResponseBase> responseMock;
+        private HttpResponseBase response;
         private HtmlHelper htmlHelper;
         private Mock<ActionExecutedContext> actionExecutedMock;
         private Mock<ResultExecutedContext> resultExecutedMock;
@@ -46,10 +49,6 @@ namespace Endzone.uSplit.Tests
             umbracoContext = routingContext.UmbracoContext;
 
             httpContext = umbracoContext.HttpContext;
-
-            responseMock = Mock.Get(httpContext.Response);
-            responseMock.Setup(r => r.ContentType).Returns("text/html");
-
             var httpContextMock = Mock.Get(httpContext);
             httpContextMock.Setup(x => x.Items).Returns(
                 new ListDictionary()
@@ -57,6 +56,11 @@ namespace Endzone.uSplit.Tests
                     { HttpContextExtensions.HttpContextItemName, umbracoContext}
                 }
             );
+
+            response = httpContext.Response;
+            responseMock = Mock.Get(response);
+            responseMock.Setup(r => r.ContentType).Returns("text/html");
+            responseMock.SetupProperty(r => r.Filter, Stream.Null);
 
             var experimentsPipeline = new ExperimentsPipeline();
             experimentsPipeline.OnApplicationStarted(null, ApplicationContext);
@@ -94,10 +98,19 @@ namespace Endzone.uSplit.Tests
         [Test]
         public void NormalRequest_SetsFilter()
         {
-            var attribute = new VariationReportingFilterAttribute();
+            var attribute = new VariationReportingActionFilterAttribute();
             attribute.OnActionExecuted(actionExecutedMock.Object);
-
             responseMock.VerifySet(r => r.Filter, Times.Once());
+        }
+
+        [Test]
+        public void NormalRequest_AutomaticallyReported_ReportedOnce()
+        {
+            var attribute = new VariationReportingActionFilterAttribute();
+            attribute.OnActionExecuted(actionExecutedMock.Object);
+            ExecuteFilter(responseMock.Object.Filter);
+            attribute.OnResultExecuted(resultExecutedMock.Object);
+
             experimentMock.Verify(e => e.Id, Times.Once); //accessed id means it was used for reporting
         }
 
@@ -110,7 +123,7 @@ namespace Endzone.uSplit.Tests
         {
             responseMock.SetupSet(r => r.Filter).Throws<HttpException>();
 
-            var attribute = new VariationReportingFilterAttribute();
+            var attribute = new VariationReportingActionFilterAttribute();
 
             Assert.DoesNotThrow(() => attribute.OnActionExecuted(actionExecutedMock.Object));
             Assert.IsFalse((bool)httpContext.Items[Constants.VariationReportedHttpContextItemsKey]);
@@ -121,7 +134,7 @@ namespace Endzone.uSplit.Tests
         {
             responseMock.SetupSet(r => r.Filter).Throws<HttpException>();
 
-            var attribute = new VariationReportingFilterAttribute();
+            var attribute = new VariationReportingActionFilterAttribute();
             attribute.OnActionExecuted(actionExecutedMock.Object);
 
             Assert.IsFalse((bool)httpContext.Items[Constants.VariationReportedHttpContextItemsKey]);
@@ -133,13 +146,36 @@ namespace Endzone.uSplit.Tests
         {
             responseMock.SetupSet(r => r.Filter).Throws<HttpException>();
 
-            var attribute = new VariationReportingFilterAttribute();
+            var attribute = new VariationReportingActionFilterAttribute();
 
             attribute.OnActionExecuted(actionExecutedMock.Object);
             HtmlHelperExtensions.RenderAbTestingScriptTags(htmlHelper);
 
             Assert.IsTrue((bool)httpContext.Items[Constants.VariationReportedHttpContextItemsKey]);
             Assert.DoesNotThrow(() => attribute.OnResultExecuted(resultExecutedMock.Object));
+        }
+
+
+        [Test]
+        public void NormalRequest_ReportedManually_ReportedOnce()
+        {
+            var attribute = new VariationReportingActionFilterAttribute();
+            attribute.OnActionExecuted(actionExecutedMock.Object);
+            HtmlHelperExtensions.RenderAbTestingScriptTags(htmlHelper);
+            attribute.OnResultExecuted(resultExecutedMock.Object);
+
+            responseMock.VerifySet(r => r.Filter, Times.Once());
+
+            ExecuteFilter(responseMock.Object.Filter);
+            
+            experimentMock.Verify(e => e.Id, Times.Once); //accessed id means it was used for reporting
+        }
+
+        private void ExecuteFilter(Stream stream)
+        {
+            Assert.NotNull(stream);
+            var filter = stream as VariationReportingHttpResponseFilter;
+            filter.Write(Encoding.UTF8.GetBytes("<head>"), 0, 6);
         }
 
         public class DummyTestController : Controller

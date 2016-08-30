@@ -196,3 +196,8 @@ FakesAssemblies/
 *.opt
 /.vscode/settings.json
 /Package.zip
+
+
+# Umbraco
+
+App_Data/TEMP/

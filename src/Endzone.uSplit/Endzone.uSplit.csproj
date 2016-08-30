@@ -330,8 +330,8 @@
     <Compile Include="Models\VariedContent.cs" />
     <Compile Include="Pipeline\ExperimentsCache.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
-    <Compile Include="Pipeline\InjectVariationReport.cs" />
-    <Compile Include="Pipeline\VariationReportingFilterAttribute.cs" />
+    <Compile Include="Pipeline\VariationReportingHttpResponseFilter.cs" />
+    <Compile Include="Pipeline\VariationReportingActionFilterAttribute.cs" />
     <Compile Include="RouteConfig.cs" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />
     <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.js" />

@@ -29,7 +29,7 @@ namespace Endzone.uSplit.Pipeline
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             PublishedContentRequest.Prepared += PublishedContentRequestOnPrepared;
-            GlobalFilters.Filters.Add(new VariationReportingFilterAttribute());
+            GlobalFilters.Filters.Add(new VariationReportingActionFilterAttribute());
         }
 
         private void PublishedContentRequestOnPrepared(object sender, EventArgs eventArgs)
