@@ -291,7 +291,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\FindExperiment.cs" />
     <Compile Include="Commands\CheckAccess.cs" />
     <Compile Include="Commands\GetCachedExperiments.cs" />
     <Compile Include="Commands\StopExperiment.cs" />
@@ -328,7 +327,7 @@
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />
-    <Compile Include="Pipeline\ExperimentsCache.cs" />
+    <Compile Include="Pipeline\ExperimentsUpdater.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
     <Compile Include="Pipeline\VariationReportingHttpResponseFilter.cs" />
     <Compile Include="Pipeline\VariationReportingActionFilterAttribute.cs" />

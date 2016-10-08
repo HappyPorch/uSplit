@@ -1,24 +1,32 @@
+using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.Caching;
 using System.Threading.Tasks;
-using Endzone.uSplit.Models;
+using Google.Apis.Analytics.v3.Data;
+using Umbraco.Core;
+using Umbraco.Core.Cache;
+using Experiment = Endzone.uSplit.Models.Experiment;
 
 namespace Endzone.uSplit.Commands
 {
-    public class GetCachedExperiments : GoogleApiCommand<List<Experiment>>
+    public class GetCachedExperiments : Command<List<Experiment>>
     {
+        private IRuntimeCacheProvider Cache => ApplicationContext.Current.ApplicationCache.RuntimeCache;
+
         public override Task<List<Experiment>> ExecuteAsync()
         {
-            var cache = MemoryCache.Default;
-            var experiments = cache[Constants.Cache.ExperimentsList] as List<Experiment>;
-            if (experiments == null)
-            {
-                experiments = new List<Experiment>();
-                //TODO: fix a race condition if the cache update code updates the cache before this line
-                cache[Constants.Cache.ExperimentsList] = experiments;
-            }
-
+            var experiments = Cache.GetCacheItem<List<Experiment>>(Constants.Cache.ParsedExperiments, ParseRawExperiments, Constants.Cache.ExperimentsRefreshInterval);
             return Task.FromResult(experiments);
+        }
+
+        private List<Experiment> ParseRawExperiments()
+        {
+            var experiments = new List<Experiment>();
+            var rawData = Cache.GetCacheItem<Experiments>(Constants.Cache.RawExperimentData);
+            if (rawData != null)
+            {
+                experiments.AddRange(rawData.Items.Select(i => new Experiment(i)));
+            }
+            return experiments;
         }
     }
 }

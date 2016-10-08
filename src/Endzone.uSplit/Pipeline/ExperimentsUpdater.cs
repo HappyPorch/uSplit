@@ -1,22 +1,22 @@
 using System;
-using System.Linq;
-using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Timers;
 using Endzone.uSplit.Commands;
-using Endzone.uSplit.Models;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
 
 namespace Endzone.uSplit.Pipeline
 {
-    public class ExperimentsCache : ApplicationEventHandler
+    /// <remarks>
+    /// Runs outside of a HTTP request, cannot use many ASP.NET or Umbraco helpers / contexts
+    /// </remarks>
+    public class ExperimentsUpdater : ApplicationEventHandler
     {
-        public static ExperimentsCache Instance;
+        public static ExperimentsUpdater Instance;
 
         private readonly Logger logger;
 
-        public ExperimentsCache()
+        public ExperimentsUpdater()
         {
             Instance = this;
             logger = Logger.CreateWithDefaultLog4NetConfiguration();
@@ -27,7 +27,7 @@ namespace Endzone.uSplit.Pipeline
         {
             var cacheTimer = new Timer();
             cacheTimer.Elapsed += CacheTimer_Elapsed;
-            cacheTimer.Interval = TimeSpan.FromHours(1).TotalMilliseconds;
+            cacheTimer.Interval = Constants.Cache.ExperimentsRefreshInterval.TotalMilliseconds;
             cacheTimer.Enabled = true;
             cacheTimer.Start();
         }
@@ -42,13 +42,14 @@ namespace Endzone.uSplit.Pipeline
             try
             {
                 //TODO: check if we are configured, otherwise this will generate errors every now and then
-                var cache = MemoryCache.Default;
+                var cache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
                 var experiments = await new GetExperiments().ExecuteAsync();
-                cache[Constants.Cache.ExperimentsList] = experiments.Items.Select(i => new Experiment(i)).ToList();
+                cache.InsertCacheItem(Constants.Cache.RawExperimentData, () => experiments, Constants.Cache.ExperimentsRefreshInterval);
+                cache.ClearCacheItem(Constants.Cache.ParsedExperiments);
             }
             catch (Exception ex)
             {
-                logger.WarnWithException(typeof(ExperimentsCache), "Failed to download A/B testing data.", ex);
+                logger.Error(typeof(ExperimentsUpdater), "Failed to download A/B testing data.", ex);
             }
         }
     }

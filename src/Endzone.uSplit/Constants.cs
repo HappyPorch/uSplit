@@ -1,4 +1,5 @@
-﻿using umbraco;
+﻿using System;
+using umbraco;
 
 namespace Endzone.uSplit
 {
@@ -41,7 +42,9 @@ namespace Endzone.uSplit
 
         public static class Cache
         {
-            public static string ExperimentsList = "uSplitExperiments";
+            public static string RawExperimentData = "uSplitRawExperimentData";
+            public static string ParsedExperiments = "uSplitParsedExperiments";
+            public static TimeSpan ExperimentsRefreshInterval = TimeSpan.FromHours(1);
         }
 
         public static class Cookies

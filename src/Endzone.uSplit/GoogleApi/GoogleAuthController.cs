@@ -32,7 +32,7 @@ namespace Endzone.uSplit.GoogleApi
                 return new RedirectResult(result.RedirectUri);
 
             //refresh the experiments cache
-            await ExperimentsCache.Instance.UpdateExperimentsCacheAsync();
+            await ExperimentsUpdater.Instance.UpdateExperimentsCacheAsync();
 
             //got a token, we can return back
             return new RedirectResult(originalUrl);  
