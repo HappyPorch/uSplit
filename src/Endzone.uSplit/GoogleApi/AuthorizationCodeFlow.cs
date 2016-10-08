@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Configuration;
@@ -8,6 +9,7 @@ using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Util;
 using Google.Apis.Util.Store;
 using System.Web.Hosting;
+using Google.Apis.Auth.OAuth2.Requests;
 
 namespace Endzone.uSplit.GoogleApi
 {
@@ -23,7 +25,7 @@ namespace Endzone.uSplit.GoogleApi
                 ClientSecret = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientSecret]
             },
             Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
-            DataStore = new FileDataStore(GetStoragePath(), true)
+            DataStore = new FileDataStore(GetStoragePath(), true),
         };
 
         private static string GetStoragePath()
@@ -40,6 +42,18 @@ namespace Endzone.uSplit.GoogleApi
 
         public uSplitAuthorizationCodeFlow() : base(FlowInitializer)
         {
+            
+        }
+
+        public override AuthorizationCodeRequestUrl CreateAuthorizationCodeRequest(string redirectUri)
+        {
+            return new GoogleAuthorizationCodeRequestUrl(new Uri(AuthorizationServerUrl))
+            {
+                ClientId = ClientSecrets.ClientId,
+                Scope = string.Join(" ", Scopes),
+                RedirectUri = redirectUri,
+                AccessType = "offline" //required to get a useful refresh token
+            };
         }
 
         /// <summary>

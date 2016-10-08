@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Web;
 using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 
 namespace Endzone.uSplit.Models
@@ -31,7 +31,8 @@ namespace Endzone.uSplit.Models
 
         private void ParseGoogleData(GoogleExperiment experiment)
         {
-            var contentService = UmbracoContext.Current.Application.Services.ContentService;
+            //we might not be executing this in the scope of a http request
+            var contentService = ApplicationContext.Current.Services.ContentService;
             var id = ExtractNodeIdFromExperimentName(experiment.Name);
             if (!id.HasValue) return;
 
