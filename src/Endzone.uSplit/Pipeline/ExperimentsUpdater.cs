@@ -39,6 +39,7 @@ namespace Endzone.uSplit.Pipeline
 
         public async Task UpdateExperimentsCacheAsync()
         {
+            logger.Info(typeof(ExperimentsUpdater), "Updating experiments data from Google Analytics.");
             try
             {
                 //TODO: check if we are configured, otherwise this will generate errors every now and then

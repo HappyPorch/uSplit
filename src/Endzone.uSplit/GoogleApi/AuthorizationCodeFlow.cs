@@ -40,7 +40,7 @@ namespace Endzone.uSplit.GoogleApi
             Instance = new uSplitAuthorizationCodeFlow();
         }
 
-        public uSplitAuthorizationCodeFlow() : base(FlowInitializer)
+        private uSplitAuthorizationCodeFlow() : base(FlowInitializer)
         {
             
         }
@@ -52,7 +52,8 @@ namespace Endzone.uSplit.GoogleApi
                 ClientId = ClientSecrets.ClientId,
                 Scope = string.Join(" ", Scopes),
                 RedirectUri = redirectUri,
-                AccessType = "offline" //required to get a useful refresh token
+                AccessType = "offline", //required to get a useful refresh token
+                ApprovalPrompt = "force" 
             };
         }
 

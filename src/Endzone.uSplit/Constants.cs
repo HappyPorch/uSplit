@@ -44,7 +44,7 @@ namespace Endzone.uSplit
         {
             public static string RawExperimentData = "uSplitRawExperimentData";
             public static string ParsedExperiments = "uSplitParsedExperiments";
-            public static TimeSpan ExperimentsRefreshInterval = TimeSpan.FromHours(1);
+            public static TimeSpan ExperimentsRefreshInterval = TimeSpan.FromMinutes(30);
         }
 
         public static class Cookies
