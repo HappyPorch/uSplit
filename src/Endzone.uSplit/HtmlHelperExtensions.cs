@@ -26,7 +26,7 @@ namespace Endzone.uSplit
             if (variedContent == null)
                 return MvcHtmlString.Empty; //this is not a variation, not part of an experiment
 
-            var fragment = VariationReportingJsFragmentGenerator.GetHtml(variedContent.Experiment.Id, variedContent.VariationId);
+            var fragment = ScriptsHelper.ReportVariations(variedContent.AppliedVariations);
             return new MvcHtmlString(fragment);
         }
     }

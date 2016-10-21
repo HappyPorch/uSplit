@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.Models;
 using Umbraco.Core;
+using Umbraco.Core.Logging;
+using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 using Experiment = Endzone.uSplit.Models.Experiment;
@@ -15,15 +17,12 @@ namespace Endzone.uSplit.Pipeline
     public class ExperimentsPipeline : ApplicationEventHandler
     {
         private readonly Random random;
+        private readonly Logger logger;
 
         public ExperimentsPipeline()
         {
             random = new Random();
-        }
-
-        protected async Task<TOut> ExecuteAsync<TOut>(Command<TOut> command)
-        {
-            return await command.ExecuteAsync();
+            logger = Logger.CreateWithDefaultLog4NetConfiguration();
         }
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
@@ -34,46 +33,66 @@ namespace Endzone.uSplit.Pipeline
 
         private void PublishedContentRequestOnPrepared(object sender, EventArgs eventArgs)
         {
+            logger.Debug(GetType(), "uSplit is processing a request");
             var request = sender as PublishedContentRequest;
-            SetUpExperiment(request);
+            var originalContent = request?.PublishedContent;
+            try
+            {
+                Process(request);
+            }
+            catch (Exception e)
+            {
+                logger.Error(GetType(), "Exception has been thrown when uSplit processed the request", e);
+                if (request != null)
+                {
+                    request.PublishedContent = originalContent;
+                }
+            }
         }
 
-        private void SetUpExperiment(PublishedContentRequest request)
+        private void Process(PublishedContentRequest request)
         {
-            //Are we rendering a page?
-            if (request.PublishedContent == null)
+            //Are we rendering a published content (sanity check)?
+            if (request?.PublishedContent == null)
                 return;
 
-            //Is there an experiment running?
-            var experiments = new GetCachedExperiments().ExecuteAsync().Result;
-
-            var experiment =
-                experiments?
-                    .Where(IsValidExperiment)
-                    .FirstOrDefault(e => e.PageUnderTest.Id == request.PublishedContent.Id);
-
-            if (experiment == null)
-                return;
-
-            //Has the user been previously exposed to this experiment?
-            var variationId = GetAssignedVariation(request, experiment.Id);
-            if (variationId != null)
+            //Are there any experiments running
+            var experiments = new GetApplicableCachedExperiments
             {
-                ShowVariation(request, experiment, variationId.Value);
-                return;
+                ContentId = request.PublishedContent.Id
+            }.ExecuteAsync().Result;
+
+            //variations of the same content will be applied in the order the experiments were created,
+            //if they override the same property variation of the newest experiment wins
+            var variationsToApply = new List<IPublishedContentVariation>();
+
+            foreach (var experiment in experiments)
+            {
+                var experimentId = experiment.GoogleExperiment.Id;
+
+                //Has the user been previously exposed to this experiment?
+                var assignedVariationId = GetAssignedVariation(request, experiment.Id);
+                if (assignedVariationId != null)
+                {
+                    var variation = GetVariation(request, experiment, assignedVariationId.Value);
+                    variationsToApply.Add(new PublishedContentVariation(variation, experimentId, assignedVariationId.Value));
+                }
+                //Should the user be included in the experiment?
+                else if (ShouldVisitorParticipate(experiment))
+                {
+                    //Choose a variation for the user
+                    var variationId = SelectVariation(experiment);
+                    var variation = GetVariation(request, experiment, variationId);
+                    variationsToApply.Add(new PublishedContentVariation(variation, experimentId, variationId));
+                }
+                else
+                {
+                    //should we assign -1 as variation (remember we showed nothing? - maybe in case we decide to exclude if say only 60% traffic is covered)
+                }
             }
 
-            //Should the user be included in the experiment?
-            if (!ShouldVisitorParticipate(experiment))
-            {
-                ShowVariation(request, experiment, -1);
-                return;
-            }
-
-            //Choose a variation for the user
-            variationId = SelectVariation(experiment);
-            ShowVariation(request, experiment, variationId.Value);
-
+            request.PublishedContent = new VariedContent(request.PublishedContent, variationsToApply.ToArray());
+            request.TrySetTemplate(request.PublishedContent.GetTemplateAlias());
         }
 
         private int SelectVariation(Experiment experiment)
@@ -100,28 +119,22 @@ namespace Endzone.uSplit.Pipeline
             return r <= coverage;
         }
 
-        private void ShowVariation(PublishedContentRequest request, Experiment experiment, int variationId)
+        private IPublishedContent GetVariation(PublishedContentRequest request, Experiment experiment, int variationId)
         {
             AssignVariationToUser(request,experiment.Id, variationId);
 
             if (variationId == -1) 
-                return; //user is excluded 
+                return null; //user is excluded 
 
             var variation = experiment.Variations[variationId];
             if (!variation.IsActive)
-                return;
+                return null;
 
             var variationUmbracoId = variation.VariedContent.Id;
             var helper = new UmbracoHelper(UmbracoContext.Current);
             var variationPage = helper.TypedContent(variationUmbracoId);
 
-            request.PublishedContent = new VariedContent(request.PublishedContent, variationPage, experiment, variationId);
-            request.TrySetTemplate(request.PublishedContent.GetTemplateAlias());
-        }
-
-        private bool IsValidExperiment(Experiment experiment)
-        {
-            return experiment.IsUSplitExperiment && experiment.GoogleExperiment.Status == "RUNNING";
+            return variationPage;
         }
 
         private int? GetAssignedVariation(PublishedContentRequest request, string experimentId)

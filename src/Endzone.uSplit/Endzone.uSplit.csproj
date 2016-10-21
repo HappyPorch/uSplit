@@ -292,6 +292,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CheckAccess.cs" />
+    <Compile Include="Commands\GetApplicableCachedExperiments.cs" />
     <Compile Include="Commands\GetCachedExperiments.cs" />
     <Compile Include="Commands\StopExperiment.cs" />
     <Compile Include="Commands\StartExperiment.cs" />
@@ -308,7 +309,7 @@
     <Compile Include="Commands\GetExperiments.cs" />
     <Compile Include="Commands\GoogleApiCommand.cs" />
     <Compile Include="Backoffice\ContextMenuBuilder.cs" />
-    <Compile Include="GoogleApi\VariationReportingJsFragmentGenerator.cs" />
+    <Compile Include="GoogleApi\ScriptsHelper.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
@@ -324,6 +325,8 @@
     <Compile Include="API\ManageController.cs" />
     <Compile Include="Models\ExperimentDetails.cs" />
     <Compile Include="Models\IExperiment.cs" />
+    <Compile Include="Models\IPublishedContentVariation.cs" />
+    <Compile Include="Models\PublishedContentVariation.cs" />
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />

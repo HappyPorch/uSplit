@@ -9,29 +9,34 @@ namespace Endzone.uSplit.Models
     public class VariedContent : IPublishedContent
     {
         private readonly IPublishedContent original;
-        private readonly IPublishedContent variation;
-        private readonly Dictionary<string, IPublishedProperty> properties;
 
-        public VariedContent(IPublishedContent original, IPublishedContent variation, IExperiment experiment, int variationId)
+        //an ordered list of variations that overwrite the page.
+        //if multiple items overwrite the same properties the last item wins.
+        public IPublishedContentVariation[] AppliedVariations { get; }
+
+        private readonly Dictionary<string, IPublishedProperty> overrides;
+
+        public VariedContent(IPublishedContent original, IPublishedContentVariation[] variations)
         {
             this.original = original;
-            this.variation = variation;
-            Experiment = experiment;
-            VariationId = variationId;
+            AppliedVariations = variations;
 
-            properties = original.Properties.ToDictionary(p => p.PropertyTypeAlias, p => p);
-            foreach (var variationProperty in variation.Properties)
+            //todo: can the dict be constructed lazily, to avoid any potential sideeffects when going throgh all the properties?
+            overrides = new Dictionary<string, IPublishedProperty>();
+
+            //the order of the variations matters. If they overwrite the same field the last variation wins.
+            foreach (var contentVariation in AppliedVariations)
             {
-                if (variationProperty.HasValue)
+                foreach (var variationProperty in contentVariation.Content.Properties)
                 {
-                    properties[variationProperty.PropertyTypeAlias] = variationProperty;
+                    if (variationProperty.HasValue)
+                    {
+                        overrides[variationProperty.PropertyTypeAlias] = variationProperty;
+                    }
                 }
+                TemplateId = contentVariation.Content.TemplateId;
             }
         }
-
-        public int VariationId { get; }
-
-        public IExperiment Experiment { get; }
 
         #region IPublishedContent
 
@@ -47,10 +52,9 @@ namespace Endzone.uSplit.Models
 
         public IPublishedProperty GetProperty(string alias, bool recurse)
         {
-            var property = variation.GetProperty(alias, recurse);
-            if (property?.HasValue == true)
-                return property;
-            return original.GetProperty(alias, recurse);
+            IPublishedProperty property;
+            return overrides.TryGetValue(alias, out property) ? property 
+                : original.GetProperty(alias, recurse);
         }
 
         public IEnumerable<IPublishedContent> ContentSet => original.ContentSet;
@@ -59,7 +63,7 @@ namespace Endzone.uSplit.Models
 
         public int Id => original.Id;
 
-        public int TemplateId => variation.TemplateId;
+        public int TemplateId { get; }
 
         public int SortOrder => original.SortOrder;
 
@@ -99,9 +103,17 @@ namespace Endzone.uSplit.Models
 
         public IEnumerable<IPublishedContent> Children => original.Children;
 
-        public ICollection<IPublishedProperty> Properties => properties.Values;
+        public ICollection<IPublishedProperty> Properties => overrides.Values;
 
-        public object this[string alias] => properties[alias]?.Value;
+        public object this[string alias]
+        {
+            get
+            {
+                IPublishedProperty property;
+                return overrides.TryGetValue(alias, out property) 
+                    ? property.Value : original[alias];
+            }
+        }
 
         #endregion
     }

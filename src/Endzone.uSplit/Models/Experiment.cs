@@ -20,6 +20,8 @@ namespace Endzone.uSplit.Models
 
         public IContent PageUnderTest => Variations?[0].VariedContent;
 
+        public bool IsRunning => GoogleExperiment.Status == "RUNNING";
+
         public GoogleExperiment GoogleExperiment { get; set; }
         public List<Variation> Variations { get; set; }
 

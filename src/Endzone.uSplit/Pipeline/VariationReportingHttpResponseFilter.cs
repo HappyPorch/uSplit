@@ -30,7 +30,7 @@ namespace Endzone.uSplit.Pipeline
             }     
             else
             {
-                var fragment = VariationReportingJsFragmentGenerator.GetHtml(content.Experiment.Id, content.VariationId);
+                var fragment = ScriptsHelper.ReportVariations(content.AppliedVariations);
 
                 // get the transmitted html
                 var html = Encoding.UTF8.GetString(buffer);

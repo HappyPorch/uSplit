@@ -1,5 +1,4 @@
 using System;
-using System.Web;
 using System.Web.Mvc;
 using Endzone.uSplit.Models;
 using Umbraco.Core.Logging;
@@ -8,7 +7,7 @@ namespace Endzone.uSplit.Pipeline
 {
     public class VariationReportingActionFilterAttribute : ActionFilterAttribute
     {
-        private Logger logger;
+        private readonly Logger logger;
 
         private const string FilteringDoesntWork =
             "uSplit cannot insert a required JS fragment (to report chosen A/B testing variation) to your page " +
@@ -38,7 +37,7 @@ namespace Endzone.uSplit.Pipeline
                 if (response.ContentType != "text/html")
                     return; //we only know how to report from JavaScript, so we need to be serving an HTML page
 
-                var variedContent = request?.PublishedContent as VariedContent;
+                var variedContent = request.PublishedContent as VariedContent;
                 if (variedContent == null)
                     return; //this is not a variation, not part of an experiment
 

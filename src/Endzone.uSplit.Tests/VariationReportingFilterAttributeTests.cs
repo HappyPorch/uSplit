@@ -33,6 +33,7 @@ namespace Endzone.uSplit.Tests
         private HtmlHelper htmlHelper;
         private Mock<ActionExecutedContext> actionExecutedMock;
         private Mock<ResultExecutedContext> resultExecutedMock;
+        private Mock<IPublishedContentVariation> publishedContentVariationMock;
 
         [SetUp]
         public override void Initialize()
@@ -69,7 +70,12 @@ namespace Endzone.uSplit.Tests
             originalMock.Setup(c => c.Properties).Returns(new List<IPublishedProperty>());
             experimentMock = new Mock<IExperiment>();
             experimentMock.Setup(e => e.Id).Returns("TESTPERIMENT");
-            variedContent = new VariedContent(originalMock.Object, originalMock.Object, experimentMock.Object, 1);
+
+            publishedContentVariationMock = new Mock<IPublishedContentVariation>();
+            publishedContentVariationMock.SetupAllProperties();
+            publishedContentVariationMock.SetupProperty(p => p.Content, originalMock.Object);
+
+            variedContent = new VariedContent(originalMock.Object, new [] { publishedContentVariationMock.Object });
 
             var docRequest = new PublishedContentRequest(
                 new Uri("/", UriKind.Relative),
@@ -111,7 +117,9 @@ namespace Endzone.uSplit.Tests
             ExecuteFilter(responseMock.Object.Filter);
             attribute.OnResultExecuted(resultExecutedMock.Object);
 
-            experimentMock.Verify(e => e.Id, Times.Once); //accessed id means it was used for reporting
+            //accessed id means it was used for reporting
+            publishedContentVariationMock.Verify(e => e.GoogleExperimentId, Times.Once);
+            publishedContentVariationMock.Verify(e => e.GoogleVariationId, Times.Once);
         }
 
         /// <summary>
@@ -167,8 +175,10 @@ namespace Endzone.uSplit.Tests
             responseMock.VerifySet(r => r.Filter, Times.Once());
 
             ExecuteFilter(responseMock.Object.Filter);
-            
-            experimentMock.Verify(e => e.Id, Times.Once); //accessed id means it was used for reporting
+
+            //accessed id means it was used for reporting
+            publishedContentVariationMock.Verify(e => e.GoogleExperimentId, Times.Once);
+            publishedContentVariationMock.Verify(e => e.GoogleVariationId, Times.Once);
         }
 
         private void ExecuteFilter(Stream stream)
