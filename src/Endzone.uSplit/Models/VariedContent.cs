@@ -19,6 +19,8 @@ namespace Endzone.uSplit.Models
         public VariedContent(IPublishedContent original, IPublishedContentVariation[] variations)
         {
             this.original = original;
+            TemplateId = original.TemplateId;
+
             AppliedVariations = variations;
 
             //todo: can the dict be constructed lazily, to avoid any potential sideeffects when going throgh all the properties?

@@ -75,7 +75,10 @@ namespace Endzone.uSplit.Pipeline
                 if (assignedVariationId != null)
                 {
                     var variation = GetVariation(request, experiment, assignedVariationId.Value);
-                    variationsToApply.Add(new PublishedContentVariation(variation, experimentId, assignedVariationId.Value));
+                    if (variation != null)
+                    {
+                        variationsToApply.Add(new PublishedContentVariation(variation, experimentId, assignedVariationId.Value));
+                    }
                 }
                 //Should the user be included in the experiment?
                 else if (ShouldVisitorParticipate(experiment))
@@ -83,7 +86,10 @@ namespace Endzone.uSplit.Pipeline
                     //Choose a variation for the user
                     var variationId = SelectVariation(experiment);
                     var variation = GetVariation(request, experiment, variationId);
-                    variationsToApply.Add(new PublishedContentVariation(variation, experimentId, variationId));
+                    if (variation != null)
+                    {
+                        variationsToApply.Add(new PublishedContentVariation(variation, experimentId, variationId));
+                    }
                 }
                 else
                 {
@@ -91,8 +97,13 @@ namespace Endzone.uSplit.Pipeline
                 }
             }
 
-            request.PublishedContent = new VariedContent(request.PublishedContent, variationsToApply.ToArray());
-            request.TrySetTemplate(request.PublishedContent.GetTemplateAlias());
+            //the visitor is excluded or we didn't find the content needed for variations, just show original
+            if (variationsToApply.Count <= 0)
+                return;
+
+            var variedContent = new VariedContent(request.PublishedContent, variationsToApply.ToArray());
+            request.PublishedContent = variedContent;
+            request.TrySetTemplate(variedContent.GetTemplateAlias());
         }
 
         private int SelectVariation(Experiment experiment)
@@ -121,7 +132,7 @@ namespace Endzone.uSplit.Pipeline
 
         private IPublishedContent GetVariation(PublishedContentRequest request, Experiment experiment, int variationId)
         {
-            AssignVariationToUser(request,experiment.Id, variationId);
+            AssignVariationToUser(request, experiment.Id, variationId);
 
             if (variationId == -1) 
                 return null; //user is excluded 
@@ -130,9 +141,16 @@ namespace Endzone.uSplit.Pipeline
             if (!variation.IsActive)
                 return null;
 
-            var variationUmbracoId = variation.VariedContent.Id;
+            var pageId = variation.VariedContent.Id;
             var helper = new UmbracoHelper(UmbracoContext.Current);
-            var variationPage = helper.TypedContent(variationUmbracoId);
+            var variationPage = helper.TypedContent(pageId);
+
+            if (variationPage == null)
+            {
+                logger.Warn(GetType(), $"Cannot find the content (id {pageId}) for variation #{variationId} of {experiment.Id} experiment! " +
+                    $"This might occur on testing environments if you use live Google Analytics account and in such cases can be ignored. " +
+                    $"Alternatively the variation page might have been deleted or unpublished, check the experiment and make sure all variations have mathcing content.");
+            }
 
             return variationPage;
         }
