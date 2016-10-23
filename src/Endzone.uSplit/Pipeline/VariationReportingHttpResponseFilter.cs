@@ -30,13 +30,13 @@ namespace Endzone.uSplit.Pipeline
             }     
             else
             {
-                var fragment = ScriptsHelper.ReportVariations(content.AppliedVariations);
+                var fragment = ScriptsHelper.AnalyticsJsFragment(content.AppliedVariations, true);
 
                 // get the transmitted html
                 var html = Encoding.UTF8.GetString(buffer);
 
-                // append scripts after head if present
-                var transformed = Regex.Replace(html, @"<head>", $"<head>\n{fragment}", RegexOptions.IgnoreCase);
+                // append scripts before the closing head if present
+                var transformed = Regex.Replace(html, @"</head>", $"\n{fragment}\n</head>", RegexOptions.IgnoreCase);
 
                 // did we just write the scripts?
                 wroteScripts = !string.Equals(html, transformed);

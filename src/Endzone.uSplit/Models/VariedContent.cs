@@ -14,6 +14,9 @@ namespace Endzone.uSplit.Models
         //if multiple items overwrite the same properties the last item wins.
         public IPublishedContentVariation[] AppliedVariations { get; }
 
+        /// <summary>
+        /// A case-insensitive map of property overrides.
+        /// </summary>
         private readonly Dictionary<string, IPublishedProperty> overrides;
 
         public VariedContent(IPublishedContent original, IPublishedContentVariation[] variations)
@@ -33,7 +36,7 @@ namespace Endzone.uSplit.Models
                 {
                     if (variationProperty.HasValue)
                     {
-                        overrides[variationProperty.PropertyTypeAlias] = variationProperty;
+                        overrides[variationProperty.PropertyTypeAlias.ToLowerInvariant()] = variationProperty;
                     }
                 }
                 TemplateId = contentVariation.Content.TemplateId;
@@ -55,7 +58,7 @@ namespace Endzone.uSplit.Models
         public IPublishedProperty GetProperty(string alias, bool recurse)
         {
             IPublishedProperty property;
-            return overrides.TryGetValue(alias, out property) ? property 
+            return overrides.TryGetValue(alias.ToLowerInvariant(), out property) ? property 
                 : original.GetProperty(alias, recurse);
         }
 
@@ -107,15 +110,7 @@ namespace Endzone.uSplit.Models
 
         public ICollection<IPublishedProperty> Properties => overrides.Values;
 
-        public object this[string alias]
-        {
-            get
-            {
-                IPublishedProperty property;
-                return overrides.TryGetValue(alias, out property) 
-                    ? property.Value : original[alias];
-            }
-        }
+        public object this[string alias] => GetProperty(alias)?.Value;
 
         #endregion
     }
