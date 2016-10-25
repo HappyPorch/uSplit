@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Endzone.uSplit.Pipeline;
 using Google.Apis.Analytics.v3.Data;
 using Umbraco.Core;
 using Umbraco.Core.Cache;
@@ -24,9 +25,19 @@ namespace Endzone.uSplit.Commands
             return Task.FromResult(from experiment in experiments
                 where experiment.IsUSplitExperiment && experiment.IsRunning
                 where experiment.PageUnderTest.Id == ContentId
+                where MatchesSegment(experiment)
                 select experiment);
         }
 
+        private bool MatchesSegment(Experiment experiment)
+        {
+            var providerKey = experiment.Configuration?.SegmentationProviderKey;
+            var provider = Segmentation.GetByKey(providerKey);
+            if (provider == null)
+                return true; //all trafic
+
+            return provider.VisitorInSegment(experiment.Configuration.SegmentationValue);
+        }
 
 
         private List<Experiment> ParseRawExperiments()

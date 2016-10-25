@@ -23,7 +23,7 @@ namespace Endzone.uSplit.Models
         public bool IsRunning => GoogleExperiment.Status == "RUNNING";
         public GoogleExperiment GoogleExperiment { get; set; }
         public List<Variation> Variations { get; set; }
-        public ExperimentSettings Settings { get; set; }
+        public ExperimentConfiguration Configuration { get; set; }
 
         public Experiment(GoogleExperiment experiment)
         {
@@ -33,7 +33,7 @@ namespace Endzone.uSplit.Models
 
         private void ParseGoogleData(GoogleExperiment experiment)
         {
-            Settings = ParseSettings(experiment.Description);
+            Configuration = ParseSettings(experiment.Description);
             Variations = ParseVariations(experiment);
         }
 
@@ -46,7 +46,7 @@ namespace Endzone.uSplit.Models
             {
                 IContent content = null;
                 int variationNodeId;
-                if (!int.TryParse(variation.Url, out variationNodeId))
+                if (int.TryParse(variation.Url, out variationNodeId))
                     content = contentService.GetById(variationNodeId);
 
                 variations.Add(new Variation
@@ -58,16 +58,16 @@ namespace Endzone.uSplit.Models
             return variations;
         }
 
-        public static ExperimentSettings ParseSettings(string description)
+        public static ExperimentConfiguration ParseSettings(string description)
         {
             var source = description ?? string.Empty;
             var separatorPosition = source.IndexOf(DescriptionSeparator, StringComparison.InvariantCultureIgnoreCase);
             if (separatorPosition > -1)
                 source = source.Substring(separatorPosition);
-            return JsonConvert.DeserializeObject<ExperimentSettings>(source) ?? new ExperimentSettings();
+            return JsonConvert.DeserializeObject<ExperimentConfiguration>(source) ?? new ExperimentConfiguration();
         }
 
-        public static string UpdateSettings(string description, ExperimentSettings settings)
+        public static string UpdateSettings(string description, ExperimentConfiguration settings)
         {
             var userText = description ?? string.Empty;
             var separatorPosition = userText.IndexOf(DescriptionSeparator, StringComparison.InvariantCultureIgnoreCase);

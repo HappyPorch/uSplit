@@ -1,6 +1,6 @@
 ﻿angular.module("umbraco")
     .controller("uSplit.PersonalisationGroups.abTesting.segmentsController",
-        function($scope, dataTypeResource) {
+        function($scope, dataTypeResource, contentResource) {
             //we want to embed a personalisation group picker shipped with Personalisation Groups
             var groupPickerName = "Personalisation group picker"; //the name of the Picker, hope no-one changed it!
             //todo: have a fail switch - just allow the user to pick any content based on a doctype filter
@@ -30,6 +30,13 @@
                     return $scope.segmentPicker.value;
                 }, function (value) {
                     $scope.segmentation.provider.value = value;
+                    $scope.segmentation.provider.valueAsText = null;
+                    if (value) {
+                        contentResource.getById(value)
+                            .then(function (data) {
+                                $scope.segmentation.provider.valueAsText = data.name;
+                            });
+                    }
                 });
             });
         }

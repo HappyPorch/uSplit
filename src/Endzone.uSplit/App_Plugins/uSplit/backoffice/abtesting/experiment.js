@@ -46,13 +46,13 @@
             $scope.experiment = response.data;
 
             //segmentation
-            var provider = $scope.segmentation.provider =
-                $scope.segmentation.providers.find(function (item) {
-                    return item.providerKey == $scope.experiment.segmentationProviderKey;
-                });
+            var provider = $scope.segmentation.providers.find(function (item) {
+                return item.providerKey == $scope.experiment.segmentationProviderKey;
+            });
             if (provider != null) {
                 provider.value = $scope.experiment.segmentationValue;
             }
+            $scope.segmentation.provider = provider;
             editorState.set($scope.experiment);
         }
 

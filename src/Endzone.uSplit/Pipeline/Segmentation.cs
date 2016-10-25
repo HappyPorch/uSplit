@@ -23,5 +23,17 @@ namespace Endzone.uSplit.Pipeline
         }
 
         public static ISegmentationProvider[] Providers => providers.Values.ToArray();
+
+        /// <summary>
+        /// Returns a provider for the given key, or null when no prodiver found
+        /// </summary>
+        public static ISegmentationProvider GetByKey(string key)
+        {
+            if (key == null)
+                return null;
+
+            ISegmentationProvider provider;
+            return providers.TryGetValue(key, out provider) ? provider : null;
+        }
     }
 }

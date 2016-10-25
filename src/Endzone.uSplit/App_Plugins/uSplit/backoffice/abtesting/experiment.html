@@ -6,6 +6,7 @@
                 <div class="umb-headline-editor-wrapper span7">
                     <h1>
                         {{loaded?experiment.name:experimentId}} - uSplit
+                        <span ng-show="segmentation.provider.valueAsText">({{segmentation.provider.valueAsText}})</span>
                     </h1>
                 </div>
 

@@ -326,7 +326,7 @@
     <Compile Include="GoogleApi\GoogleCallbackController.cs" />
     <Compile Include="API\ManageController.cs" />
     <Compile Include="Models\ExperimentDetails.cs" />
-    <Compile Include="Models\ExperimentSettings.cs" />
+    <Compile Include="Models\ExperimentConfiguration.cs" />
     <Compile Include="Models\IExperiment.cs" />
     <Compile Include="Models\IPublishedContentVariation.cs" />
     <Compile Include="Models\PublishedContentVariation.cs" />
