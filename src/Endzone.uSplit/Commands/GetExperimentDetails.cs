@@ -20,9 +20,9 @@ namespace Endzone.uSplit.Commands
             {
                 variationsDetails.Add(new VariationDetails()
                 {
-                    Name = Experiment.IsUSplitExperiment ? variation.VariedContent.Name : variation.GoogleVariation.Name,
-                    GoogleName = variation.GoogleVariation.Name,
                     NodeId = variation.VariedContent?.Id,
+                    Name = variation.VariedContent?.Name ?? variation.GoogleVariation.Name,
+                    GoogleName = variation.GoogleVariation.Name,
                     Weight = variation.GoogleVariation.Weight,
                     Status = variation.GoogleVariation.Status,
                     Won = variation.GoogleVariation.Won
@@ -31,7 +31,7 @@ namespace Endzone.uSplit.Commands
 
             return new ExperimentDetails()
             {
-                Name = Experiment.IsUSplitExperiment ? Experiment.PageUnderTest.Name : Experiment.GoogleExperiment.Name,
+                Name = Experiment.PageUnderTest?.Name ?? Experiment.GoogleExperiment.Name,
                 GoogleName = Experiment.GoogleExperiment.Name,
                 NodeId = Experiment.PageUnderTest?.Id,
                 GoogleId = Experiment.GoogleExperiment.Id,
