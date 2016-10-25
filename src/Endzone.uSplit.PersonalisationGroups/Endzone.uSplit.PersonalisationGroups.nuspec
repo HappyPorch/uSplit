@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>uSplit - Personalisation Groups segmentation pluging</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://unlicense.org/</licenseUrl>
+    <projectUrl>https://github.com/EndzoneSoftware/uSplit</projectUrl>
+    <iconUrl>https://cdn.rawgit.com/EndzoneSoftware/uSplit/master/meta/split%20-%20nuget%20package%20icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Personalisation Groups segmentation provider for uSplit, the A/B testing plugin for Umbraco</description>
+    <releaseNotes>Please see activity at https://github.com/EndzoneSoftware/uSplit</releaseNotes>
+    <copyright>N/A</copyright> 
+    <tags>umbraco abtesting segmentation</tags>
+    <dependencies>
+	  <dependency id="UmbracoPersonalisationGroups" version="0.2.1" />
+      <dependency id="Endzone.uSplit" version="1.0.80" />
+    </dependencies>
+  </metadata>
+  <files>
+  </files>
+</package>

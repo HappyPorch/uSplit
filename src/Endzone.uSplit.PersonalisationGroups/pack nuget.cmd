@@ -1,0 +1,1 @@
+nuget pack Endzone.uSplit.PersonalisationGroups.csproj -Properties "Configuration=Debug;Platform=AnyCPU" -IncludeReferencedProjects
