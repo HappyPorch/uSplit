@@ -35,6 +35,8 @@ namespace Endzone.uSplit.Commands
                 GoogleName = Experiment.GoogleExperiment.Name,
                 NodeId = Experiment.PageUnderTest?.Id,
                 GoogleId = Experiment.GoogleExperiment.Id,
+                SegmentationProviderKey = Experiment.Settings?.SegmentationProviderKey,
+                SegmentationValue = Experiment.Settings?.SegmentationValue,
                 Status = Experiment.GoogleExperiment.Status,
                 Metric = ExtractMetricName(Experiment.GoogleExperiment.ObjectiveMetric),
                 Created = Experiment.GoogleExperiment.Created,

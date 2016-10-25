@@ -10,6 +10,7 @@
         $location,
         uSplitConfigurationResource,
         uSplitManageResource) {
+
         $scope.loaded = false;
         //refactor this to a parent controller?
         $scope.apiReady = false;
@@ -18,6 +19,17 @@
         navigationService.syncTree({ tree: "abtesting", path: [-1, experimentId], forceReload: false, activate: true });
 
         $scope.tabs = [{ id: "variations", label: "Variations" }, { id: "debug", label: "Debug" }];
+        
+        var noSegmentation = {
+            name: "All traffic",
+            providerKey: null,
+            value: null
+        };
+
+        $scope.segmentation = {
+            provider: noSegmentation,
+            providers: [noSegmentation]
+        };
 
         function addToVariations(addVariationResponse) {
             var variation = addVariationResponse.data;
@@ -32,24 +44,43 @@
 
         function handleExperiment(response) {
             $scope.experiment = response.data;
+
+            //segmentation
+            var provider = $scope.segmentation.provider =
+                $scope.segmentation.providers.find(function (item) {
+                    return item.providerKey == $scope.experiment.segmentationProviderKey;
+                });
+            if (provider != null) {
+                provider.value = $scope.experiment.segmentationValue;
+            }
             editorState.set($scope.experiment);
         }
+
+        var segmentationProvidersUpdate = uSplitConfigurationResource
+            .getSegmentationProviders()
+            .then(function (response) {
+                $scope.segmentation.providers = response.data;
+                $scope.segmentation.providers.unshift(noSegmentation);
+            }, handleDotNetError);
 
         $scope.refresh = function () {
             $scope.loaded = false;
 
-            var statusUpdate = uSplitConfigurationResource.getStatus()
-                .then(function (response) {
-                    $scope.apiReady = response.data === "true";
-                }, handleDotNetError);
+            //we need reference data
+            segmentationProvidersUpdate.then(function() {
+                var statusUpdate = uSplitConfigurationResource.getStatus()
+                    .then(function (response) {
+                        $scope.apiReady = response.data === "true";
+                    }, handleDotNetError);
 
-            var experimentLoad = uSplitManageResource.getExperiment(experimentId)
-                .then(handleExperiment, handleDotNetError);
+                var experimentLoad = uSplitManageResource.getExperiment(experimentId)
+                    .then(handleExperiment, handleDotNetError);
 
-            $q.all([statusUpdate, experimentLoad])
-                .then(function() {
-                    $scope.loaded = true;
-                });
+                $q.all([statusUpdate, experimentLoad])
+                    .then(function () {
+                        $scope.loaded = true;
+                    });
+            });
         };
 
         $scope.editContent = function (nodeId) {
@@ -111,6 +142,26 @@
                 handleExperiment(response);
             }, handleDotNetError);
         };
+
+        $scope.$watch(function () {
+            return $scope.segmentation.provider;
+        }, function () {
+            if (!$scope.experiment)
+                return; //no data loaded yet
+
+            var provider = $scope.segmentation.provider;
+            if (provider.providerKey == $scope.experiment.segmentationProviderKey &&
+                provider.value == $scope.experiment.segmentationValue)
+                return; //no change, initial load
+
+            //update
+            uSplitManageResource.setSegment(experimentId, provider.providerKey, provider.value)
+                .then(function () {
+                    //local update to correctly detect new changes
+                    $scope.experiment.segmentationProviderKey = provider.providerKey;
+                    $scope.experiment.segmentationValue = provider.value;
+                });
+        }, true);
 
         $scope.refresh();
     });

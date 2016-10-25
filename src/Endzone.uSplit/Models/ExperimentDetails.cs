@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Endzone.uSplit.Models
 {
+    /// <summary>
+    /// The Experiment Model of the API
+    /// </summary>
     public class ExperimentDetails
     {
         public string GoogleId { get; set; }
@@ -26,9 +29,7 @@ namespace Endzone.uSplit.Models
         public List<VariationDetails> Variations { get; set; }
         public string Metric { get; set; }
 
-        /// <summary>
-        /// Indicates whether a license is required to continue running the experiment
-        /// </summary>
-        public bool MissingLicense { get; set; }
+        public string SegmentationProviderKey { get; set; }
+        public string SegmentationValue { get; set; }
     }
 }

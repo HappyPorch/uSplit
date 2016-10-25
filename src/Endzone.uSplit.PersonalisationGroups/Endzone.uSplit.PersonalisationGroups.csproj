@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}</ProjectGuid>
+    <ProjectGuid>{E9860757-611E-4727-98CD-C2FBB486B98D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Endzone.uSplit</RootNamespace>
-    <AssemblyName>Endzone.uSplit</AssemblyName>
+    <RootNamespace>Endzone.uSplit.PersonalisationGroups</RootNamespace>
+    <AssemblyName>Endzone.uSplit.PersonalisationGroups</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,10 +38,6 @@
       <HintPath>..\..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.7.4137.9688, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BouncyCastle.1.7.0\lib\Net40-Client\BouncyCastle.Crypto.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="businesslogic, Version=1.0.5948.18144, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\businesslogic.dll</HintPath>
       <Private>True</Private>
@@ -51,7 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ClientDependency.Core.Mvc, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ClientDependency-Mvc5.1.8.0.0\lib\net45\ClientDependency.Core.Mvc.dll</HintPath>
+      <HintPath>..\..\packages\ClientDependency-Mvc.1.8.0.0\lib\net45\ClientDependency.Core.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="cms, Version=1.0.5948.18144, Culture=neutral, processorArchitecture=MSIL">
@@ -68,34 +64,6 @@
     </Reference>
     <Reference Include="Examine, Version=0.1.68.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Examine.0.1.68.0\lib\Examine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.1.13.0\lib\net45\Google.Apis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.Analytics.v3, Version=1.13.0.456, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.Analytics.v3.1.13.0.456\lib\portable-net45+netcore45+wpa81+wp8\Google.Apis.Analytics.v3.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.Auth, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.Auth.1.13.0\lib\net45\Google.Apis.Auth.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.Auth.Mvc4, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.Auth.Mvc.1.13.0\lib\net45\Google.Apis.Auth.Mvc4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.Auth.1.13.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.Core.1.13.0\lib\net45\Google.Apis.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.13.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Google.Apis.1.13.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
@@ -118,8 +86,8 @@
       <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
@@ -128,6 +96,14 @@
     </Reference>
     <Reference Include="MarkdownSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Markdown.1.14.4\lib\net45\MarkdownSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaxMind.Db, Version=2.0.0.0, Culture=neutral, PublicKeyToken=66afa4cc5ae853ac, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaxMind.Db.2.0.0\lib\net45\MaxMind.Db.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaxMind.GeoIP2, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaxMind.GeoIP2.2.3.0.0\lib\net40\MaxMind.GeoIP2.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
@@ -182,6 +158,10 @@
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\semver.1.1.2\lib\net45\Semver.dll</HintPath>
       <Private>True</Private>
@@ -191,6 +171,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\System.Data.SqlServerCe.dll</HintPath>
@@ -200,12 +181,12 @@
       <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -243,7 +224,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
       <HintPath>..\..\packages\UmbracoCms.Core.7.4.3\lib\TidyNet.dll</HintPath>
@@ -285,94 +265,34 @@
       <HintPath>..\..\packages\UrlRewritingNet.2.0.7\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Zlib.Portable, Version=1.11.0.0, Culture=neutral, PublicKeyToken=431cba815f6a8b5b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Zlib.Portable.Signed.1.11.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
+    <Reference Include="Zone.UmbracoPersonalisationGroups, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\UmbracoPersonalisationGroups.0.2.1\lib\Zone.UmbracoPersonalisationGroups.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CheckAccess.cs" />
-    <Compile Include="Commands\GetApplicableCachedExperiments.cs" />
-    <Compile Include="Commands\GetCachedExperiments.cs" />
-    <Compile Include="Commands\SetSegment.cs" />
-    <Compile Include="Commands\StopExperiment.cs" />
-    <Compile Include="Commands\StartExperiment.cs" />
-    <Compile Include="Commands\AddVariation.cs" />
-    <Compile Include="API\BackofficeController.cs" />
-    <Compile Include="Commands\DeleteVariation.cs" />
-    <Compile Include="Commands\DeleteExperiment.cs" />
-    <Compile Include="Backoffice\uSplitTreeController.cs" />
-    <Compile Include="AsyncHelpers.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CreateExperiment.cs" />
-    <Compile Include="Commands\GetGoogleExperiment.cs" />
-    <Compile Include="Commands\GetExperimentDetails.cs" />
-    <Compile Include="Commands\GetExperiments.cs" />
-    <Compile Include="Commands\GoogleApiCommand.cs" />
-    <Compile Include="Backoffice\ContextMenuBuilder.cs" />
-    <Compile Include="GoogleApi\ScriptsHelper.cs" />
-    <Compile Include="HtmlHelperExtensions.cs" />
-    <Compile Include="HttpContextExtensions.cs" />
-    <Compile Include="ISegmentationProvider.cs" />
-    <Compile Include="Models\AddVariationRequest.cs" />
-    <Compile Include="Models\DeleteVariationRequest.cs" />
-    <Compile Include="Models\Experiment.cs" />
-    <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
-    <Compile Include="GoogleApi\GoogleAnalyticsExtensions.cs" />
-    <Compile Include="API\ConfigurationController.cs" />
-    <Compile Include="GoogleApi\GoogleAuthController.cs" />
-    <Compile Include="GoogleApi\uSplitFlowMetadata.cs" />
-    <Compile Include="Backoffice\uSplitContentTreeController.cs" />
-    <Compile Include="GoogleApi\GoogleCallbackController.cs" />
-    <Compile Include="API\ManageController.cs" />
-    <Compile Include="Models\ExperimentDetails.cs" />
-    <Compile Include="Models\ExperimentSettings.cs" />
-    <Compile Include="Models\IExperiment.cs" />
-    <Compile Include="Models\IPublishedContentVariation.cs" />
-    <Compile Include="Models\PublishedContentVariation.cs" />
-    <Compile Include="Models\Variation.cs" />
-    <Compile Include="Models\VariationDetails.cs" />
-    <Compile Include="Models\VariedContent.cs" />
-    <Compile Include="Pipeline\ExperimentsUpdater.cs" />
-    <Compile Include="Pipeline\ExperimentsPipeline.cs" />
-    <Compile Include="Pipeline\Segmentation.cs" />
-    <Compile Include="Pipeline\VariationReportingHttpResponseFilter.cs" />
-    <Compile Include="Pipeline\VariationReportingActionFilterAttribute.cs" />
-    <Compile Include="RouteConfig.cs" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\delete.js" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\create.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\create.js" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\experiment.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\experiment.js" />
-    <Content Include="App_Plugins\uSplit\backoffice\shared\loader.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\shared\noapi.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\uSplitConfigurationResource.js" />
-    <Content Include="App_Plugins\uSplit\package.manifest" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="API\SegmentsController.cs" />
+    <Compile Include="PersonalisationGroupsSegmentationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Package.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Endzone.uSplit\Endzone.uSplit.csproj">
+      <Project>{97967ea9-ef01-47ef-bcf1-f91deddb95af}</Project>
+      <Name>Endzone.uSplit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="App_Plugins\uSplit.PersonalisationGroups\package.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\instructions.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\dashboard.html" />
-    <Content Include="App_Plugins\uSplit\backoffice\abtesting\dashboard.js" />
-    <Content Include="App_Plugins\uSplit\backoffice\uSplit.css" />
-    <Content Include="App_Plugins\uSplit\backoffice\uSplitManageResource.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Content Include="App_Plugins\uSplit.PersonalisationGroups\backoffice\abtesting\segments.html" />
+    <Content Include="App_Plugins\uSplit.PersonalisationGroups\backoffice\abtesting\segments.js" />
+    <Content Include="App_Plugins\uSplit.PersonalisationGroups\backoffice\uSplit.PersonalisationGroups.css" />
+    <Content Include="App_Plugins\uSplit.PersonalisationGroups\backoffice\uSplitPersonalisationGroupsResource.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.11.0\* /y</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

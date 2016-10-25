@@ -1,0 +1,9 @@
+﻿{
+  javascript: [
+    "~/App_Plugins/uSplit.PersonalisationGroups/backoffice/abtesting/segments.js",
+    "~/App_Plugins/uSplit.PersonalisationGroups/backoffice/uSplitPersonalisationGroupsResource.js"
+  ],
+  css: [
+    "~/App_Plugins/uSplit.PersonalisationGroups/backoffice/uSplit.PersonalisationGroups.css"
+  ]
+}	

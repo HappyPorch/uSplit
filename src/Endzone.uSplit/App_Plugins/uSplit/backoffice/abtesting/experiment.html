@@ -5,7 +5,7 @@
 
                 <div class="umb-headline-editor-wrapper span7">
                     <h1>
-                        uSplit Experiment - {{loaded?experiment.name:experimentId}}
+                        {{loaded?experiment.name:experimentId}} - uSplit
                     </h1>
                 </div>
 
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </umb-header>
-            
+
             <umb-tab-view>
                 <umb-tab id="tabvariations" rel="variations" class="active">
                     <umb-pane>
@@ -50,7 +50,26 @@
 
                             <div class="row">
                                 <div class="span4">
-                                    Name in Google Analytics Experiments
+                                    Segment
+                                </div>
+                                <div class="span4" ng-hide="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1">
+                                    {{ segmentation.provider.name }}
+                                </div>
+                                <div class="span4" ng-hide="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1">
+                                    {{ segmentation.provider.valueAsText }}
+                                </div>
+                                <div class="span4" ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1">
+                                    <select ng-model="segmentation.provider" ng-options="p as p.name for p in segmentation.providers"></select>
+                                </div>
+                                <div class="span4" ng-show="['DRAFT', 'READY_TO_RUN'].indexOf(experiment.status) > -1">
+                                    <div ng-include="segmentation.provider.angularViewPath"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="span4">
+                                    <abbr title="Google Analytics">GA</abbr> Experiments Name
                                 </div>
                                 <div class="span4">
                                     {{experiment.googleName}}

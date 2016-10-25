@@ -8,7 +8,7 @@ namespace Endzone.uSplit.Models
         /// <summary>
         /// Indicates whether this experiment was created by uSplit
         /// </summary>
-        bool IsUSplitExperiment { get; set; }
+        bool IsUSplitExperiment { get; }
 
         /// <summary>
         /// The Google Experiment ID

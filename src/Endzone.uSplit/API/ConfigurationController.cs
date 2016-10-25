@@ -1,10 +1,14 @@
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
+using Endzone.uSplit.Pipeline;
+using ImageProcessor.Common.Extensions;
 using Umbraco.Web.Mvc;
 
 namespace Endzone.uSplit.API
@@ -33,6 +37,19 @@ namespace Endzone.uSplit.API
                 error = ex.Message;
             }
             return CreateResponse(new { hasAccess = hasAccess, Error = error });
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetSegmentationProviders()
+        {
+            var providers = Segmentation.Providers;
+            return CreateResponse(from provider in providers
+                select new
+                {
+                    provider.Name,
+                    provider.ProviderKey,
+                    provider.AngularViewPath
+                });
         }
     }
 }

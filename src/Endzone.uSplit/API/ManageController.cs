@@ -95,5 +95,12 @@ namespace Endzone.uSplit.API
             });
             return CreateResponse(details);
         }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> SetSegmentAsync([FromBody]SetSegment request)
+        {
+            var experiment = await ExecuteAsync(request);
+            return Ok();
+        }
     }
 }

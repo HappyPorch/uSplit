@@ -1,34 +1,42 @@
 ﻿angular.module("umbraco.resources").factory("uSplitManageResource",
     function ($http) {
+        var controllerPath = "backoffice/uSplit/Manage/";
         return {
             getExperiment: function (id) {
-                return $http.get("backoffice/uSplit/Manage/GetExperimentAsync/" + id);
+                return $http.get(controllerPath + "GetExperimentAsync/" + id);
             },
             createExperiment: function(id) {
-                return $http.get("backoffice/uSplit/Manage/CreateExperimentAsync/" + id);
+                return $http.get(controllerPath + "CreateExperimentAsync/" + id);
             },
             addVariation: function(experimentId, nodeId) {
-                return $http.post("backoffice/uSplit/Manage/AddVariationAsync/",
+                return $http.post(controllerPath + "AddVariationAsync/",
                 {
                     experimentId,
                     nodeId
                 });
             },
             deleteExperiment: function(id) {
-                return $http.delete("backoffice/uSplit/Manage/DeleteExperimentAsync/" + id);
+                return $http.delete(controllerPath + "DeleteExperimentAsync/" + id);
             },
             deleteVariation: function (experimentId, variationName) {
-                return $http.post("backoffice/uSplit/Manage/DeleteVariationAsync/",
+                return $http.post(controllerPath + "DeleteVariationAsync/",
                 {
                     experimentId,
                     variationName
                 });
             },
+            setSegment: function (experimentId, providerKey, value) {
+                return $http.post(controllerPath + "SetSegmentAsync/", {
+                    experimentId,
+                    providerKey,
+                    value
+                });
+            },
             start: function (experimentId) {
-                return $http.post("backoffice/uSplit/Manage/StartExperimentAsync/" + experimentId);
+                return $http.post(controllerPath + "StartExperimentAsync/" + experimentId);
             },
             stop: function (experimentId) {
-                return $http.post("backoffice/uSplit/Manage/StopExperimentAsync/" + experimentId);
+                return $http.post(controllerPath + "StopExperimentAsync/" + experimentId);
             }
         }
     }
