@@ -6,7 +6,7 @@ The information in this readme is inteded for developers wishing to discuss and 
 
 #### uSpit user documentation
 
-For supplementary information visit the [uSplit product page](http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/), were you can also learn about various support packages that are available. We have also made an [installation guide](http://www.happyporch.com/installing-usplit/) available, and a tutorial on how to [run your first experiment](http://www.happyporch.com/running-ab-experiments-like-pro-usplit/). These topics were also covered and demoed on a recent [uHangout episode](https://www.youtube.com/watch?v=WQysVNLyQM8).  
+For supplementary information visit the [uSplit product page](http://endzonesoftware.com/usplit-ab-testing-for-umbraco/), where you can also learn about various support packages that are available. We have also made an [installation guide](http://endzonesoftware.com/installing-usplit/) available, and a tutorial on how to [run your first experiment](http://endzonesoftware.com/running-ab-experiments-like-pro-usplit/). These topics were also covered and demoed on a recent [uHangout episode](https://www.youtube.com/watch?v=WQysVNLyQM8).  
 
 ## Distribution
 
