@@ -7,7 +7,7 @@
       <name>uSplit</name>
       <version>1.0.0</version>
       <license url="http://unlicense.org/">UNLICENSE</license>
-      <url>http://www.happyporch.com/usplit-ab-testing-for-umbraco/</url>
+      <url>http://endzonesoftware.com/usplit-ab-testing-for-umbraco/</url>
       <requirements>
         <major>7</major>
         <minor>3</minor>
@@ -15,12 +15,12 @@
       </requirements>
     </package>
     <author>
-      <name>Endzone.io</name>
-      <website>http://endzone.io</website>
+      <name>Endzone Software</name>
+      <website>http://endzonesoftware.com/</website>
     </author>
     <readme><![CDATA[ATTENTION! ACTION REQUIRED!
 
-http://www.happyporch.com/installing-usplit/ 
+http://www.endzonesoftware.com/installing-usplit/
 
 It appears that you are installing uSplit in the form of an Umbraco package. Additional manual setup is required after the installation. Please open the installation guide and follow the steps closely.
 

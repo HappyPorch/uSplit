@@ -26,7 +26,7 @@ Please add the following lines to the runtime.assemblyBinding section:
 
 Once these are in place the site should start.
 
-For details visit: http://www.happyporch.com/installing-usplit/
+For details visit: http://www.endzonesoftware.com/installing-usplit/
 
 
 Configuration
@@ -42,12 +42,12 @@ been added automatically as part of this NuGet package installation:
 <add key="uSplit:profileId" value="" />
 
 To find out how to obtain these, and for further help with the installation
-please visit: http://www.happyporch.com/installing-usplit/
+please visit: http://www.endzonesoftware.com/installing-usplit/
 
 
 Notes
 -----
 
-uSplit product page: http://www.happyporch.com/umbraco-ab-testing-made-easy-usplit/
+uSplit product page: http://endzonesoftware.com/usplit-ab-testing-for-umbraco/
 uSplit uHangout talk and demo: https://www.youtube.com/watch?v=WQysVNLyQM8
 uSplit source code: https://github.com/EndzoneSoftware/uSplit
