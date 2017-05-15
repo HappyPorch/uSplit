@@ -11,14 +11,14 @@
     <iconUrl>https://cdn.rawgit.com/EndzoneSoftware/uSplit/master/meta/split%20-%20nuget%20package%20icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A/B testing for Umbraco</description>
-    <releaseNotes>INITIAL RELEASE</releaseNotes>
+    <releaseNotes>uSplit 1.6.x is compiled against Umbraco 7.6. uSplit 1.0.x is for Umbraco 7.3-7.5 and contains the same functionality.</releaseNotes>
     <copyright>N/A</copyright> 
     <tags>umbraco abtesting</tags>
     <dependencies>
       <dependency id="Google.Apis.Analytics.v3" version="1.13.0.456" />
       <dependency id="Google.Apis.Auth.Mvc" version="1.13.0" />
       <dependency id="Microsoft.Net.Http" version="2.0.20710" />
-      <dependency id="UmbracoCms.Core" version="(7.5,]" />
+      <dependency id="UmbracoCms.Core" version="7.6" />
     </dependencies>
   </metadata>
   <files>
