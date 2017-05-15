@@ -8,7 +8,6 @@
 		"src/Endzone.uSplit/bin/Google.Apis.Core.dll",
 		"src/Endzone.uSplit/bin/Google.Apis.PlatformServices.dll",	
 		"src/Endzone.uSplit/bin/Zlib.Portable.dll",	
-		"src/Endzone.uSplit/bin/Newtonsoft.Json.dll",	
 		"lib/PackageActionsContrib.dll"
 	],
     "packageXmlTemplate": "src/Endzone.uSplit/Package.xml",
