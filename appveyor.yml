@@ -17,7 +17,7 @@ after_build:
 - ps: >-
     (Get-Content src\Endzone.uSplit\Package.xml) -replace "<version>(.+)</version>", "<version>${env:APPVEYOR_BUILD_VERSION}</version>" | Out-File -Encoding "UTF8" src\Endzone.uSplit\Package.xml
 
-    dotnet tools\Umbraco.Tools.Package.dll pack.json
+    tools\Umbraco.Tools.Package.exe pack.json
 
     copy-item package.zip uSplit-latest-lt-u7.5.zip
 
