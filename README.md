@@ -14,15 +14,17 @@ uSplit is available via [NuGet](https://www.nuget.org/packages/Endzone.uSplit) (
 
 ### NuGet
 
-Our CI server builds every commit and all successful builds on the `master` branch are automatically packaged and published on [NuGet](https://www.nuget.org/packages/Endzone.uSplit).
+Currently there are two parallel versions of this plugin available. `1.0.x` for Umbraco <= 7.5 and `1.6.x` for Umbraco 7.6+. Despite the minor version increase these two versions contain the same functionality. Pick one that matches your Umbraco version.
+
+Our CI server builds every commit and all successful builds are automatically packaged and published on [NuGet](https://www.nuget.org/packages/Endzone.uSplit).
 
 ```
 PM> Install-Package Endzone.uSplit
 ```
 
-#### NuGet gotchas
+#### NuGet gotchas (versoin 1.0.x; Umbraco <= 7.5 only)
 
-The [Google Analytics Expriments C# Libraries](https://github.com/google/google-api-dotnet-client) have a dependcy on a strongly-signed log4net library version 1.2.13. Umbraco however distributes an older unsigned library, version 1.2.11, together with its own DLLs, and has a dependency on that. Due to the signing mismatch [both versions need to be provided to the application](http://i386.com/2015/02/umbraco-and-log4net-using-two-different-versions-of-a-dll-in-asp-net/).
+The [Google Analytics Expriments C# Libraries](https://github.com/google/google-api-dotnet-client) have a dependcy on a strongly-signed log4net library version 1.2.13. Up until 7.5 Umbraco was built against and distributed an older unsigned library - version 1.2.11. Due to the signing mismatch [both versions need to be provided to the application](http://i386.com/2015/02/umbraco-and-log4net-using-two-different-versions-of-a-dll-in-asp-net/).
 
 To do so, uSplit places the library Umbraco looks for into `bin/log4net/1.2.11.0/log4net.dll`. The following has to be added to Web.config (under `//configuration/runtime/assemblyBinding`) to make the library discoverable:
 
@@ -37,11 +39,11 @@ To do so, uSplit places the library Umbraco looks for into `bin/log4net/1.2.11.0
 
 We also manually release new versions on the [Umbraco package repository](https://our.umbraco.org/projects/website-utilities/usplit/). Since this is a manual process these updates are available later than via NuGet, and not all versions might be released here.
 
-#### Umbraco package repository gotchas
+#### Umbraco package repository gotchas (versoin 1.0.x; Umbraco <= 7.5 only)
 
 This method of installation does not update any NuGet packages. uSplit however requires `Newtonsoft.Json` version 7 or above.
 
-Version 7 of this library is packaged with uSplit and will get copied over into the target bin folder when you install the pacakge. If you by any chance used a newer version than the one we distribute make sure to place it back!
+`Newtonsoft.Json` version 7 is therefore packaged with uSplit `1.0.x` and will get copied over into the target bin folder when you install the pacakge. If you by any chance used a newer version than the one we distribute make sure to place it back!
 
 Target site needs to update the assembly binding redirect to point to version 7 (unless it is using a newer version):
 
@@ -52,11 +54,13 @@ Target site needs to update the assembly binding redirect to point to version 7 
 </dependentAssembly>
 ```
 
+uSplit version `1.6.x` targetting Umbraco `7.6.0` does not distribute this library as version 10 is pulled down as a dependency on `Umbraco.Core`.
+
 ## Contributions
 
-Feel free to use the issue tracker to report any problems you encounter. Unless you have a support contract with us, we do not provide any SLAs.
+Pull requests are more than welcome! Fixed a bug or improved the editorial experience? Share your code with the rest of the community! We do not have official coding standards, just try to keep the code consistent.
 
-Pull requests are more than welcome! Fixed a bug or improved the editorial experience? Share your code with the rest of the community! We do not have official coding standards, just try to keep the code consistent.   
+Feel free to use the issue tracker to report any problems you encounter. Unless you have a support contract with us, we do not provide any SLAs.
 
 ### Dev Resources
 
