@@ -17,13 +17,9 @@ after_build:
 - ps: >-
     (Get-Content src\Endzone.uSplit\Package.xml) -replace "<version>(.+)</version>", "<version>${env:APPVEYOR_BUILD_VERSION}</version>" | Out-File -Encoding "UTF8" src\Endzone.uSplit\Package.xml
 
-    dnu commands install Umbraco.Tools.Package
+    dotnet tools\Umbraco.Tools.Package.dll pack.json
 
-    $env:Path = "${env:USERPROFILE}\.dnx\bin;" + $env:Path
-
-    package pack.json
-
-    copy-item package.zip uSplit-latest.zip
+    copy-item package.zip uSplit-latest-lt-u7.5.zip
 
     rename-item package.zip "uSplit-${env:APPVEYOR_BUILD_VERSION}.zip"
 test:
