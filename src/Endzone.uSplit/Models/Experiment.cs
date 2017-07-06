@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Umbraco.Core;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 
@@ -64,7 +65,17 @@ namespace Endzone.uSplit.Models
             var separatorPosition = source.IndexOf(DescriptionSeparator, StringComparison.InvariantCultureIgnoreCase);
             if (separatorPosition > -1)
                 source = source.Substring(separatorPosition);
-            return JsonConvert.DeserializeObject<ExperimentConfiguration>(source) ?? new ExperimentConfiguration();
+
+            ExperimentConfiguration settings = null;
+            try
+            {
+                settings = JsonConvert.DeserializeObject<ExperimentConfiguration>(source);
+            }
+            catch (JsonReaderException e)
+            {
+                LogHelper.Error<Experiment>("Parsing segmentation settings failed. Will use default settings.", e);
+            }
+            return settings ?? new ExperimentConfiguration();
         }
 
         public static string UpdateSettings(string description, ExperimentConfiguration settings)
