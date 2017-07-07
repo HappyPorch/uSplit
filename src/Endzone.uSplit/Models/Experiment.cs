@@ -64,18 +64,19 @@ namespace Endzone.uSplit.Models
             var source = description ?? string.Empty;
             var separatorPosition = source.IndexOf(DescriptionSeparator, StringComparison.InvariantCultureIgnoreCase);
             if (separatorPosition > -1)
+            {
                 source = source.Substring(separatorPosition);
-
-            ExperimentConfiguration settings = null;
-            try
-            {
-                settings = JsonConvert.DeserializeObject<ExperimentConfiguration>(source);
+                try
+                {
+                    var settings = JsonConvert.DeserializeObject<ExperimentConfiguration>(source);
+                    return settings ?? new ExperimentConfiguration();
+                }
+                catch (JsonReaderException e)
+                {
+                    LogHelper.Error<Experiment>("Parsing segmentation settings for experiment failed. Will use default settings.", e);
+                }
             }
-            catch (JsonReaderException e)
-            {
-                LogHelper.Error<Experiment>("Parsing segmentation settings failed. Will use default settings.", e);
-            }
-            return settings ?? new ExperimentConfiguration();
+            return new ExperimentConfiguration();
         }
 
         public static string UpdateSettings(string description, ExperimentConfiguration settings)
