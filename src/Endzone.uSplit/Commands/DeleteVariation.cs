@@ -11,10 +11,15 @@ namespace Endzone.uSplit.Commands
     {
         public string GoogleExperimentId { get; set; }
         public string VariationName { get; set; }
+        
+        public DeleteVariation(AccountConfig config) : base(config)
+        {
+        }
+        
         public override async Task<Experiment> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(GoogleExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(Config, GoogleExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             var variation = googleExperiment.Variations.FirstOrDefault(v => v.Name.Equals(VariationName));
@@ -23,7 +28,7 @@ namespace Endzone.uSplit.Commands
 
             googleExperiment.Variations.Remove(variation);
 
-            var request = service.Management.Experiments.Patch(googleExperiment);
+            var request = service.Management.Experiments.Patch(Config, googleExperiment);
             var response = await request.ExecuteAsync();
 
             return response;

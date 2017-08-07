@@ -10,12 +10,16 @@ namespace Endzone.uSplit.Commands
     {
         private const string CreationStatus = "DRAFT";
         public int NodeUnderTestId { get; set; }
+        
+        public CreateExperiment(AccountConfig config) : base(config)
+        {
+        }
 
         public override async Task<GoogleExperiment> ExecuteAsync()
         {
             var node = UmbracoContext.Application.Services.ContentService.GetById(NodeUnderTestId);
             var service = await GetAnalyticsService();
-            var request = service.Management.Experiments.Insert(CreateNewExperiment(node));
+            var request = service.Management.Experiments.Insert(Config, CreateNewExperiment(node));
             var response = await request.ExecuteAsync();
             return response;
         }

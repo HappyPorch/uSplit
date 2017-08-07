@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
 using OurExperiment = Endzone.uSplit.Models.Experiment;
@@ -16,11 +12,15 @@ namespace Endzone.uSplit.Commands
         public string ExperimentId { get; set; }
         public string ProviderKey { get; set; }
         public string Value { get; set; }
+        
+        public SetSegment(AccountConfig config) : base(config)
+        {
+        }
 
         public override async Task<Experiment> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(ExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(Config, ExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             var settings = OurExperiment.ParseSettings(googleExperiment.Description);
@@ -28,7 +28,7 @@ namespace Endzone.uSplit.Commands
             settings.SegmentationValue = Value;
             googleExperiment.Description = OurExperiment.UpdateSettings(googleExperiment.Description, settings);
 
-            var request = service.Management.Experiments.Patch(googleExperiment);
+            var request = service.Management.Experiments.Patch(Config, googleExperiment);
             return await request.ExecuteAsync();
         }
     }

@@ -10,6 +10,8 @@
             localizationService,
             notificationsService,
             uSplitManageResource) {
+        
+            var profileId = $scope.currentAction.metaData.profileId;
 
             var searchText = "Search...";
             localizationService.localize("general_search")
@@ -98,7 +100,7 @@
             $scope.editExperiment = function () {
                 $scope.nav.hideDialog();
                 $location.search("");
-                $location.path("content/abtesting/experiment/" + $scope.experiment.id);
+                $location.path("content/abtesting/experiment/" + $scope.experiment.id + encodeURI("?" + profileId));
             }
 
             $scope.create = function() {
@@ -106,7 +108,7 @@
                 $scope.busy = true;
                 $scope.error = false;
 
-                uSplitManageResource.createExperiment($scope.target.id)
+                uSplitManageResource.createExperiment($scope.target.id, profileId)
                     .then(function (createResponse) {   
                         $scope.error = false;
                         $scope.success = true;

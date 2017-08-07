@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
+using ClientDependency.Core;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
@@ -40,8 +43,16 @@ namespace Endzone.uSplit.Backoffice
                 var nodes = AsyncHelpers.RunSync(() => GetTreeNodesAsync(queryStrings));
                 return nodes;
             }
+            
+            var accounts = AccountConfig.GetAll().ToList();
+            var account = accounts.FirstOrDefault(x => x.GoogleProfileId == id);
+            if (account != null)
+            {
+                var nodes = AsyncHelpers.RunSync(() => GetTreeNodesForAccountAsync(queryStrings, account));
+                return nodes;
+            }
 
-            throw new NotSupportedException("We do not have any children at the moment");
+            throw new NotSupportedException("Invalid node id");
         }
 
         private static bool IsRootNode(string id)
@@ -52,34 +63,79 @@ namespace Endzone.uSplit.Backoffice
         private async Task<TreeNodeCollection> GetTreeNodesAsync(FormDataCollection queryStrings)
         {
             var nodes = new TreeNodeCollection();
-
-            if (!await uSplitAuthorizationCodeFlow.Instance.IsConnected(CancellationToken.None))
+            var accounts = AccountConfig.GetAll().ToList();
+            if (accounts.Count() > 1)
             {
-                nodes.Add(CreateTreeNode("error", $"{UmbracoConstants.System.Root}", queryStrings, "ERROR - Google API not connected", "icon-alert"));
-            }
-            else
+                foreach (var account in AccountConfig.GetAll())
+                {
+                    var accountNode = CreateAccountNode(account, queryStrings);
+                    nodes.Add(accountNode);
+                }
+            } else if (accounts.Count() == 1)
             {
-                try
-                {
-                    var experiments = await ExecuteAsync(new GetExperiments());
-                    foreach (var experiment in experiments.Items)
-                    {
-                        var e = new Experiment(experiment);
-                        nodes.Add(CreateExperimentNode(e, queryStrings));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var messages = ex.Message.Split('\n');
-                    var message = messages.Length > 1 ? messages[1] : ex.Message;
-                    nodes.Add(CreateTreeNode("error", $"{UmbracoConstants.System.Root}", queryStrings, message));
-                }
+                return await GetTreeNodesForAccountAsync(queryStrings, accounts[0]);
             }
 
             return nodes;
         }
+        
+        private async Task<TreeNodeCollection> GetTreeNodesForAccountAsync(FormDataCollection queryStrings, AccountConfig config)
+        {
+            var nodes = new TreeNodeCollection();
+            
+            string parentId = config.GoogleProfileId;
+            
+            if (!await uSplitAuthorizationCodeFlow.GetInstance(config).IsConnected(CancellationToken.None))
+            {
+                nodes.Add(CreateTreeNode("error", parentId, queryStrings,
+                    "ERROR - Google API not connected", "icon-alert"));
+            }
+            else
+            {
+                nodes.AddRange(await CreateExperimentNodes(queryStrings, parentId, config));
+            }
 
-        private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings)
+            return nodes;
+        }
+        
+        private TreeNode CreateAccountNode(AccountConfig config, FormDataCollection queryStrings)
+        {
+            var name = config.Name;
+            if (name.IsNullOrWhiteSpace()) name = config.GoogleProfileId;
+
+            const string icon = Constants.Icons.Account + " color-black";
+
+            var url = $"content/{Constants.Trees.AbTesting}/dashboard/{config.GoogleProfileId}/";
+            var node = CreateTreeNode(config.GoogleProfileId, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
+            node.HasChildren = true;
+            return node;
+        }
+
+        private async Task<TreeNodeCollection> CreateExperimentNodes(FormDataCollection queryStrings, string parentId, AccountConfig config)
+        {
+            var nodes = new TreeNodeCollection();
+            
+            try
+            {
+                var experiments = await ExecuteAsync(new GetExperiments(config));
+                foreach (var experiment in experiments.Items)
+                {
+                    var e = new Experiment(experiment);
+                    nodes.Add(CreateExperimentNode(e, queryStrings, parentId));
+                }
+            }
+            catch (Exception ex)
+            {
+                var messages = ex.Message.Split('\n');
+                var message = messages.Length > 1 ? messages[1] : ex.Message;
+                nodes.Add(CreateTreeNode("error", parentId, queryStrings, message));
+            }
+
+            return nodes;
+        }
+        
+
+        private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings, string parentId)
         {
             var name = experiment.GoogleExperiment.Name;
 
@@ -103,8 +159,9 @@ namespace Endzone.uSplit.Backoffice
                     icon = Constants.Icons.Block + " color-red";
                     break;
             }
-            var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.GoogleExperiment.Id}";
-            return CreateTreeNode(experiment.GoogleExperiment.Id, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
+            var url = $"content/{Constants.Trees.AbTesting}/experiment/{experiment.GoogleExperiment.Id}?{parentId}";
+            var node = CreateTreeNode(experiment.GoogleExperiment.Id, parentId, queryStrings, name, icon, url);
+            return node;
         }
 
 
@@ -112,10 +169,17 @@ namespace Endzone.uSplit.Backoffice
         {
             var menu = new MenuItemCollection();
 
+            var accounts = AccountConfig.GetAll().ToList();
             if (IsRootNode(id))
             {
-
-                menu.Items.Add<ActionNew>("Create a new experiment");
+                if (accounts.Count == 1)
+                {
+                    menu.Items.Add<ActionNew>("Create a new experiment", "profileId", accounts.First().GoogleProfileId);
+                }
+            }
+            else if (accounts.Any(x => x.GoogleProfileId == id)) 
+            {
+                menu.Items.Add<ActionNew>("Create a new experiment", "profileId", id);
             }
             else //experiment node
             {
