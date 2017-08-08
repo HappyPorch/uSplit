@@ -47,7 +47,7 @@ namespace Endzone.uSplit.Pipeline
             var experiments = new List<GoogleExperiment>();
             foreach (var config in AccountConfig.GetAll())
             {
-                logger.Info(typeof(ExperimentsUpdater), $"Updating experiments data from Google Analytics for profile ${config.GoogleProfileId}.");
+                logger.Info(typeof(ExperimentsUpdater), $"Updating experiments data from Google Analytics for {config.Name} (ProfileId {config.GoogleProfileId}).");
                 try
                 {
                     var result = await new GetExperiments(config).ExecuteAsync();
@@ -55,7 +55,7 @@ namespace Endzone.uSplit.Pipeline
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(typeof(ExperimentsUpdater), $"Failed to download A/B testing data for profile ${config.GoogleProfileId}.", ex);
+                    logger.Error(typeof(ExperimentsUpdater), $"Failed to download A/B testing data for {config.Name} (ProfileId {config.GoogleProfileId}).", ex);
                 }
             }
 
