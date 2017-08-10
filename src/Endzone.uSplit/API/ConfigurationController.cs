@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -10,7 +9,6 @@ using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
 using Endzone.uSplit.Pipeline;
-using ImageProcessor.Common.Extensions;
 using Umbraco.Web.Mvc;
 
 namespace Endzone.uSplit.API
@@ -21,7 +19,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<bool> Status(string profileId, CancellationToken cancellationToken)
         {
-            var config = AccountConfig.GetByProfileId(profileId);
+            var config = AccountConfig.GetByUniqueId(profileId);
             return await uSplitAuthorizationCodeFlow.GetInstance(config).IsConnected(cancellationToken);
         }
 
@@ -49,7 +47,7 @@ namespace Endzone.uSplit.API
                     HasAccess = hasAccess,
                     IsConnected = isConnected,
                     Error = error,
-                    ProfileId = config.GoogleProfileId,
+                    ProfileId = config.UniqueId,
                 });
             }
             return CreateResponse(response);

@@ -19,7 +19,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<HttpResponseMessage> GetExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new GetGoogleExperiment(AccountConfig.GetByProfileId(profileId))
+            var experiment = await ExecuteAsync(new GetGoogleExperiment(AccountConfig.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = id
             });
@@ -33,7 +33,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<GoogleExperiment> CreateExperimentAsync(int id, string profileId)
         {
-            return await ExecuteAsync(new CreateExperiment(AccountConfig.GetByProfileId(profileId))
+            return await ExecuteAsync(new CreateExperiment(AccountConfig.GetByUniqueId(profileId))
             {
                 NodeUnderTestId = id
             });
@@ -42,7 +42,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<HttpResponseMessage> AddVariationAsync(string profileId, [FromBody]AddVariationRequest request)
         {
-            var variationDetails = await ExecuteAsync(new AddVariation(AccountConfig.GetByProfileId(profileId))
+            var variationDetails = await ExecuteAsync(new AddVariation(AccountConfig.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = request.ExperimentId,
                 NodeId = request.NodeId
@@ -61,7 +61,7 @@ namespace Endzone.uSplit.API
             }
             else
             {
-                config = AccountConfig.GetByProfileId(profileId);                
+                config = AccountConfig.GetByUniqueId(profileId);                
             }
             
             
@@ -75,7 +75,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task DeleteVariationAsync(string profileId, [FromBody]DeleteVariationRequest request)
         {
-            await ExecuteAsync(new DeleteVariation(AccountConfig.GetByProfileId(profileId))
+            await ExecuteAsync(new DeleteVariation(AccountConfig.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = request.ExperimentId,
                 VariationName = request.VariationName
@@ -85,7 +85,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<HttpResponseMessage> StartExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new StartExperiment(AccountConfig.GetByProfileId(profileId))
+            var experiment = await ExecuteAsync(new StartExperiment(AccountConfig.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = id
             });
@@ -99,7 +99,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<HttpResponseMessage> StopExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new StopExperiment(AccountConfig.GetByProfileId(profileId), id));
+            var experiment = await ExecuteAsync(new StopExperiment(AccountConfig.GetByUniqueId(profileId), id));
             var details = await ExecuteAsync(new GetExperimentDetails()
             {
                 Experiment = experiment
@@ -110,7 +110,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<IHttpActionResult> SetSegmentAsync(string profileId, [FromBody]SetSegmentRequest request)
         {
-            await ExecuteAsync(new SetSegment(AccountConfig.GetByProfileId(profileId)) {
+            await ExecuteAsync(new SetSegment(AccountConfig.GetByUniqueId(profileId)) {
                 ExperimentId = request.ExperimentId,
                 ProviderKey = request.ProviderKey,
                 Value = request.Value

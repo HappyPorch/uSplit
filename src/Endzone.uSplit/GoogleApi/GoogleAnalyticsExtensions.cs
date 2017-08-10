@@ -1,5 +1,4 @@
-﻿using System.Web.Configuration;
-using Endzone.uSplit.Models;
+﻿using Endzone.uSplit.Models;
 using Google.Apis.Analytics.v3;
 using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 

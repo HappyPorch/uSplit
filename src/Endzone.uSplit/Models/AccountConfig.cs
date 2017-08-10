@@ -16,6 +16,8 @@ namespace Endzone.uSplit.Models
         public string GoogleWebPropertyId { get; }
         public string GoogleProfileId { get; }
 
+        public string UniqueId => GoogleProfileId;
+
         public AccountConfig(NameValueCollection settings, string name)
         {
             Name = name;
@@ -25,10 +27,19 @@ namespace Endzone.uSplit.Models
             GoogleWebPropertyId = GetValue(settings, Constants.AppSettings.GoogleWebPropertyId);
             GoogleProfileId = GetValue(settings, Constants.AppSettings.GoogleProfileId);
         }
-
-        public string GetValue(NameValueCollection appSettings, string key)
+        
+        protected string GetValue(NameValueCollection appSettings, string key)
         {
             return appSettings[GetFullKey(Name, key)];
+        }
+
+        protected static string GetFullKey(string name, string key)
+        {
+            if (name.IsNullOrWhiteSpace())
+            {
+                return $"{Constants.AppSettings.Prefix}:{key}";
+            }
+            return $"{Constants.AppSettings.Prefix}:{name}:{key}";
         }
 
         public static IEnumerable<AccountConfig> GetAll()
@@ -49,26 +60,17 @@ namespace Endzone.uSplit.Models
                     names.Add(parts[1]);
                 }
             }
-            return names.Select(Get);
+            return names.Select(GetByName);
         }
-
-        public static AccountConfig Get(string name)
+        
+        public static AccountConfig GetByName(string name)
         {
             return new AccountConfig(WebConfigurationManager.AppSettings, name);
         }
 
-        public static string GetFullKey(string name, string key)
+        public static AccountConfig GetByUniqueId(string uniqueId)
         {
-            if (name.IsNullOrWhiteSpace())
-            {
-                return $"{Constants.AppSettings.Prefix}:{key}";
-            }
-            return $"{Constants.AppSettings.Prefix}:{name}:{key}";
-        }
-
-        public static AccountConfig GetByProfileId(string profileId)
-        {
-            return GetAll().First(x => x.GoogleProfileId == profileId);
+            return GetAll().First(x => x.UniqueId == uniqueId);
         }
     }
 }

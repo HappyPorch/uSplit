@@ -20,11 +20,11 @@ namespace Endzone.uSplit.GoogleApi
     {
         public static uSplitAuthorizationCodeFlow GetInstance(AccountConfig config)
         {
-            if (!Instances.ContainsKey(config.GoogleProfileId))
+            if (!Instances.ContainsKey(config.UniqueId))
             {
-                Instances[config.GoogleProfileId] = new uSplitAuthorizationCodeFlow(config);
+                Instances[config.UniqueId] = new uSplitAuthorizationCodeFlow(config);
             }
-            return Instances[config.GoogleProfileId];
+            return Instances[config.UniqueId];
         }
         
         public static readonly Dictionary<string, uSplitAuthorizationCodeFlow> Instances = new Dictionary<string, uSplitAuthorizationCodeFlow>();

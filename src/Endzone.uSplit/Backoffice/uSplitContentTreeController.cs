@@ -45,7 +45,7 @@ namespace Endzone.uSplit.Backoffice
             }
             
             var accounts = AccountConfig.GetAll().ToList();
-            var account = accounts.FirstOrDefault(x => x.GoogleProfileId == id);
+            var account = accounts.FirstOrDefault(x => x.UniqueId == id);
             if (account != null)
             {
                 var nodes = AsyncHelpers.RunSync(() => GetTreeNodesForAccountAsync(queryStrings, account));
@@ -83,7 +83,7 @@ namespace Endzone.uSplit.Backoffice
         {
             var nodes = new TreeNodeCollection();
             
-            string parentId = config.GoogleProfileId;
+            string parentId = config.UniqueId;
             
             if (!await uSplitAuthorizationCodeFlow.GetInstance(config).IsConnected(CancellationToken.None))
             {
@@ -101,12 +101,12 @@ namespace Endzone.uSplit.Backoffice
         private TreeNode CreateAccountNode(AccountConfig config, FormDataCollection queryStrings)
         {
             var name = config.Name;
-            if (name.IsNullOrWhiteSpace()) name = config.GoogleProfileId;
+            if (name.IsNullOrWhiteSpace()) name = config.UniqueId;
 
             const string icon = Constants.Icons.Account + " color-black";
 
-            var url = $"content/{Constants.Trees.AbTesting}/dashboard/{config.GoogleProfileId}/";
-            var node = CreateTreeNode(config.GoogleProfileId, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
+            var url = $"content/{Constants.Trees.AbTesting}/dashboard/{config.UniqueId}/";
+            var node = CreateTreeNode(config.UniqueId, $"{UmbracoConstants.System.Root}", queryStrings, name, icon, url);
             node.HasChildren = true;
             return node;
         }
@@ -174,10 +174,10 @@ namespace Endzone.uSplit.Backoffice
             {
                 if (accounts.Count == 1)
                 {
-                    menu.Items.Add<ActionNew>("Create a new experiment", "profileId", accounts.First().GoogleProfileId);
+                    menu.Items.Add<ActionNew>("Create a new experiment", "profileId", accounts.First().UniqueId);
                 }
             }
-            else if (accounts.Any(x => x.GoogleProfileId == id)) 
+            else if (accounts.Any(x => x.UniqueId == id)) 
             {
                 menu.Items.Add<ActionNew>("Create a new experiment", "profileId", id);
             }
