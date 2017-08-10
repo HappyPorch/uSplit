@@ -39,15 +39,15 @@ namespace Endzone.uSplit.GoogleApi
                     ClientSecret = config.GoogleClientSecret
                 },
                 Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
-                DataStore = new FileDataStore(GetStoragePath(), true),
+                DataStore = new FileDataStore(GetStoragePath(config), true),
                 UserDefinedQueryParams = new []{new KeyValuePair<string, string>("testkey", "testvalue"), },
             };
         }
 
-        private static string GetStoragePath()
+        private static string GetStoragePath(AccountConfig config)
         {
             var appName = Constants.ApplicationName;
-            var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth");
+            var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth/{config.UniqueId}");
             return storagePath;
         }
 
