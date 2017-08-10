@@ -34,8 +34,11 @@ namespace Endzone.uSplit.API
 
                 try
                 {
-                    hasAccess = await new CheckAccess(config).ExecuteAsync();
                     isConnected = await uSplitAuthorizationCodeFlow.GetInstance(config).IsConnected(cancellationToken);
+                    if (isConnected)
+                    {
+                        hasAccess = await new CheckAccess(config).ExecuteAsync();
+                    }
                 }
                 catch (Exception ex)
                 {
