@@ -36,6 +36,7 @@ namespace Endzone.uSplit.Pipeline
             logger.Debug(GetType(), "uSplit is processing a request");
             var request = sender as PublishedContentRequest;
             var originalContent = request?.PublishedContent;
+            var originalTemplateAlias = request?.TemplateAlias;
             try
             {
                 Process(request);
@@ -45,7 +46,11 @@ namespace Endzone.uSplit.Pipeline
                 logger.Error(GetType(), "Exception has been thrown when uSplit processed the request", e);
                 if (request != null)
                 {
-                    request.PublishedContent = originalContent;
+                    if (request.PublishedContent != originalContent)
+                        request.PublishedContent = originalContent;
+
+                    if (request.TemplateAlias != originalTemplateAlias)
+                        request.TrySetTemplate(originalTemplateAlias);
                 }
             }
         }
