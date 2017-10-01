@@ -27,8 +27,8 @@ namespace Endzone.uSplit
         public static class AppSettings
         {
             public const string Prefix              = "uSplit";
-            public const string GoogleClientId      = "googleClientId";
-            public const string GoogleClientSecret  = "googleClientSecret";
+            public const string GoogleClientId      = "uSplit:googleClientId";
+            public const string GoogleClientSecret  = "uSplit:googleClientSecret";
             public const string GoogleAccountId     = "accountId";
             public const string GoogleWebPropertyId = "webPropertyId";
             public const string GoogleProfileId     = "profileId";

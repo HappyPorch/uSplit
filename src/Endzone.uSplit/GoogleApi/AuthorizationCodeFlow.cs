@@ -12,7 +12,6 @@ using Google.Apis.Util.Store;
 using System.Web.Hosting;
 using Endzone.uSplit.Models;
 using Google.Apis.Auth.OAuth2.Requests;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace Endzone.uSplit.GoogleApi
 {
@@ -35,8 +34,8 @@ namespace Endzone.uSplit.GoogleApi
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = config.GoogleClientId,
-                    ClientSecret = config.GoogleClientSecret
+                    ClientId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientId],
+                    ClientSecret = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientSecret]
                 },
                 Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
                 DataStore = new FileDataStore(GetStoragePath(config), true),

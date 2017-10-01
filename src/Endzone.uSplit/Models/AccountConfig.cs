@@ -10,8 +10,6 @@ namespace Endzone.uSplit.Models
     public class AccountConfig
     {
         public string Name { get; }
-        public string GoogleClientId { get; }
-        public string GoogleClientSecret { get; }
         public string GoogleAccountId { get; }
         public string GoogleWebPropertyId { get; }
         public string GoogleProfileId { get; }
@@ -21,8 +19,6 @@ namespace Endzone.uSplit.Models
         public AccountConfig(NameValueCollection settings, string name)
         {
             Name = name;
-            GoogleClientId = GetValue(settings, Constants.AppSettings.GoogleClientId);
-            GoogleClientSecret = GetValue(settings, Constants.AppSettings.GoogleClientSecret);
             GoogleAccountId = GetValue(settings, Constants.AppSettings.GoogleAccountId);
             GoogleWebPropertyId = GetValue(settings, Constants.AppSettings.GoogleWebPropertyId);
             GoogleProfileId = GetValue(settings, Constants.AppSettings.GoogleProfileId);
