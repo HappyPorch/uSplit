@@ -56,7 +56,7 @@ namespace Endzone.uSplit.Models
                     names.Add(parts[1]);
                 }
             }
-            return names.Select(GetByName);
+            return names.Select(GetByName).Where(x => !string.IsNullOrEmpty(x.GoogleProfileId));
         }
         
         public static AccountConfig GetByName(string name)
