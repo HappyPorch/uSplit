@@ -7,10 +7,16 @@ namespace Endzone.uSplit.Commands
 {
     public class StartExperiment : GoogleApiCommand<Experiment>
     {
+        public string GoogleExperimentId { get; set; }
+
+        public StartExperiment(AccountConfig config) : base(config)
+        {
+        }
+        
         public override async Task<Experiment> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(GoogleExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(Config, GoogleExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             googleExperiment.Status = "RUNNING";
@@ -19,7 +25,7 @@ namespace Endzone.uSplit.Commands
                 googleExperiment.ObjectiveMetric = "ga:pageviews";
             }
 
-            var request = service.Management.Experiments.Patch(googleExperiment);
+            var request = service.Management.Experiments.Patch(Config, googleExperiment);
             var experiment = await request.ExecuteAsync();
 
             var parsedExperiment = new Experiment(experiment);
@@ -30,7 +36,5 @@ namespace Endzone.uSplit.Commands
 
             return parsedExperiment;
         }
-
-        public string GoogleExperimentId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Endzone.uSplit.GoogleApi;
+using Endzone.uSplit.Models;
 using Umbraco.Core;
 
 namespace Endzone.uSplit.Commands
@@ -7,10 +8,15 @@ namespace Endzone.uSplit.Commands
     public class DeleteExperiment : GoogleApiCommand<object>
     {
         public string GoogleExperimentId { get; set; }
+        
+        public DeleteExperiment(AccountConfig config) : base(config)
+        {
+        }
+        
         public override async Task<object> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var request = service.Management.Experiments.Delete(GoogleExperimentId);
+            var request = service.Management.Experiments.Delete(Config, GoogleExperimentId);
             var response = await request.ExecuteAsync();
 
             //update cache

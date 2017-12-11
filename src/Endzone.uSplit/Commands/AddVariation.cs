@@ -8,10 +8,17 @@ namespace Endzone.uSplit.Commands
 {
     public class AddVariation : GoogleApiCommand<VariationDetails>
     {
+        public string GoogleExperimentId { get; set; }
+        public int NodeId { get; set; }
+        
+        public AddVariation(AccountConfig config) : base(config)
+        {
+        }
+        
         public override async Task<VariationDetails> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(GoogleExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(Config, GoogleExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             var node = UmbracoContext.Application.Services.ContentService.GetById(NodeId);
@@ -24,7 +31,7 @@ namespace Endzone.uSplit.Commands
                 Url = urlId
             });
 
-            var request = service.Management.Experiments.Patch(googleExperiment);
+            var request = service.Management.Experiments.Patch(Config, googleExperiment);
             await request.ExecuteAsync();
             return new VariationDetails()
             {
@@ -33,8 +40,5 @@ namespace Endzone.uSplit.Commands
                 NodeId = NodeId
             };
         }
-
-        public string GoogleExperimentId { get; set; }
-        public int NodeId { get; set; }
     }
 }

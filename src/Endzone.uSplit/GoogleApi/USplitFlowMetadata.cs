@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using Endzone.uSplit.Models;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Mvc;
 
@@ -6,8 +7,11 @@ namespace Endzone.uSplit.GoogleApi
 {
     public class uSplitFlowMetadata : FlowMetadata
     {
-        public uSplitFlowMetadata()
+        private readonly AccountConfig _config;
+
+        public uSplitFlowMetadata(AccountConfig config)
         {
+            _config = config;
             AuthCallback = "/" + Constants.Google.CallbackUrl;
         }
 
@@ -15,6 +19,6 @@ namespace Endzone.uSplit.GoogleApi
 
         public override string AuthCallback { get; }
 
-        public override IAuthorizationCodeFlow Flow => uSplitAuthorizationCodeFlow.Instance;
+        public override IAuthorizationCodeFlow Flow => uSplitAuthorizationCodeFlow.GetInstance(_config);
     }
 }

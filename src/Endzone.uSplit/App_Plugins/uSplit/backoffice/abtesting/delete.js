@@ -5,9 +5,10 @@
             $scope.performDelete = function () {
 
                 //mark it for deletion (used in the UI)
+                var profileId = $scope.currentNode.parentId;
                 $scope.currentNode.loading = true;
 
-                uSplitManageResource.deleteExperiment($scope.currentNode.id).then(function () {
+                uSplitManageResource.deleteExperiment($scope.currentNode.id, profileId).then(function () {
                     $scope.currentNode.loading = false;
 
                     var rootNode = treeService.getTreeRoot($scope.currentNode);

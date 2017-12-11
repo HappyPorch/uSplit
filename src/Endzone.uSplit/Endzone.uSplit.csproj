@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}</ProjectGuid>
+    <ProjectGuid>{63B5828B-3343-4603-879A-F81726E1497B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Endzone.uSplit</RootNamespace>
@@ -315,6 +315,7 @@
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="ISegmentationProvider.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
+    <Compile Include="Models\AccountConfig.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Models\IExperiment.cs" />
     <Compile Include="Models\IPublishedContentVariation.cs" />
     <Compile Include="Models\PublishedContentVariation.cs" />
+    <Compile Include="Models\SetSegmentRequest.cs" />
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />

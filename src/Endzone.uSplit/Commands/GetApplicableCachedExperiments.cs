@@ -6,6 +6,7 @@ using Google.Apis.Analytics.v3.Data;
 using Umbraco.Core;
 using Umbraco.Core.Cache;
 using Experiment = Endzone.uSplit.Models.Experiment;
+using GoogleExperiment = Google.Apis.Analytics.v3.Data.Experiment;
 
 namespace Endzone.uSplit.Commands
 {
@@ -43,10 +44,10 @@ namespace Endzone.uSplit.Commands
         private List<Experiment> ParseRawExperiments()
         {
             var experiments = new List<Experiment>();
-            var rawData = Cache.GetCacheItem<Experiments>(Constants.Cache.RawExperimentData);
+            var rawData = Cache.GetCacheItem<List<GoogleExperiment>>(Constants.Cache.RawExperimentData);
             if (rawData != null)
             {
-                experiments.AddRange(rawData.Items.Select(i => new Experiment(i)));
+                experiments.AddRange(rawData.Select(i => new Experiment(i)));
             }
             return experiments;
         }
