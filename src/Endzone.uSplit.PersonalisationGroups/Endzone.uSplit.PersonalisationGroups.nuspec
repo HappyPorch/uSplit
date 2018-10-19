@@ -16,7 +16,7 @@
     <tags>umbraco abtesting segmentation</tags>
     <dependencies>
 	  <dependency id="UmbracoPersonalisationGroups" version="0.2.1" />
-      <dependency id="Endzone.uSplit" version="1.0.80" />
+      <dependency id="Endzone.uSplit" version="1.7" />
     </dependencies>
   </metadata>
   <files>
