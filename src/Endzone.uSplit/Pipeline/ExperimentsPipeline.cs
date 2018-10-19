@@ -8,6 +8,7 @@ using Endzone.uSplit.Models;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 using Experiment = Endzone.uSplit.Models.Experiment;
@@ -108,6 +109,11 @@ namespace Endzone.uSplit.Pipeline
 
             var variedContent = new VariedContent(request.PublishedContent, variationsToApply.ToArray());
             request.PublishedContent = variedContent;
+            request.SetIsInitialPublishedContent();
+
+            //Reset the published content now we have set the initial content
+            request.PublishedContent = PublishedContentModelFactoryResolver.Current.Factory.CreateModel(variedContent);
+
             request.TrySetTemplate(variedContent.GetTemplateAlias());
         }
 

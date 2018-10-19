@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
+using Umbraco.Web.Routing;
 
 namespace Endzone.uSplit
 {
@@ -22,9 +23,10 @@ namespace Endzone.uSplit
 
                 var umbracoContext = helper.ViewContext.HttpContext.GetUmbracoContext();
                 var request = umbracoContext.PublishedContentRequest;
-
-                return request?.PublishedContent as VariedContent;
+                return request?.InitialPublishedContent as VariedContent;
             }
+
+
 
             /// <summary>
             /// Renders a series of analytics.js JavaScript method calls that report the
