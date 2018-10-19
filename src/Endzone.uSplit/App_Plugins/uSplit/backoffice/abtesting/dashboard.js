@@ -1,32 +1,40 @@
 ﻿angular.module("umbraco").controller("uSplit.abTesting.configurationController",
-    function ($scope, $q, uSplitConfigurationResource) {
+    function ($scope, $q, $routeParams, navigationService, uSplitConfigurationResource) {
 
         $scope.loaded = false;
-        $scope.connected = false;
-        $scope.hasAccess = false;
+        $scope.accounts = [];
+        
+        var path = [-1];
+        if ($routeParams.id) path.push($routeParams.id);
+        navigationService.syncTree({ tree: "abtesting", path: path, forceReload: false, activate: true });
 
         $scope.tabs = [
             { id: "configuration", label: "Configuration" },
             { id: "instructions", label: "Instructions" }
         ];
 
-        $scope.reauthorize = function () {
-            window.location = 'backoffice/usplit/GoogleAuth/ReauthorizeAsync?originalUrl=' + encodeURIComponent(window.location);
-        }
+        $scope.reauthorize = function (profileId) {
+            window.location = 'backoffice/usplit/GoogleAuth/ReauthorizeAsync?originalUrl=' + encodeURIComponent(window.location) + '&profileId=' + profileId;
+        };
 
         $scope.refresh = function () {
             $scope.loaded = false;
-
-            var statusUpdate = uSplitConfigurationResource.getStatus().then(function (response) {
-                $scope.connected = response.data === "true";
-            });
-
+            $scope.accounts = [];
+            
             var accessUpdate = uSplitConfigurationResource.checkAccess().then(function (response) {
-                $scope.hasAccess = response.data.hasAccess;
-                $scope.message = response.data.error;
+                for (var i = 0; i < response.data.length; i++) {
+                    var data = response.data[i];
+                    $scope.accounts.push({
+                        name: data.name,
+                        profileId: data.profileId,
+                        connected: data.isConnected,
+                        hasAccess: data.hasAccess,
+                        message: data.error,
+                    });
+                }
             });
 
-            $q.all(statusUpdate, accessUpdate)
+            $q.all(accessUpdate)
                 .then(function() {
                     $scope.loaded = true;
                 });

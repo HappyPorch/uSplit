@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}</ProjectGuid>
+    <ProjectGuid>{63B5828B-3343-4603-879A-F81726E1497B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Endzone.uSplit</RootNamespace>
@@ -300,6 +300,7 @@
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="ISegmentationProvider.cs" />
     <Compile Include="Models\AddVariationRequest.cs" />
+    <Compile Include="Models\AccountConfig.cs" />
     <Compile Include="Models\DeleteVariationRequest.cs" />
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="GoogleApi\AuthorizationCodeFlow.cs" />
@@ -315,6 +316,7 @@
     <Compile Include="Models\IExperiment.cs" />
     <Compile Include="Models\IPublishedContentVariation.cs" />
     <Compile Include="Models\PublishedContentVariation.cs" />
+    <Compile Include="Models\SetSegmentRequest.cs" />
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />
@@ -356,7 +358,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)..\..\packages\UmbracoCms.Core.7.4.3\lib\log4net.dll $(ProjectDir)..\..\lib\log4net\1.2.11.0\* /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

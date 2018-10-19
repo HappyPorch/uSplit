@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Configuration;
@@ -9,38 +10,47 @@ using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Util;
 using Google.Apis.Util.Store;
 using System.Web.Hosting;
+using Endzone.uSplit.Models;
 using Google.Apis.Auth.OAuth2.Requests;
 
 namespace Endzone.uSplit.GoogleApi
 {
     public class uSplitAuthorizationCodeFlow : GoogleAuthorizationCodeFlow
     {
-        public static readonly uSplitAuthorizationCodeFlow Instance;
-
-        private static readonly Initializer FlowInitializer = new Initializer
+        public static uSplitAuthorizationCodeFlow GetInstance(AccountConfig config)
         {
-            ClientSecrets = new ClientSecrets
+            if (!Instances.ContainsKey(config.UniqueId))
             {
-                ClientId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientId],
-                ClientSecret = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientSecret]
-            },
-            Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
-            DataStore = new FileDataStore(GetStoragePath(), true),
-        };
+                Instances[config.UniqueId] = new uSplitAuthorizationCodeFlow(config);
+            }
+            return Instances[config.UniqueId];
+        }
+        
+        public static readonly Dictionary<string, uSplitAuthorizationCodeFlow> Instances = new Dictionary<string, uSplitAuthorizationCodeFlow>();
 
-        private static string GetStoragePath()
+        private static Initializer CreateFlowInitializer(AccountConfig config)
+        {
+            return new Initializer
+            {
+                ClientSecrets = new ClientSecrets
+                {
+                    ClientId = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientId],
+                    ClientSecret = WebConfigurationManager.AppSettings[Constants.AppSettings.GoogleClientSecret]
+                },
+                Scopes = new[] {AnalyticsService.Scope.AnalyticsEdit},
+                DataStore = new FileDataStore(GetStoragePath(config), true),
+                UserDefinedQueryParams = new []{new KeyValuePair<string, string>("testkey", "testvalue"), },
+            };
+        }
+
+        private static string GetStoragePath(AccountConfig config)
         {
             var appName = Constants.ApplicationName;
-            var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth");
+            var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth/{config.UniqueId}");
             return storagePath;
         }
 
-        static uSplitAuthorizationCodeFlow()
-        {
-            Instance = new uSplitAuthorizationCodeFlow();
-        }
-
-        private uSplitAuthorizationCodeFlow() : base(FlowInitializer)
+        private uSplitAuthorizationCodeFlow(AccountConfig config) : base(CreateFlowInitializer(config))
         {
             
         }
@@ -68,7 +78,7 @@ namespace Endzone.uSplit.GoogleApi
 
         private bool DoWeHaveUsefulToken(TokenResponse token)
         {
-            if (Instance.ShouldForceTokenRetrieval() || token == null)
+            if (ShouldForceTokenRetrieval() || token == null)
                 return true;
             if (token.RefreshToken == null)
                 return token.IsExpired(SystemClock.Default);

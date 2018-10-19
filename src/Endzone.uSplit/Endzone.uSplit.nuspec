@@ -11,7 +11,7 @@
     <iconUrl>https://cdn.rawgit.com/EndzoneSoftware/uSplit/master/meta/split%20-%20nuget%20package%20icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A/B testing for Umbraco</description>
-    <releaseNotes>uSplit 1.6.x is compiled against Umbraco 7.6. uSplit 1.0.x is for Umbraco 7.3-7.5 and contains the same functionality.</releaseNotes>
+    <releaseNotes>uSplit 1.6+ is compiled against Umbraco 7.6. uSplit 1.0.x is for Umbraco 7.3-7.5 and is no longer maintained.</releaseNotes>
     <copyright>N/A</copyright> 
     <tags>umbraco abtesting</tags>
     <dependencies>

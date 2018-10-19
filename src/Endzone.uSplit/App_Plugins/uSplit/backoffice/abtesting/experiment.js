@@ -1,25 +1,27 @@
 ﻿angular.module("umbraco").controller("uSplit.abTesting.experimentController",
     function ($scope,
-        $routeParams,
-        $q,
-        notificationsService,
-        editorState,
-        dialogService,
-        contentResource,
-        navigationService,
-        $location,
-        uSplitConfigurationResource,
-        uSplitManageResource) {
+              $routeParams,
+              $q,
+              notificationsService,
+              editorState,
+              dialogService,
+              contentResource,
+              navigationService,
+              $location,
+              uSplitConfigurationResource,
+              uSplitManageResource) {
 
         $scope.loaded = false;
         //refactor this to a parent controller?
         $scope.apiReady = false;
 
-        var experimentId = $scope.experimentId = $routeParams.id;
-        navigationService.syncTree({ tree: "abtesting", path: [-1, experimentId], forceReload: false, activate: true });
+        var urlParts = decodeURI($routeParams.id).split("?");
+        var profileId = $scope.profileId = urlParts[1];
+        var experimentId = $scope.experimentId = urlParts[0];
+        navigationService.syncTree({ tree: "abtesting", path: [-1, profileId, experimentId], forceReload: false, activate: true });
 
         $scope.tabs = [{ id: "variations", label: "Variations" }, { id: "debug", label: "Debug" }];
-        
+
         var noSegmentation = {
             name: "All traffic",
             providerKey: null,
@@ -68,12 +70,12 @@
 
             //we need reference data
             segmentationProvidersUpdate.then(function() {
-                var statusUpdate = uSplitConfigurationResource.getStatus()
+                var statusUpdate = uSplitConfigurationResource.getStatus(profileId)
                     .then(function (response) {
                         $scope.apiReady = response.data === "true";
                     }, handleDotNetError);
 
-                var experimentLoad = uSplitManageResource.getExperiment(experimentId)
+                var experimentLoad = uSplitManageResource.getExperiment(experimentId, profileId)
                     .then(handleExperiment, handleDotNetError);
 
                 $q.all([statusUpdate, experimentLoad])
@@ -94,9 +96,9 @@
                 callback: function (data) {
                     //TODO: check if can be copied (e.g. doctype is amongst allowed chlidren)
                     contentResource.copy({ id: $scope.experiment.nodeId, parentId: data.id }).then(function (path) {
-                        var id = path.split(',').pop();
-                        uSplitManageResource.addVariation(experimentId, id).then(addToVariations);
-                    },
+                            var id = path.split(',').pop();
+                            uSplitManageResource.addVariation(experimentId, id, profileId).then(addToVariations);
+                        },
                         function(response) {
                             if (angular.isArray(response.data.notifications)) {
                                 for (var i = 0; i < response.data.notifications.length; i++) {
@@ -115,14 +117,14 @@
                 callback: function (data) {
                     //TODO: check for doctype
                     var id = data.id;
-                    uSplitManageResource.addVariation(experimentId, id).then(addToVariations);
+                    uSplitManageResource.addVariation(experimentId, id, profileId).then(addToVariations);
                 }
             });
         }
 
         //TODO: add an indicator and possibly disable input?
         $scope.deleteVariation = function (variationName) {
-            uSplitManageResource.deleteVariation(experimentId, variationName).then(function () {
+            uSplitManageResource.deleteVariation(experimentId, variationName, profileId).then(function () {
                 $scope.experiment.variations = $scope.experiment.variations.filter(function (v) {
                     return v.googleName !== variationName;
                 });
@@ -131,14 +133,14 @@
 
         //TODO: add an indicator and possibly disable input?
         $scope.start = function () {
-            uSplitManageResource.start(experimentId).then(function (response) {
+            uSplitManageResource.start(experimentId, profileId).then(function (response) {
                 handleExperiment(response);
             }, handleDotNetError);
         };
 
         //TODO: add an indicator and possibly disable input?
         $scope.stop = function () {
-            uSplitManageResource.stop(experimentId).then(function (response) {
+            uSplitManageResource.stop(experimentId, profileId).then(function (response) {
                 handleExperiment(response);
             }, handleDotNetError);
         };
@@ -155,7 +157,7 @@
                 return; //no change, initial load
 
             //update
-            uSplitManageResource.setSegment(experimentId, provider.providerKey, provider.value)
+            uSplitManageResource.setSegment(experimentId, provider.providerKey, provider.value, profileId)
                 .then(function () {
                     //local update to correctly detect new changes
                     $scope.experiment.segmentationProviderKey = provider.providerKey;

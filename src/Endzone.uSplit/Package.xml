@@ -5,12 +5,12 @@
   <info>
     <package>
       <name>uSplit</name>
-      <version>1.0.0</version>
+      <version>1.6.0</version>
       <license url="http://unlicense.org/">UNLICENSE</license>
       <url>http://endzonesoftware.com/usplit-ab-testing-for-umbraco/</url>
       <requirements>
         <major>7</major>
-        <minor>3</minor>
+        <minor>6</minor>
         <patch>0</patch>
       </requirements>
     </package>
@@ -18,13 +18,13 @@
       <name>Endzone Software</name>
       <website>http://endzonesoftware.com/</website>
     </author>
-    <readme><![CDATA[ATTENTION! ACTION REQUIRED!
+    <readme>
+  <![CDATA[
+Thank you for installing uSplit, the A/B testing plugin!
+    
+Check the step-by-step guide at http://www.endzonesoftware.com/installing-usplit/
 
-http://www.endzonesoftware.com/installing-usplit/
-
-It appears that you are installing uSplit in the form of an Umbraco package. Additional manual setup is required after the installation. Please open the installation guide and follow the steps closely.
-
-Faliure to follow these steps might break your site!
+Source code and issues at https://github.com/EndzoneSoftware/uSplit
 ]]></readme>
   </info>
   <DocumentTypes />

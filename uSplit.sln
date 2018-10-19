@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endzone.uSplit", "src\Endzone.uSplit\Endzone.uSplit.csproj", "{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endzone.uSplit", "src\Endzone.uSplit\Endzone.uSplit.csproj", "{63B5828B-3343-4603-879A-F81726E1497B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endzone.uSplit.Tests", "src\Endzone.uSplit.Tests\Endzone.uSplit.Tests.csproj", "{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}"
 EndProject
@@ -15,10 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97967EA9-EF01-47EF-BCF1-F91DEDDB95AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B5828B-3343-4603-879A-F81726E1497B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B5828B-3343-4603-879A-F81726E1497B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B5828B-3343-4603-879A-F81726E1497B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B5828B-3343-4603-879A-F81726E1497B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ABEEDAC-80B3-4736-84B0-37FA009FAD2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77A9B258-4BEB-45AF-8EF8-3C9F29FB3B4C}
 	EndGlobalSection
 EndGlobal

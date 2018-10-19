@@ -35,16 +35,16 @@ namespace Endzone.uSplit.Tests
         private Mock<ResultExecutedContext> resultExecutedMock;
         private Mock<IPublishedContentVariation> publishedContentVariationMock;
 
-        [SetUp]
         public override void Initialize()
         {
             base.Initialize();
 
+            settings = SettingsForTests.GenerateMockSettings();
+            SettingsForTests.ConfigureSettings(settings);
+
             var routeData = new RouteData();
             routeData.Values["controller"] = "DummyTestController";
             routeData.Values["action"] = "Index";
-
-            settings = SettingsForTests.GenerateMockSettings();
 
             routingContext = GetRoutingContext("http://localhost", -1, routeData, umbracoSettings: settings);
             umbracoContext = routingContext.UmbracoContext;
@@ -85,6 +85,7 @@ namespace Endzone.uSplit.Tests
             {
                 PublishedContent = variedContent
             };
+            docRequest.SetIsInitialPublishedContent();
 
             umbracoContext.PublishedContentRequest = docRequest;
 
