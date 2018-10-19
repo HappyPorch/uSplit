@@ -234,7 +234,7 @@
       <HintPath>..\..\packages\UmbracoCms.Core.7.6.0\lib\net45\umbraco.providers.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Tests">
-      <HintPath>lib\Umbraco 7.4.3\Umbraco.Tests.dll</HintPath>
+      <HintPath>lib\Umbraco 7.6.0\Umbraco.Tests.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Web.UI, Version=1.0.6331.7980, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\UmbracoCms.Core.7.6.0\lib\net45\Umbraco.Web.UI.dll</HintPath>
@@ -262,6 +262,15 @@
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.minimal.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\UmbracoSettings\web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

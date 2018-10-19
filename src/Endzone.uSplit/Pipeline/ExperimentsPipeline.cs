@@ -172,8 +172,7 @@ namespace Endzone.uSplit.Pipeline
             var cookie = request.RoutingContext.UmbracoContext.HttpContext.Request.Cookies.Get(Constants.Cookies.CookieVariationName + experimentId);
             if (cookie != null)
             {
-                int variationId = 0;
-                if (int.TryParse(cookie.Value, out variationId))
+                if (int.TryParse(cookie.Value, out var variationId))
                 {
                     return variationId;
                 }
