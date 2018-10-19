@@ -11,22 +11,11 @@
 the A/B testing plugin for Umbraco.
 
 
-Installation - ACTION REQUIRED!
+Installation Note
 -------------------------------
 
-Installting this package likely broke your site! Some manual changes
-to Web.config are required before the site can be accessed. 
-
-Please add the following lines to the runtime.assemblyBinding section:
-
-  <dependentAssembly>
-	<assemblyIdentity name="log4net" publicKeyToken="null" />
-	<codeBase version="1.2.11.0" href="bin/log4net/1.2.11.0/log4net.dll" />
-  </dependentAssembly>
-
-Once these are in place the site should start.
-
-For details visit: http://www.endzonesoftware.com/installing-usplit/
+For detailed installation guide visit:
+http://www.endzonesoftware.com/installing-usplit/
 
 
 Configuration

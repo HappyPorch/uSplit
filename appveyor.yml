@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 1.6.{build}
 skip_tags: true
 image: Visual Studio 2017
 assembly_info:
@@ -19,7 +19,7 @@ after_build:
 
     tools\Umbraco.Tools.Package.exe pack.json
 
-    copy-item package.zip uSplit-umbraco-lt-7.5.zip
+    copy-item package.zip uSplit-latest.zip
 
     rename-item package.zip "uSplit-${env:APPVEYOR_BUILD_VERSION}.zip"
 test:
@@ -33,11 +33,11 @@ deploy:
 - provider: Environment
   name: uSplit | Azure Blob Storage | Release
   on:
-    branch: u7.5
+    branch: master
 - provider: Environment
   name: NuGet | Endzone.io
   on:
-    branch: u7.5
+    branch: master
 notifications:
 - provider: Slack
   auth_token:
