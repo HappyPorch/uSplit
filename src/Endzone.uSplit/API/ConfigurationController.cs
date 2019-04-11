@@ -19,7 +19,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<bool> Status(string profileId, CancellationToken cancellationToken)
         {
-            var config = AccountConfig.GetByUniqueId(profileId);
+            var config = AnalyticsAccount.GetByUniqueId(profileId);
             return await uSplitAuthorizationCodeFlow.GetInstance(config).IsConnected(cancellationToken);
         }
 
@@ -27,7 +27,7 @@ namespace Endzone.uSplit.API
         public async Task<HttpResponseMessage> CheckAccess(CancellationToken cancellationToken)
         {
             var response = new List<object>();
-            foreach (var config in AccountConfig.GetAll()) {
+            foreach (var config in AnalyticsAccount.GetAll()) {
                 bool hasAccess = false;
                 bool isConnected = false;
                 string error = string.Empty;

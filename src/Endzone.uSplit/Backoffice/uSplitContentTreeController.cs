@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
-using ClientDependency.Core;
 using Endzone.uSplit.Commands;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
@@ -40,15 +38,15 @@ namespace Endzone.uSplit.Backoffice
         {
             if (IsRootNode(id))
             {
-                var nodes = AsyncHelpers.RunSync(() => GetTreeNodesAsync(queryStrings));
+                var nodes = AsyncHelpers.RunSync(() => GetNodesUnderRootAsync(queryStrings));
                 return nodes;
             }
             
-            var accounts = AccountConfig.GetAll().ToList();
+            var accounts = AnalyticsAccount.GetAll().ToList();
             var account = accounts.FirstOrDefault(x => x.UniqueId == id);
             if (account != null)
             {
-                var nodes = AsyncHelpers.RunSync(() => GetTreeNodesForAccountAsync(queryStrings, account));
+                var nodes = AsyncHelpers.RunSync(() => GetNodesForAccountAsync(account, queryStrings));
                 return nodes;
             }
 
@@ -60,26 +58,27 @@ namespace Endzone.uSplit.Backoffice
             return id == UmbracoConstants.System.Root.ToInvariantString();
         }
 
-        private async Task<TreeNodeCollection> GetTreeNodesAsync(FormDataCollection queryStrings)
+        private async Task<TreeNodeCollection> GetNodesUnderRootAsync(FormDataCollection queryStrings)
         {
             var nodes = new TreeNodeCollection();
-            var accounts = AccountConfig.GetAll().ToList();
+            var accounts = AnalyticsAccount.GetAll().ToList();
             if (accounts.Count() > 1)
             {
-                foreach (var account in AccountConfig.GetAll())
+                foreach (var account in accounts)
                 {
                     var accountNode = CreateAccountNode(account, queryStrings);
                     nodes.Add(accountNode);
                 }
-            } else if (accounts.Count() == 1)
+            }
+            else if (accounts.Count() == 1)
             {
-                return await GetTreeNodesForAccountAsync(queryStrings, accounts[0]);
+                return await GetNodesForAccountAsync(accounts[0], queryStrings);
             }
 
             return nodes;
         }
         
-        private async Task<TreeNodeCollection> GetTreeNodesForAccountAsync(FormDataCollection queryStrings, AccountConfig config)
+        private async Task<TreeNodeCollection> GetNodesForAccountAsync(AnalyticsAccount config, FormDataCollection queryStrings)
         {
             var nodes = new TreeNodeCollection();
             
@@ -98,7 +97,7 @@ namespace Endzone.uSplit.Backoffice
             return nodes;
         }
         
-        private TreeNode CreateAccountNode(AccountConfig config, FormDataCollection queryStrings)
+        private TreeNode CreateAccountNode(AnalyticsAccount config, FormDataCollection queryStrings)
         {
             var name = config.Name;
             if (name.IsNullOrWhiteSpace()) name = config.UniqueId;
@@ -111,7 +110,7 @@ namespace Endzone.uSplit.Backoffice
             return node;
         }
 
-        private async Task<TreeNodeCollection> CreateExperimentNodes(FormDataCollection queryStrings, string parentId, AccountConfig config)
+        private async Task<TreeNodeCollection> CreateExperimentNodes(FormDataCollection queryStrings, string parentId, AnalyticsAccount config)
         {
             var nodes = new TreeNodeCollection();
             
@@ -137,10 +136,10 @@ namespace Endzone.uSplit.Backoffice
 
         private TreeNode CreateExperimentNode(Experiment experiment, FormDataCollection queryStrings, string parentId)
         {
-            var name = experiment.GoogleExperiment.Name;
+            var name = experiment.Name;
 
             if (experiment.PageUnderTest != null)
-                name = experiment.PageUnderTest.Name;
+                name += " (" + experiment.PageUnderTest.Name + ")";
 
             string icon;
             switch (experiment.GoogleExperiment.Status)
@@ -169,7 +168,7 @@ namespace Endzone.uSplit.Backoffice
         {
             var menu = new MenuItemCollection();
 
-            var accounts = AccountConfig.GetAll().ToList();
+            var accounts = AnalyticsAccount.GetAll().ToList();
             if (IsRootNode(id))
             {
                 if (accounts.Count == 1)

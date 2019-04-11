@@ -9,14 +9,14 @@ namespace Endzone.uSplit.Commands
     {
         public string GoogleExperimentId { get; set; }
         
-        public DeleteExperiment(AccountConfig config) : base(config)
+        public DeleteExperiment(AnalyticsAccount config) : base(config)
         {
         }
         
         public override async Task<object> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var request = service.Management.Experiments.Delete(Config, GoogleExperimentId);
+            var request = service.Management.Experiments.Delete(account, GoogleExperimentId);
             var response = await request.ExecuteAsync();
 
             //update cache

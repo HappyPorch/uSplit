@@ -1,0 +1,30 @@
+﻿<div ng-controller="uSplit.abTesting.addVariationController" class="usplit">
+    <div class="umb-dialog-body form-horizontal">
+        <div class="umb-pane">
+
+            <form name="variationName_form" novalidate ng-submit="submit(editorModel.value)">
+                <div class="umb-panel">
+                    <div class="umb-panel-body no-header umb-scrollable">
+                        <h5>
+                            Variation name
+                        </h5>
+                        <div class="tab-content umb-control-group">
+                            <umb-editor model="editorModel"></umb-editor>
+                        </div>
+                    </div>
+                    <div class="umb-panel-footer">
+                        <div class="btn-toolbar umb-btn-toolbar pull-right">
+                            <a class="btn btn-link" ng-click="close()">
+                                <localize key="cancel" />
+                            </a>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!variationName_form.$valid">
+                                <localize key="buttons_save">Save</localize>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

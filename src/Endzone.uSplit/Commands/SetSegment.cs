@@ -13,14 +13,14 @@ namespace Endzone.uSplit.Commands
         public string ProviderKey { get; set; }
         public string Value { get; set; }
         
-        public SetSegment(AccountConfig config) : base(config)
+        public SetSegment(AnalyticsAccount config) : base(config)
         {
         }
 
         public override async Task<Experiment> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(Config, ExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(account, ExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             var settings = OurExperiment.ParseSettings(googleExperiment.Description);
@@ -28,7 +28,7 @@ namespace Endzone.uSplit.Commands
             settings.SegmentationValue = Value;
             googleExperiment.Description = OurExperiment.UpdateSettings(googleExperiment.Description, settings);
 
-            var request = service.Management.Experiments.Patch(Config, googleExperiment);
+            var request = service.Management.Experiments.Patch(account, googleExperiment);
             return await request.ExecuteAsync();
         }
     }

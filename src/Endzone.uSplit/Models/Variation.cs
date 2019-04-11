@@ -6,6 +6,7 @@ namespace Endzone.uSplit.Models
     public class Variation
     {
         public bool IsActive => GoogleVariation.Status == "ACTIVE";
+        public string Name { get; set; }
         public IContent VariedContent { get; set; }
         public GoogleVariation GoogleVariation { get; set; }
     }

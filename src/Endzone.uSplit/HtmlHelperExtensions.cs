@@ -19,6 +19,7 @@ namespace Endzone.uSplit
 
             private VariedContent Init()
             {
+                //suppres default variation reporting
                 helper.ViewContext.HttpContext.Items[Constants.VariationReportedHttpContextItemsKey] = true;
 
                 var umbracoContext = helper.ViewContext.HttpContext.GetUmbracoContext();

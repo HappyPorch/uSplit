@@ -49,9 +49,9 @@
 
             //segmentation
             var provider = $scope.segmentation.providers.find(function (item) {
-                return item.providerKey == $scope.experiment.segmentationProviderKey;
+                return item.providerKey === $scope.experiment.segmentationProviderKey;
             });
-            if (provider != null) {
+            if (provider !== null) {
                 provider.value = $scope.experiment.segmentationValue;
             }
             $scope.segmentation.provider = provider;
@@ -88,18 +88,22 @@
         $scope.editContent = function (nodeId) {
             $location.search("");
             $location.path("/content/content/edit/" + nodeId);
-        }
+        };
 
         //TODO: add an indicator and possibly disable input?
         $scope.duplicateAsVariation = function () {
             dialogService.contentPicker({
+                hideHeader: false,
                 callback: function (data) {
                     //TODO: check if can be copied (e.g. doctype is amongst allowed chlidren)
                     contentResource.copy({ id: $scope.experiment.nodeId, parentId: data.id }).then(function (path) {
-                            var id = path.split(',').pop();
-                            uSplitManageResource.addVariation(experimentId, id, profileId).then(addToVariations);
-                        },
-                        function(response) {
+                        var id = path.split(',').pop();
+                        contentResource.getById(id).then(function(copy) {
+                            uSplitManageResource.addVariation(copy.name, experimentId, id, profileId)
+                                .then(addToVariations);
+                        });
+                    },
+                        function (response) {
                             if (angular.isArray(response.data.notifications)) {
                                 for (var i = 0; i < response.data.notifications.length; i++) {
                                     notificationsService.showNotification(response.data.notifications[i]);
@@ -109,18 +113,29 @@
                     );
                 }
             });
-        }
+        };
 
         //TODO: add an indicator and possibly disable input?
         $scope.addExistingAsVariation = function () {
             dialogService.contentPicker({
                 callback: function (data) {
                     //TODO: check for doctype
-                    var id = data.id;
-                    uSplitManageResource.addVariation(experimentId, id, profileId).then(addToVariations);
+                    var nodeId = data.id;
+                    uSplitManageResource.addVariation(data.name, experimentId, nodeId, profileId)
+                        .then(addToVariations);
                 }
             });
-        }
+        };
+
+        $scope.addServerSideVariation = function () {
+            dialogService.open({
+                template: '/App_Plugins/uSplit/backoffice/abtesting/addVariation.html',
+                callback: function (name) {
+                    uSplitManageResource.addVariation(name, experimentId, null, profileId)
+                        .then(addToVariations);
+                }
+            });
+        };
 
         //TODO: add an indicator and possibly disable input?
         $scope.deleteVariation = function (variationName) {

@@ -7,9 +7,9 @@ namespace Endzone.uSplit.GoogleApi
 {
     public class uSplitFlowMetadata : FlowMetadata
     {
-        private readonly AccountConfig _config;
+        private readonly AnalyticsAccount _config;
 
-        public uSplitFlowMetadata(AccountConfig config)
+        public uSplitFlowMetadata(AnalyticsAccount config)
         {
             _config = config;
             AuthCallback = "/" + Constants.Google.CallbackUrl;

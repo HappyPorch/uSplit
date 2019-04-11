@@ -17,7 +17,7 @@ namespace Endzone.uSplit.GoogleApi
 {
     public class uSplitAuthorizationCodeFlow : GoogleAuthorizationCodeFlow
     {
-        public static uSplitAuthorizationCodeFlow GetInstance(AccountConfig config)
+        public static uSplitAuthorizationCodeFlow GetInstance(AnalyticsAccount config)
         {
             if (!Instances.ContainsKey(config.UniqueId))
             {
@@ -28,7 +28,7 @@ namespace Endzone.uSplit.GoogleApi
         
         public static readonly Dictionary<string, uSplitAuthorizationCodeFlow> Instances = new Dictionary<string, uSplitAuthorizationCodeFlow>();
 
-        private static Initializer CreateFlowInitializer(AccountConfig config)
+        private static Initializer CreateFlowInitializer(AnalyticsAccount config)
         {
             return new Initializer
             {
@@ -43,14 +43,14 @@ namespace Endzone.uSplit.GoogleApi
             };
         }
 
-        private static string GetStoragePath(AccountConfig config)
+        private static string GetStoragePath(AnalyticsAccount config)
         {
             var appName = Constants.ApplicationName;
             var storagePath = HostingEnvironment.MapPath($"~/App_Data/TEMP/{appName}/google/auth/{config.UniqueId}");
             return storagePath;
         }
 
-        private uSplitAuthorizationCodeFlow(AccountConfig config) : base(CreateFlowInitializer(config))
+        private uSplitAuthorizationCodeFlow(AnalyticsAccount config) : base(CreateFlowInitializer(config))
         {
             
         }

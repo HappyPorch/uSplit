@@ -7,7 +7,7 @@ using Umbraco.Core;
 
 namespace Endzone.uSplit.Models
 {
-    public class AccountConfig
+    public class AnalyticsAccount
     {
         public string Name { get; }
         public string GoogleAccountId { get; }
@@ -16,7 +16,7 @@ namespace Endzone.uSplit.Models
 
         public string UniqueId => GoogleProfileId;
 
-        public AccountConfig(NameValueCollection settings, string name)
+        public AnalyticsAccount(NameValueCollection settings, string name)
         {
             Name = name;
             GoogleAccountId = GetValue(settings, Constants.AppSettings.GoogleAccountId);
@@ -38,7 +38,7 @@ namespace Endzone.uSplit.Models
             return $"{Constants.AppSettings.Prefix}:{name}:{key}";
         }
 
-        public static IEnumerable<AccountConfig> GetAll()
+        public static IEnumerable<AnalyticsAccount> GetAll()
         {
             var prefix = Constants.AppSettings.Prefix + ":";
             var keys = WebConfigurationManager.AppSettings.AllKeys;
@@ -59,12 +59,12 @@ namespace Endzone.uSplit.Models
             return names.Select(GetByName).Where(x => !string.IsNullOrEmpty(x.GoogleProfileId));
         }
         
-        public static AccountConfig GetByName(string name)
+        public static AnalyticsAccount GetByName(string name)
         {
-            return new AccountConfig(WebConfigurationManager.AppSettings, name);
+            return new AnalyticsAccount(WebConfigurationManager.AppSettings, name);
         }
 
-        public static AccountConfig GetByUniqueId(string uniqueId)
+        public static AnalyticsAccount GetByUniqueId(string uniqueId)
         {
             return GetAll().First(x => x.UniqueId == uniqueId);
         }

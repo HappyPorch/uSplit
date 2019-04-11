@@ -9,15 +9,16 @@ namespace Endzone.uSplit.Models
     public class ExperimentDetails
     {
         public string GoogleId { get; set; }
-        public int? NodeId { get; set; }
         /// <summary>
         /// The name of the experiment - Node name for uSplit experiments, otherwise Name from Google Experiments.
         /// </summary>
         public string Name { get; set; }
         public string GoogleName { get; set; }
+        public bool ServerSide { get; set; }
+        public int? NodeId { get; set; }
+
         public string Status { get; set; }
         public DateTime? Created { get; set; }
-
         public DateTime? Updated { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }

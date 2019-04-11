@@ -7,7 +7,7 @@ namespace Endzone.uSplit.Commands
 {
     public class CheckAccess : GoogleApiCommand<bool>
     {
-        public CheckAccess(AccountConfig config) : base(config)
+        public CheckAccess(AnalyticsAccount config) : base(config)
         {
         }
         
@@ -15,7 +15,7 @@ namespace Endzone.uSplit.Commands
         public override async Task<bool> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var list = service.Management.Experiments.List(Config);
+            var list = service.Management.Experiments.List(account);
             list.MaxResults = 0;
             var experiments = await list.ExecuteAsync();
             return true;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Umbraco.Core;
@@ -15,30 +16,37 @@ namespace Endzone.uSplit.Models
         /// <summary>
         /// Indicates whether this experiment was created by uSplit
         /// </summary>
-        public bool IsUSplitExperiment => PageUnderTest != null;
+        public bool IsUSplitExperiment { get; }
         /// <summary>
         /// The Google Experiment ID
         /// </summary>
         public string Id => GoogleExperiment.Id;
-        public IContent PageUnderTest => Variations?[0].VariedContent;
+        public string Name { get;  }
+        public bool ServerSide { get; }
+        public IContent PageUnderTest => Variations?.FirstOrDefault()?.VariedContent;
         public bool IsRunning => GoogleExperiment.Status == "RUNNING";
-        public GoogleExperiment GoogleExperiment { get; set; }
-        public List<Variation> Variations { get; set; }
-        public ExperimentConfiguration Configuration { get; set; }
+        public GoogleExperiment GoogleExperiment { get; }
+        public List<Variation> Variations { get; }
+        public ExperimentConfiguration Configuration { get; }
 
         public Experiment(GoogleExperiment experiment)
         {
             GoogleExperiment = experiment;
-            ParseGoogleData(experiment);
+            if (TryParseUSplitExperimentName(experiment.Name, out var nodeId, out var name))
+            {
+                IsUSplitExperiment = true;
+                Name = name;
+                ServerSide = nodeId == -1;
+                Configuration = ParseSettings(experiment.Description);
+            }
+            else
+            {
+                Name = experiment.Name;
+            }
+            Variations = ParseVariations(experiment, IsUSplitExperiment && !ServerSide);
         }
 
-        private void ParseGoogleData(GoogleExperiment experiment)
-        {
-            Configuration = ParseSettings(experiment.Description);
-            Variations = ParseVariations(experiment);
-        }
-
-        private static List<Variation> ParseVariations(GoogleExperiment experiment)
+        private static List<Variation> ParseVariations(GoogleExperiment experiment, bool isContentExperiment)
         {
             //we might not be executing this in the scope of a http request
             var contentService = ApplicationContext.Current.Services.ContentService;
@@ -46,12 +54,12 @@ namespace Endzone.uSplit.Models
             foreach (var variation in experiment.Variations)
             {
                 IContent content = null;
-                int variationNodeId;
-                if (int.TryParse(variation.Url, out variationNodeId))
+                if (isContentExperiment && int.TryParse(variation.Url, out int variationNodeId))
                     content = contentService.GetById(variationNodeId);
 
                 variations.Add(new Variation
                 {
+                    Name = variation.Name,
                     VariedContent = content,
                     GoogleVariation = variation,
                 });
@@ -94,14 +102,20 @@ namespace Endzone.uSplit.Models
             return $"{Constants.ApplicationName} - {id} - {name}";
         }
 
-        public static int? ExtractNodeIdFromExperimentName(string name)
+        public static bool TryParseUSplitExperimentName(string originalName, out int nodeId, out string name)
         {
-            var regex = new Regex($@"{Constants.ApplicationName} - (\d+)(- .?) - .*");
-            var matches = regex.Match(name);
+            var regex = new Regex($@"{Constants.ApplicationName} - (\-?\d+) - (.+)");
+            var matches = regex.Match(originalName);
             if (matches.Success)
-                return int.Parse(matches.Groups[1].Value);
+            {
+                nodeId = int.Parse(matches.Groups[1].Value);
+                name = matches.Groups[2].Value;
+                return true;
+            }
 
-            return null;
+            nodeId = 0;
+            name = null;
+            return false;
         }
     }
 }

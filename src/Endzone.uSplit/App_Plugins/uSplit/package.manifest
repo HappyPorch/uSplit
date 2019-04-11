@@ -1,12 +1,13 @@
 ﻿{
-	javascript: [
-		'~/App_Plugins/uSplit/backoffice/abtesting/dashboard.js',
-		'~/App_Plugins/uSplit/backoffice/abtesting/create.js',
-		'~/App_Plugins/uSplit/backoffice/abtesting/delete.js',
-		'~/App_Plugins/uSplit/backoffice/abtesting/experiment.js',
-		'~/App_Plugins/uSplit/backoffice/uSplitConfigurationResource.js',
-		'~/App_Plugins/uSplit/backoffice/uSplitManageResource.js'
-		],
+  javascript: [
+    "~/App_Plugins/uSplit/backoffice/abtesting/addVariation.js",
+    "~/App_Plugins/uSplit/backoffice/abtesting/dashboard.js",
+    "~/App_Plugins/uSplit/backoffice/abtesting/create.js",
+    "~/App_Plugins/uSplit/backoffice/abtesting/delete.js",
+    "~/App_Plugins/uSplit/backoffice/abtesting/experiment.js",
+    "~/App_Plugins/uSplit/backoffice/uSplitConfigurationResource.js",
+    "~/App_Plugins/uSplit/backoffice/uSplitManageResource.js"
+  ],
 	css: [
 		'~/App_Plugins/uSplit/backoffice/uSplit.css'
 	]

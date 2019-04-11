@@ -5,17 +5,16 @@ using Endzone.uSplit.Models;
 using Google.Apis.Analytics.v3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
-using umbraco.presentation.channels.businesslogic;
 
 namespace Endzone.uSplit.Commands
 {
     public abstract class GoogleApiCommand<TOut> : Command<TOut>
     {
-        protected readonly AccountConfig Config;
+        protected readonly AnalyticsAccount account;
 
-        protected GoogleApiCommand(AccountConfig config)
+        protected GoogleApiCommand(AnalyticsAccount account)
         {
-            Config = config;
+            this.account = account;
         }
 
         protected async Task<AnalyticsService> GetAnalyticsService()
@@ -29,7 +28,7 @@ namespace Endzone.uSplit.Commands
 
         protected async Task<ICredential> GetCredential()
         {
-            var uSplitGoogleApiAuth = uSplitAuthorizationCodeFlow.GetInstance(Config);
+            var uSplitGoogleApiAuth = uSplitAuthorizationCodeFlow.GetInstance(account);
             var token = await uSplitGoogleApiAuth.LoadTokenAsync(Constants.Google.SystemUserId, CancellationToken.None);
             return new UserCredential(uSplitGoogleApiAuth, Constants.Google.SystemUserId, token);
         }

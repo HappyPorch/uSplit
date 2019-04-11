@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Endzone.uSplit.Commands;
@@ -80,10 +79,10 @@ namespace Endzone.uSplit.Pipeline
                 var assignedVariationId = GetAssignedVariation(request, experiment.Id);
                 if (assignedVariationId != null)
                 {
-                    var variation = GetVariation(request, experiment, assignedVariationId.Value);
-                    if (variation != null)
+                    if (ShouldApplyVariation(experiment, assignedVariationId.Value))
                     {
-                        variationsToApply.Add(new PublishedContentVariation(variation, experimentId, assignedVariationId.Value));
+                        var variationContent = GetVariationContent(experiment, assignedVariationId.Value);
+                        variationsToApply.Add(new PublishedContentVariation(variationContent, experimentId, assignedVariationId.Value));
                     }
                 }
                 //Should the user be included in the experiment?
@@ -91,15 +90,16 @@ namespace Endzone.uSplit.Pipeline
                 {
                     //Choose a variation for the user
                     var variationId = SelectVariation(experiment);
-                    var variation = GetVariation(request, experiment, variationId);
-                    if (variation != null)
+                    AssignVariationToUser(request, experiment.Id, variationId);
+                    if (ShouldApplyVariation(experiment, variationId))
                     {
-                        variationsToApply.Add(new PublishedContentVariation(variation, experimentId, variationId));
+                        var variationContent = GetVariationContent(experiment, variationId);
+                        variationsToApply.Add(new PublishedContentVariation(variationContent, experimentId, variationId));
                     }
                 }
                 else
                 {
-                    //should we assign -1 as variation (remember we showed nothing? - maybe in case we decide to exclude if say only 60% traffic is covered)
+                    AssignVariationToUser(request, experiment.Id, -1);
                 }
             }
 
@@ -141,17 +141,24 @@ namespace Endzone.uSplit.Pipeline
             return r <= coverage;
         }
 
-        private IPublishedContent GetVariation(PublishedContentRequest request, Experiment experiment, int variationId)
+        private bool ShouldApplyVariation(Experiment experiment, int variationId)
         {
-            AssignVariationToUser(request, experiment.Id, variationId);
-
-            if (variationId == -1) 
-                return null; //user is excluded 
+            if (variationId == -1)
+                return false; //user is excluded 
 
             var variation = experiment.Variations[variationId];
             if (!variation.IsActive)
+                return false;
+
+            return true;
+        }
+
+        private IPublishedContent GetVariationContent(Experiment experiment, int variationId)
+        {
+            if (experiment.ServerSide)
                 return null;
 
+            var variation = experiment.Variations[variationId];
             var pageId = variation.VariedContent.Id;
             var helper = new UmbracoHelper(UmbracoContext.Current);
             var variationPage = helper.TypedContent(pageId);

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Endzone.uSplit.Pipeline;
-using Google.Apis.Analytics.v3.Data;
 using Umbraco.Core;
 using Umbraco.Core.Cache;
 using Experiment = Endzone.uSplit.Models.Experiment;
@@ -25,7 +24,7 @@ namespace Endzone.uSplit.Commands
 
             return Task.FromResult(from experiment in experiments
                 where experiment.IsUSplitExperiment && experiment.IsRunning
-                where experiment.PageUnderTest.Id == ContentId
+                where experiment.ServerSide || experiment.PageUnderTest?.Id == ContentId
                 where MatchesSegment(experiment)
                 select experiment);
         }
@@ -47,7 +46,7 @@ namespace Endzone.uSplit.Commands
             var rawData = Cache.GetCacheItem<List<GoogleExperiment>>(Constants.Cache.RawExperimentData);
             if (rawData != null)
             {
-                experiments.AddRange(rawData.Select(i => new Experiment(i)));
+                experiments.AddRange(rawData.Select(googleExperiment => new Experiment(googleExperiment)));
             }
             return experiments;
         }
