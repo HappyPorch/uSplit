@@ -19,7 +19,7 @@ namespace Endzone.uSplit.API
         [HttpGet]
         public async Task<HttpResponseMessage> GetExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new GetGoogleExperiment(AccountConfig.GetByUniqueId(profileId))
+            var experiment = await ExecuteAsync(new GetGoogleExperiment(AnalyticsAccount.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = id
             });
@@ -30,20 +30,20 @@ namespace Endzone.uSplit.API
             return CreateResponse(details);
         }
 
-        [HttpGet]
-        public async Task<GoogleExperiment> CreateExperimentAsync(int id, string profileId)
+        [HttpPost]
+        public async Task<GoogleExperiment> CreateExperimentAsync(string profileId, string name, int? nodeId = null)
         {
-            return await ExecuteAsync(new CreateExperiment(AccountConfig.GetByUniqueId(profileId))
-            {
-                NodeUnderTestId = id
-            });
+            var command = new CreateExperiment(AnalyticsAccount.GetByUniqueId(profileId),
+                name, nodeId == null, nodeId);
+            return await ExecuteAsync(command);
         }
 
         [HttpPost]
         public async Task<HttpResponseMessage> AddVariationAsync(string profileId, [FromBody]AddVariationRequest request)
         {
-            var variationDetails = await ExecuteAsync(new AddVariation(AccountConfig.GetByUniqueId(profileId))
+            var variationDetails = await ExecuteAsync(new AddVariation(AnalyticsAccount.GetByUniqueId(profileId))
             {
+                Name = request.Name,
                 GoogleExperimentId = request.ExperimentId,
                 NodeId = request.NodeId
             });
@@ -53,15 +53,15 @@ namespace Endzone.uSplit.API
         [HttpDelete]
         public async Task DeleteExperimentAsync(string id, string profileId)
         {
-            var accountConfigs = AccountConfig.GetAll().ToList();
-            AccountConfig config;
+            var accountConfigs = AnalyticsAccount.GetAll().ToList();
+            AnalyticsAccount config;
             if ((id.IsNullOrWhiteSpace() || id == "-1") && accountConfigs.Count == 1)
             {
                 config = accountConfigs.First();
             }
             else
             {
-                config = AccountConfig.GetByUniqueId(profileId);                
+                config = AnalyticsAccount.GetByUniqueId(profileId);                
             }
             
             
@@ -75,7 +75,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task DeleteVariationAsync(string profileId, [FromBody]DeleteVariationRequest request)
         {
-            await ExecuteAsync(new DeleteVariation(AccountConfig.GetByUniqueId(profileId))
+            await ExecuteAsync(new DeleteVariation(AnalyticsAccount.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = request.ExperimentId,
                 VariationName = request.VariationName
@@ -85,7 +85,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<HttpResponseMessage> StartExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new StartExperiment(AccountConfig.GetByUniqueId(profileId))
+            var experiment = await ExecuteAsync(new StartExperiment(AnalyticsAccount.GetByUniqueId(profileId))
             {
                 GoogleExperimentId = id
             });
@@ -99,7 +99,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<HttpResponseMessage> StopExperimentAsync(string id, string profileId)
         {
-            var experiment = await ExecuteAsync(new StopExperiment(AccountConfig.GetByUniqueId(profileId), id));
+            var experiment = await ExecuteAsync(new StopExperiment(AnalyticsAccount.GetByUniqueId(profileId), id));
             var details = await ExecuteAsync(new GetExperimentDetails()
             {
                 Experiment = experiment
@@ -110,7 +110,7 @@ namespace Endzone.uSplit.API
         [HttpPost]
         public async Task<IHttpActionResult> SetSegmentAsync(string profileId, [FromBody]SetSegmentRequest request)
         {
-            await ExecuteAsync(new SetSegment(AccountConfig.GetByUniqueId(profileId)) {
+            await ExecuteAsync(new SetSegment(AnalyticsAccount.GetByUniqueId(profileId)) {
                 ExperimentId = request.ExperimentId,
                 ProviderKey = request.ProviderKey,
                 Value = request.Value

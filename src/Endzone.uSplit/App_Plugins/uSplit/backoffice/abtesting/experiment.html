@@ -42,6 +42,15 @@
 
                             <div class="row">
                                 <div class="span4">
+                                    Experiment Type
+                                </div>
+                                <div class="span4">
+                                    {{experiment.serverSide ? "Server side" : "Content"}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
                                     Metric
                                 </div>
                                 <div class="span4">
@@ -74,6 +83,15 @@
                                 </div>
                                 <div class="span4">
                                     {{experiment.googleName}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="span4">
+                                    <abbr title="Google Analytics">GA</abbr> ID
+                                </div>
+                                <div class="span4">
+                                    {{experimentId}}
                                 </div>
                             </div>
 
@@ -119,11 +137,17 @@
                                 </div>
                                 <div class="span8">
                                     <h3 class="text-right">
-                                        <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="duplicateAsVariation()">
+                                        <button class="btn" type="button" ng-if="!experiment.serverSide"
+                                                ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="duplicateAsVariation()">
                                             <i class="icon-documents"></i> Clone original
                                         </button>
-                                        <button class="btn" type="button" ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addExistingAsVariation()">
+                                        <button class="btn" type="button" ng-if="!experiment.serverSide"
+                                                ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addExistingAsVariation()">
                                             <i class="icon-add"></i> Add existing page
+                                        </button>
+                                        <button class="btn" type="button" ng-if="experiment.serverSide"
+                                                ng-disabled="['RUNNING','ENDED'].indexOf(experiment.status) > -1" ng-click="addServerSideVariation()">
+                                            <i class="icon-add"></i> Add variation
                                         </button>
                                     </h3>
                                 </div>
@@ -134,7 +158,9 @@
                                     <strong>Variation</strong>
                                 </div>
                                 <div class="span3">
-                                    <strong>Content</strong>
+                                    <strong>
+                                        {{ experiment.serverSide ? "Name" : "Content" }}
+                                    </strong>
                                 </div>
                                 <div class="span3">
                                     <span ng-show="experiment.status == 'RUNNING'">
@@ -142,7 +168,7 @@
                                     </span>
                                     <span ng-show="experiment.status == 'ENDED'">
                                         <strong>Status</strong>
-                                    </span> 
+                                    </span>
                                 </div>
                                 <div class="span3">
 
@@ -151,7 +177,9 @@
 
                             <div class="row" ng-repeat="variation in experiment.variations">
                                 <div class="span3">
-                                    <span ng-show="$index == 0">Page under test</span>
+                                    <span ng-show="$index == 0">
+                                        {{ experiment.serverSide ? "ORIGINAL" : "Page under test" }}
+                                    </span>
                                     <span ng-show="$index > 0">Variation {{$index}}</span>
                                 </div>
                                 <div class="span3">
@@ -164,10 +192,12 @@
                                     <span ng-show="experiment.status == 'ENDED'">
                                         <span ng-show="variation.won==1">WON!</span>
                                         <span ng-show="!variation.won==1">N/A</span>
-                                    </span> 
+                                    </span>
                                 </div>
                                 <div class="span3">
-                                    <button class="btn btn-small" type="button" ng-click="editContent(variation.nodeId)">
+                                    <button class="btn btn-small" type="button"
+                                            ng-click="editContent(variation.nodeId)"
+                                            ng-hide="experiment.serverSide">
                                         <i class="icon-edit"></i> Edit
                                     </button>
 
@@ -189,7 +219,7 @@
                         <div ng-show="loaded">
                             <div class="row" ng-include="'/App_Plugins/uSplit/backoffice/shared/noapi.html'"></div>
                             <div class="row" ng-show="apiReady">
-                                <pre>
+<pre>
 {{experiment.debug | json}}
 </pre>   
                             </div>

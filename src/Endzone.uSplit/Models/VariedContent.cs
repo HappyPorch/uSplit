@@ -32,14 +32,17 @@ namespace Endzone.uSplit.Models
             //the order of the variations matters. If they overwrite the same field the last variation wins.
             foreach (var contentVariation in AppliedVariations)
             {
-                foreach (var variationProperty in contentVariation.Content.Properties)
+                if (contentVariation.Content != null)
                 {
-                    if (variationProperty.HasValue)
+                    foreach (var variationProperty in contentVariation.Content.Properties)
                     {
-                        overrides[variationProperty.PropertyTypeAlias.ToLowerInvariant()] = variationProperty;
+                        if (variationProperty.HasValue)
+                        {
+                            overrides[variationProperty.PropertyTypeAlias.ToLowerInvariant()] = variationProperty;
+                        }
                     }
+                    TemplateId = contentVariation.Content.TemplateId;
                 }
-                TemplateId = contentVariation.Content.TemplateId;
             }
         }
 

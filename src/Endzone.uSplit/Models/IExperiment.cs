@@ -14,9 +14,10 @@ namespace Endzone.uSplit.Models
         /// The Google Experiment ID
         /// </summary>
         string Id { get; }
+        string Name { get; }
 
         IContent PageUnderTest { get; }
-        Google.Apis.Analytics.v3.Data.Experiment GoogleExperiment { get; set; }
-        List<Variation> Variations { get; set; }
+        Google.Apis.Analytics.v3.Data.Experiment GoogleExperiment { get; }
+        List<Variation> Variations { get; }
     }
 }

@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
-using Umbraco.Web.Routing;
 
 namespace Endzone.uSplit
 {
@@ -19,6 +18,7 @@ namespace Endzone.uSplit
 
             private VariedContent Init()
             {
+                //suppres default variation reporting
                 helper.ViewContext.HttpContext.Items[Constants.VariationReportedHttpContextItemsKey] = true;
 
                 var umbracoContext = helper.ViewContext.HttpContext.GetUmbracoContext();

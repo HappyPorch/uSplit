@@ -45,7 +45,7 @@ namespace Endzone.uSplit.Pipeline
             //TODO: check if we are configured, otherwise this will generate errors every now and then
             
             var experiments = new List<GoogleExperiment>();
-            foreach (var config in AccountConfig.GetAll())
+            foreach (var config in AnalyticsAccount.GetAll())
             {
                 logger.Info(typeof(ExperimentsUpdater), $"Updating experiments data from Google Analytics for {config.Name} (ID {config.UniqueId}).");
                 try

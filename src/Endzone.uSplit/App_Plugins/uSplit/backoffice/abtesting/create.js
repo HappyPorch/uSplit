@@ -1,11 +1,7 @@
 ﻿angular.module("umbraco")
     .controller("uSplit.abTesting.createController",
         function($scope,
-            eventsService,
-            contentResource,
             navigationService,
-            appState,
-            treeService,
             $location,
             localizationService,
             notificationsService,
@@ -19,6 +15,7 @@
                     searchText = value + "...";
                 });
 
+            $scope.experimentType = "content";
             $scope.dialogTreeEventHandler = $({});
             $scope.busy = false;
             $scope.searchInfo = {
@@ -27,7 +24,7 @@
                 showSearch: false,
                 results: [],
                 selectedSearchResults: []
-            }
+            };
 
             function nodeSelectHandler(ev, args) {
                 args.event.preventDefault();
@@ -78,12 +75,12 @@
                 }
             }
 
-            $scope.hideSearch = function() {
+            $scope.hideSearch = function () {
                 $scope.searchInfo.showSearch = false;
                 $scope.searchInfo.searchFromId = null;
                 $scope.searchInfo.searchFromName = null;
                 $scope.searchInfo.results = [];
-            }
+            };
 
             // method to select a search result
             $scope.selectResult = function(evt, result) {
@@ -108,7 +105,9 @@
                 $scope.busy = true;
                 $scope.error = false;
 
-                uSplitManageResource.createExperiment($scope.target.id, profileId)
+                var nodeId = $scope.experimentType === "content" ? $scope.target.id : null;
+
+                uSplitManageResource.createExperiment($scope.name, nodeId, profileId)
                     .then(function (createResponse) {   
                         $scope.error = false;
                         $scope.success = true;

@@ -23,7 +23,7 @@ namespace Endzone.uSplit.GoogleApi
             var stateWithoutRandomToken = authorizationCode.State.Substring(0, authorizationCode.State.Length - AuthorizationCodeWebApp.StateRandomLength);
             var uri = new Uri(stateWithoutRandomToken);
             var profileId = uri.ParseQueryString().Get("profileId");
-            var config = AccountConfig.GetByUniqueId(profileId);
+            var config = AnalyticsAccount.GetByUniqueId(profileId);
             _flowData = new uSplitFlowMetadata(config);
             return base.IndexAsync(authorizationCode, taskCancellationToken);
         }

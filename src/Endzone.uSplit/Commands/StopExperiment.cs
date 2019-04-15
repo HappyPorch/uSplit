@@ -8,7 +8,7 @@ namespace Endzone.uSplit.Commands
     {
         private readonly string _googleExperimentId;
 
-        public StopExperiment(AccountConfig config, string googleExperimentId) : base(config)
+        public StopExperiment(AnalyticsAccount config, string googleExperimentId) : base(config)
         {
             _googleExperimentId = googleExperimentId;
         }
@@ -16,12 +16,12 @@ namespace Endzone.uSplit.Commands
         public override async Task<Experiment> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var googleExperimentRequest = service.Management.Experiments.Get(Config, _googleExperimentId);
+            var googleExperimentRequest = service.Management.Experiments.Get(account, _googleExperimentId);
             var googleExperiment = await googleExperimentRequest.ExecuteAsync();
 
             googleExperiment.Status = "ENDED";
 
-            var request = service.Management.Experiments.Patch(Config, googleExperiment);
+            var request = service.Management.Experiments.Patch(account, googleExperiment);
             var experiment = await request.ExecuteAsync();
 
             var parsedExperiment = new Experiment(experiment);

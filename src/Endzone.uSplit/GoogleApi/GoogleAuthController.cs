@@ -12,7 +12,7 @@ namespace Endzone.uSplit.GoogleApi
     {
         public async Task<ActionResult> ReauthorizeAsync(string originalUrl, string profileId, CancellationToken cancellationToken)
         {
-            var config = AccountConfig.GetByUniqueId(profileId);
+            var config = AnalyticsAccount.GetByUniqueId(profileId);
             var flow = uSplitAuthorizationCodeFlow.GetInstance(config);
             if (await flow.IsConnected(cancellationToken))
             {
@@ -28,7 +28,7 @@ namespace Endzone.uSplit.GoogleApi
 
         public async Task<ActionResult> AuthorizeAsync(string originalUrl, string profileId, CancellationToken cancellationToken)
         {
-            var config = AccountConfig.GetByUniqueId(profileId);
+            var config = AnalyticsAccount.GetByUniqueId(profileId);
             var result = await new AuthorizationCodeMvcApp(this, new uSplitFlowMetadata(config)).AuthorizeAsync(cancellationToken);
 
             if (result.Credential == null)

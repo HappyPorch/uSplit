@@ -20,8 +20,8 @@ namespace Endzone.uSplit.Commands
             {
                 variationsDetails.Add(new VariationDetails()
                 {
+                    Name = variation.Name,
                     NodeId = variation.VariedContent?.Id,
-                    Name = variation.VariedContent?.Name ?? variation.GoogleVariation.Name,
                     GoogleName = variation.GoogleVariation.Name,
                     Weight = variation.GoogleVariation.Weight,
                     Status = variation.GoogleVariation.Status,
@@ -31,12 +31,11 @@ namespace Endzone.uSplit.Commands
 
             return new ExperimentDetails()
             {
-                Name = Experiment.PageUnderTest?.Name ?? Experiment.GoogleExperiment.Name,
-                GoogleName = Experiment.GoogleExperiment.Name,
-                NodeId = Experiment.PageUnderTest?.Id,
                 GoogleId = Experiment.GoogleExperiment.Id,
-                SegmentationProviderKey = Experiment.Configuration?.SegmentationProviderKey,
-                SegmentationValue = Experiment.Configuration?.SegmentationValue,
+                Name = Experiment.Name,
+                GoogleName = Experiment.GoogleExperiment.Name,
+                ServerSide = Experiment.ServerSide,
+                NodeId = Experiment.PageUnderTest?.Id,
                 Status = Experiment.GoogleExperiment.Status,
                 Metric = ExtractMetricName(Experiment.GoogleExperiment.ObjectiveMetric),
                 Created = Experiment.GoogleExperiment.Created,
@@ -44,6 +43,8 @@ namespace Endzone.uSplit.Commands
                 StartTime = Experiment.GoogleExperiment.StartTime,
                 EndTime = Experiment.GoogleExperiment.EndTime,
                 Variations = variationsDetails,
+                SegmentationProviderKey = Experiment.Configuration?.SegmentationProviderKey,
+                SegmentationValue = Experiment.Configuration?.SegmentationValue,
                 Debug = Experiment.GoogleExperiment,
             };
         }

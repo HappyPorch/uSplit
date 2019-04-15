@@ -7,7 +7,7 @@ namespace Endzone.uSplit.GoogleApi
     public static class GoogleAnalyticsExtensions
     {
         public static ManagementResource.ExperimentsResource.ListRequest List(
-            this ManagementResource.ExperimentsResource experiments, AccountConfig config)
+            this ManagementResource.ExperimentsResource experiments, AnalyticsAccount config)
         {
             var accountId = config.GoogleAccountId;
             var webPropertyId = config.GoogleWebPropertyId;
@@ -15,7 +15,7 @@ namespace Endzone.uSplit.GoogleApi
             return experiments.List(accountId, webPropertyId, profileId);
         }
 
-        public static ManagementResource.ExperimentsResource.GetRequest Get(this ManagementResource.ExperimentsResource experiments, AccountConfig config, string experimentId)
+        public static ManagementResource.ExperimentsResource.GetRequest Get(this ManagementResource.ExperimentsResource experiments, AnalyticsAccount config, string experimentId)
         {
             var accountId = config.GoogleAccountId;
             var webPropertyId = config.GoogleWebPropertyId;
@@ -23,7 +23,7 @@ namespace Endzone.uSplit.GoogleApi
             return experiments.Get(accountId, webPropertyId, profileId, experimentId);
         }
 
-        public static ManagementResource.ExperimentsResource.InsertRequest Insert(this ManagementResource.ExperimentsResource experiments, AccountConfig config, GoogleExperiment experiment)
+        public static ManagementResource.ExperimentsResource.InsertRequest Insert(this ManagementResource.ExperimentsResource experiments, AnalyticsAccount config, GoogleExperiment experiment)
         {
             var accountId = config.GoogleAccountId;
             var webPropertyId = config.GoogleWebPropertyId;
@@ -31,7 +31,7 @@ namespace Endzone.uSplit.GoogleApi
             return experiments.Insert(experiment, accountId, webPropertyId, profileId);
         }
 
-        public static ManagementResource.ExperimentsResource.PatchRequest Patch(this ManagementResource.ExperimentsResource experiments, AccountConfig config, GoogleExperiment experiment)
+        public static ManagementResource.ExperimentsResource.PatchRequest Patch(this ManagementResource.ExperimentsResource experiments, AnalyticsAccount config, GoogleExperiment experiment)
         {
             var accountId = config.GoogleAccountId;
             var webPropertyId = config.GoogleWebPropertyId;
@@ -39,7 +39,7 @@ namespace Endzone.uSplit.GoogleApi
             return experiments.Patch(experiment, accountId, webPropertyId, profileId, experiment.Id);
         }
 
-        public static ManagementResource.ExperimentsResource.DeleteRequest Delete(this ManagementResource.ExperimentsResource experiments, AccountConfig config, string experimentId)
+        public static ManagementResource.ExperimentsResource.DeleteRequest Delete(this ManagementResource.ExperimentsResource experiments, AnalyticsAccount config, string experimentId)
         {
             var accountId = config.GoogleAccountId;
             var webPropertyId = config.GoogleWebPropertyId;

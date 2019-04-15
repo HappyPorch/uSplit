@@ -1,19 +1,63 @@
 ﻿<div ng-controller="uSplit.abTesting.createController" class="usplit">
     <div class="umb-dialog-body form-horizontal">
         <div class="umb-pane">
-            <p class="abstract" ng-hide="success">
-                Choose which node you want to A/B test
-            </p>
-
             <div class="umb-loader-wrapper" ng-show="busy">
                 <div class="umb-loader"></div>
             </div>
+            <div ng-hide="success || busy">
+                <h5>
+                    Experiment name
+                </h5>
+                <div>
+                    <input type="text" class="-full-width-input" ng-model="name" />
+                </div>
+                <h5>
+                    Experiment type
+                </h5>
+                <div>
+                    <input type="radio" ng-model="experimentType" value="content" /> Content <br />
+                    <input type="radio" ng-model="experimentType" value="server" /> Server (advanced)
+                </div>
+                <p ng-show="experimentType == 'server'">
+                    This type of experiment requires custom server-side code to prepare the variations.
+                    For simple content experiments select "Content".
+                </p>
+                <div ng-show="experimentType == 'content'">
+                    <h5>
+                        Choose which node you want to A/B test
+                    </h5>
+                    <div ng-show="error">
+                        <h5 class="text-error">{{error.errorMsg}}</h5>
+                        <p class="text-error">{{error.data.message}}</p>
+                    </div>
 
-            <div ng-show="error">
-                <h5 class="text-error">{{error.errorMsg}}</h5>
-                <p class="text-error">{{error.data.message}}</p>
+                    <umb-tree-search-box hide-search-callback="hideSearch"
+                                         search-callback="onSearchResults"
+                                         search-from-id="{{searchInfo.searchFromId}}"
+                                         search-from-name="{{searchInfo.searchFromName}}"
+                                         show-search="{{searchInfo.showSearch}}"
+                                         section="{{section}}">
+                    </umb-tree-search-box>
+
+                    <br />
+
+                    <umb-tree-search-results ng-if="searchInfo.showSearch"
+                                             results="searchInfo.results"
+                                             select-result-callback="selectResult">
+                    </umb-tree-search-results>
+
+                    <div ng-hide="searchInfo.showSearch">
+                        <umb-tree section="content"
+                                  treealias="content"
+                                  hideheader="true"
+                                  hideoptions="true"
+                                  isdialog="true"
+                                  eventhandler="dialogTreeEventHandler"
+                                  enablecheckboxes="true">
+                        </umb-tree>
+                    </div>
+                </div>
             </div>
-
             <div class="alert alert-success" ng-show="success">
                 <p>
                     <strong>Experiment for {{target.name}} created!</strong>
@@ -24,33 +68,6 @@
                 <button class="btn btn-primary" ng-click="nav.hideDialog()">Dismiss</button>
             </div>
 
-            <div ng-hide="success">
-                <umb-tree-search-box hide-search-callback="hideSearch"
-                                     search-callback="onSearchResults"
-                                     search-from-id="{{searchInfo.searchFromId}}"
-                                     search-from-name="{{searchInfo.searchFromName}}"
-                                     show-search="{{searchInfo.showSearch}}"
-                                     section="{{section}}">
-                </umb-tree-search-box>
-
-                <br/>
-
-                <umb-tree-search-results ng-if="searchInfo.showSearch"
-                                         results="searchInfo.results"
-                                         select-result-callback="selectResult">
-                </umb-tree-search-results>
-
-                <div ng-hide="searchInfo.showSearch">
-                    <umb-tree section="content"
-                              treealias="content"
-                              hideheader="true"
-                              hideoptions="true"
-                              isdialog="true"
-                              eventhandler="dialogTreeEventHandler"
-                              enablecheckboxes="true">
-                    </umb-tree>
-                </div>
-            </div>
         </div>
     </div>
 

@@ -7,7 +7,7 @@ namespace Endzone.uSplit.Commands
 {
     public class GetExperiments : GoogleApiCommand<Experiments>
     {
-        public GetExperiments(AccountConfig config) : base(config)
+        public GetExperiments(AnalyticsAccount config) : base(config)
         {
         }
         
@@ -15,7 +15,7 @@ namespace Endzone.uSplit.Commands
         public override async Task<Experiments> ExecuteAsync()
         {
             var service = await GetAnalyticsService();
-            var list = service.Management.Experiments.List(Config);
+            var list = service.Management.Experiments.List(account);
             var experiments = await list.ExecuteAsync();
             return experiments;
         }
