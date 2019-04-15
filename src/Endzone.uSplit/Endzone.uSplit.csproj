@@ -320,6 +320,7 @@
     <Compile Include="Models\Variation.cs" />
     <Compile Include="Models\VariationDetails.cs" />
     <Compile Include="Models\VariedContent.cs" />
+    <Compile Include="Pipeline\BeforeExperimentExecutedArgs.cs" />
     <Compile Include="Pipeline\ExperimentsUpdater.cs" />
     <Compile Include="Pipeline\ExperimentsPipeline.cs" />
     <Compile Include="Pipeline\Segmentation.cs" />

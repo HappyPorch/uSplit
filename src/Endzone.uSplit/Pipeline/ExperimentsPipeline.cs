@@ -19,6 +19,8 @@ namespace Endzone.uSplit.Pipeline
         private readonly Random random;
         private readonly Logger logger;
 
+        public static event EventHandler<BeforeExperimentExecutedArgs> BeforeExperimentExecuted;
+
         public ExperimentsPipeline()
         {
             random = new Random();
@@ -73,6 +75,12 @@ namespace Endzone.uSplit.Pipeline
 
             foreach (var experiment in experiments)
             {
+                var eventArgs = new BeforeExperimentExecutedArgs(experiment, request.RoutingContext?.UmbracoContext?.HttpContext);
+                OnBeforeExperimentExecuted(eventArgs);
+
+                if (eventArgs.SkipExperiment) //allow the developer to opt out
+                    continue;
+
                 var experimentId = experiment.GoogleExperiment.Id;
 
                 //Has the user been previously exposed to this experiment?
@@ -196,6 +204,11 @@ namespace Endzone.uSplit.Pipeline
                 Value = variationId.ToString()
             };
             request.RoutingContext.UmbracoContext.HttpContext.Response.Cookies.Set(cookie);
+        }
+
+        private static void OnBeforeExperimentExecuted(BeforeExperimentExecutedArgs e)
+        {
+            BeforeExperimentExecuted?.Invoke(null, e);
         }
     }
 }

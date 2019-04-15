@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Endzone.uSplit.GoogleApi;
 using Endzone.uSplit.Models;
-using Umbraco.Web.Routing;
 
 namespace Endzone.uSplit
 {
