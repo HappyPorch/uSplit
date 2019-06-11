@@ -8,7 +8,7 @@
                 );
             },
             createExperiment: function (name, nodeId, profileId) {
-                var params = { name, profileId };
+                var params = { name: name, profileId: profileId };
                 if (nodeId) {
                     params.nodeId = nodeId;
                 }
@@ -18,7 +18,7 @@
             },
             addVariation: function (name, experimentId, nodeId, profileId) {
                 var data = {
-                    name, experimentId
+                    name: name, experimentId: experimentId
                 };
                 if (nodeId) {
                     data.nodeId = nodeId;
@@ -35,13 +35,13 @@
             },
             deleteVariation: function (experimentId, variationName, profileId) {
                 return $http.post(controllerPath + "DeleteVariationAsync",
-                    { experimentId, variationName },
+                    { experimentId: experimentId, variationName: variationName },
                     { params: { profileId: profileId } }
                 );
             },
             setSegment: function (experimentId, providerKey, value, profileId) {
                 return $http.post(controllerPath + "SetSegmentAsync",
-                    { experimentId, providerKey, value },
+                    { experimentId: experimentId, providerKey: providerKey, value: value },
                     { params: { profileId: profileId } }
                 );
             },
