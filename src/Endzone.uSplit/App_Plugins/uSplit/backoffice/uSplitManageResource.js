@@ -4,57 +4,57 @@
         return {
             getExperiment: function (id, profileId) {
                 return $http.get(controllerPath + "GetExperimentAsync/" + id,
-                    { params: { profileId } }
+                    { params: { profileId: profileId } }
                 );
             },
             createExperiment: function (name, nodeId, profileId) {
-                var params = { name, profileId };
+                var params = { name: name, profileId: profileId };
                 if (nodeId) {
                     params.nodeId = nodeId;
                 }
                 return $http.post(controllerPath + "CreateExperimentAsync",
-                    {}, { params }
+                    {}, { params: params }
                 );
             },
             addVariation: function (name, experimentId, nodeId, profileId) {
                 var data = {
-                    name, experimentId
+                    name: name, experimentId: experimentId
                 };
                 if (nodeId) {
                     data.nodeId = nodeId;
                 }
                 return $http.post(controllerPath + "AddVariationAsync",
                     data,
-                    { params: { profileId } }
+                    { params: { profileId: profileId } }
                 );
             },
-            deleteExperiment: function(id, profileId) {
+            deleteExperiment: function (id, profileId) {
                 return $http.delete(controllerPath + "DeleteExperimentAsync/" + id,
-                    { params: { profileId } }
+                    { params: { profileId: profileId } }
                 );
             },
             deleteVariation: function (experimentId, variationName, profileId) {
                 return $http.post(controllerPath + "DeleteVariationAsync",
-                    { experimentId, variationName },
-                    { params: { profileId } }
+                    { experimentId: experimentId, variationName: variationName },
+                    { params: { profileId: profileId } }
                 );
             },
             setSegment: function (experimentId, providerKey, value, profileId) {
                 return $http.post(controllerPath + "SetSegmentAsync",
-                    { experimentId, providerKey, value },
-                    { params: { profileId } }
+                    { experimentId: experimentId, providerKey: providerKey, value: value },
+                    { params: { profileId: profileId } }
                 );
             },
             start: function (experimentId, profileId) {
                 return $http.post(controllerPath + "StartExperimentAsync/" + experimentId,
                     {},
-                    { params: { profileId } }
+                    { params: { profileId: profileId } }
                 );
             },
             stop: function (experimentId, profileId) {
                 return $http.post(controllerPath + "StopExperimentAsync/" + experimentId,
                     {},
-                    { params: { profileId } }
+                    { params: { profileId: profileId } }
                 );
             }
         }
