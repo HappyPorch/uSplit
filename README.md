@@ -1,3 +1,7 @@
+*uSplit is no longer fully functioning. Google have discontinued content experiments and have moved to Google Optimize. Unfortunatly Optimise doesn't have a fully featured management API- which limits the functionality uSPlit can provide. If you are interested in helping with the future of uSplit see this issue https://github.com/HappyPorch/uSplit/issues/25.*
+
+---
+
 # uSplit - A/B Testing package for Umbraco
 
 This repository contains the source code of uSplit, an Umbraco plugin that removes all technical barriers to A/B testing.
